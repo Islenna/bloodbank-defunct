@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Container, Button } from 'react-bootstrap';
 
 export default function PetCard() {
     const [pet, setPet] = useState({});
@@ -30,7 +31,7 @@ export default function PetCard() {
     };
 
     return (
-        <div>
+        <Container className="text-center">
             <h1>{pet.petName}'s Information</h1>
             <p>Pet Name: {pet.petName}</p>
             <p>Pet Type: {pet.petType}</p>
@@ -40,9 +41,16 @@ export default function PetCard() {
             <p>Last Donated: {pet.lastDonated && formatDate(pet.lastDonated)}</p>
             <p>Labwork Status: {pet.labworkStatus}</p>
             <p>Date Labwork Completed: {pet.dateLabworkCompleted && formatDate(pet.dateLabworkCompleted)}</p>
-            <Link to={`/owners/${owner._id}`}>Back</Link>
-            <Link to={`/owners`}>Back to All Owners</Link>
-            <Link to={`/pets/edit/${pet._id}`}>Edit</Link>  
-        </div>
+            <Button variant="primary" onClick={() => navigate(`/pets/edit/${id}`)}>
+                Edit
+            </Button>{' '}
+            <Button variant="danger" onClick={() => navigate(`/pets/delete/${id}`)}>
+                Delete
+            </Button>{' '}
+            <Button variant="primary" onClick={() => navigate(`/owners`)}>
+                Back
+            </Button>{' '}
+
+        </Container>
     );
 }

@@ -1,38 +1,35 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { Container, Table, Button } from 'react-bootstrap';
 
 export default function OwnerList() {
-
     const [owners, setOwners] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:8000/api/owners')
-
-            .then(res => {
+        axios
+            .get('http://localhost:8000/api/owners')
+            .then((res) => {
                 console.log(res);
                 setOwners(res.data);
             })
-            .catch(err => console.log(err))
-    }, [])
-
+            .catch((err) => console.log(err));
+    }, []);
 
     const deleteOwner = (ownerId) => {
-        axios.delete(`http://localhost:8000/api/owners/${ownerId}`)
-
-            .then(res => {
+        axios
+            .delete(`http://localhost:8000/api/owners/${ownerId}`)
+            .then((res) => {
                 console.log(res);
-                setOwners(owners.filter(owner => owner._id !== ownerId))
+                setOwners(owners.filter((owner) => owner._id !== ownerId));
             })
-            .catch(err => console.log(err))
-    }
-
-
-
+            .catch((err) => console.log(err));
+    };
 
     return (
-        <div>OwnerList
-            <table>
+        <Container className="text-center">
+            <h2>Owner List</h2>
+            <Table striped bordered hover>
                 <thead>
                     <tr>
                         <th>First Name</th>
@@ -48,22 +45,23 @@ export default function OwnerList() {
                                 <td>{owner.lastName}</td>
                                 <td>
                                     <Link to={`/owners/${owner._id}`}>
-                                        <button>Owner and Pet Details</button>
-                                    </Link>
+                                        <Button variant="primary">Owner and Pet Details</Button>
+                                    </Link>{' '}
                                     <Link to={`/owners/edit/${owner._id}`}>
-                                        <button>Edit</button>
-                                    </Link>
-                                    <button onClick={() => deleteOwner(owner._id)}>Delete</button>
-                                    
+                                        <Button variant="primary">Edit</Button>
+                                    </Link>{' '}
+                                    <Button variant="danger" onClick={() => deleteOwner(owner._id)}>
+                                        Delete
+                                    </Button>
                                 </td>
                             </tr>
-                        )
+                        );
                     })}
                 </tbody>
-            </table>
+            </Table>
             <Link to={`/owners/new`}>
-                <button>Add Owner</button>
+                <Button variant="primary">Add Owner</Button>
             </Link>
-        </div>
-    )
+        </Container>
+    );
 }

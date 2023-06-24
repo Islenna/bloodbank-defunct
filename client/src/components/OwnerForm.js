@@ -1,47 +1,83 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { Container, Form, Button } from 'react-bootstrap';
 
-const OwnerForm= () => {
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
-    
+const OwnerForm = () => {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [email, setEmail] = useState('');
 
-    const onSubmitHandler = e => {
+    const onSubmitHandler = (e) => {
         e.preventDefault();
-        
-        axios.post('http://localhost:8000/api/owners', {
-            firstName,
-            lastName,
-            phoneNumber
-        })
-            .then(res=>console.log(res))
-            .catch(err=>console.log(err))
-    }
 
-    
+        axios
+            .post('http://localhost:8000/api/owners', {
+                firstName,
+                lastName,
+                phoneNumber,
+                email
+            })
+            .then((res) => console.log(res))
+            .catch((err) => console.log(err));
+    };
+
     return (
-        <div>
+        <Container className="text-center">
             <h2>New Owner</h2>
-            <form onSubmit={onSubmitHandler}>
-                <p>
-                    <label>First Name</label><br/>
-                    <input type="text" name="firstName" onChange={(e)=>setFirstName(e.target.value)} value={firstName}/>
-                </p>
-                <p>
-                    <label>Last Name</label><br/>
-                    <input type="text" name="lastName" onChange={(e)=>setLastName(e.target.value)} value={lastName}/>
-                </p>
-                <p>
-                    <label>Phone Number</label><br/>
-                    <input type="text" name="phoneNumber" onChange={(e)=>setPhoneNumber(e.target.value)} value={phoneNumber}/>
-
-                </p>
-                <input type="submit"/>
-            </form>
+            <Form onSubmit={onSubmitHandler}>
+                <Form.Group controlId="formFirstName">
+                    <Form.Label className="d-block">First Name</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="firstName"
+                        onChange={(e) => setFirstName(e.target.value)}
+                        value={firstName}
+                        placeholder="Enter first name"
+                        required
+                    />
+                </Form.Group>
+                <Form.Group controlId="formLastName">
+                    <Form.Label className="d-block">Last Name</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="lastName"
+                        onChange={(e) => setLastName(e.target.value)}
+                        value={lastName}
+                        placeholder="Enter last name"
+                        required
+                    />
+                </Form.Group>
+                <Form.Group controlId="formPhoneNumber">
+                    <Form.Label className="d-block">Phone Number</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="phoneNumber"
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        value={phoneNumber}
+                        placeholder="Enter phone number"
+                        required
+                    />
+                </Form.Group>
+                <Form.Group controlId="formEmail">
+                    <Form.Label className="d-block">Email</Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="email"
+                        onChange={(e) => setEmail(e.target.value)}
+                        value={email}
+                        placeholder="Enter email"
+                        required
+                    />
+                </Form.Group>
+                <Button variant="primary" type="submit">
+                    Submit
+                </Button>
+            </Form>
             <Link to={`/owners`}>Back</Link>
-        </div>
-    )
-}
+        </Container>
+    );
+};
+
 export default OwnerForm;

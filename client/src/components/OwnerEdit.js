@@ -1,69 +1,94 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Container, Form, Button } from 'react-bootstrap';
 
-const Update = (props) => {
-    const { id } = useParams(); //this process is identical to the one we used with our Details.js component
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
+const Update = () => {
+    const { id } = useParams();
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [email, setEmail] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/api/owners/${id}`)
-            .then(res => {
+        axios
+            .get(`http://localhost:8000/api/owners/${id}`)
+            .then((res) => {
                 setFirstName(res.data.firstName);
                 setLastName(res.data.lastName);
                 setPhoneNumber(res.data.phoneNumber);
+                setEmail(res.data.email);
             })
-            .catch(err => console.log(err))
-    }, [id])
+            .catch((err) => console.log(err));
+    }, [id]);
+
     const updateOwner = (e) => {
         e.preventDefault();
-        axios.put(`http://localhost:8000/api/owners/${id}`, {
-            firstName,
-            lastName,
-            phoneNumber
-        })
-            .then(res => {
-                console.log(res);
-                navigate(`/owners/${id}`)
-
+        axios
+            .put(`http://localhost:8000/api/owners/${id}`, {
+                firstName,
+                lastName,
+                phoneNumber,
+                email,
             })
-            .catch(err => console.log(err))
-    }
+            .then((res) => {
+                console.log(res);
+                navigate(`/owners/${id}`);
+            })
+            .catch((err) => console.log(err));
+    };
+
     return (
-        <div>
+        <Container className="text-center">
             <h1>Update an Owner</h1>
-            <form onSubmit={updateOwner}>
-                <p>
-                    <label>First Name</label><br />
-                    <input type="text"
+            <Form onSubmit={updateOwner}>
+                <Form.Group controlId="formFirstName">
+                    <Form.Label>First Name</Form.Label>
+                    <Form.Control
+                        type="text"
                         name="firstName"
                         value={firstName}
-                        onChange={(e) => { setFirstName(e.target.value) }} />
-                </p>
-                <p>
-                    <label>Last Name</label><br />
-                    <input type="text"
+                        onChange={(e) => setFirstName(e.target.value)}
+                        required
+                    />
+                </Form.Group>
+                <Form.Group controlId="formLastName">
+                    <Form.Label>Last Name</Form.Label>
+                    <Form.Control
+                        type="text"
                         name="lastName"
                         value={lastName}
-                        onChange={(e) => { setLastName(e.target.value) }} />
-                </p>
-
-                <p>
-                    <label>Phone Number</label><br />
-                    <input type="text"
+                        onChange={(e) => setLastName(e.target.value)}
+                        required
+                    />
+                </Form.Group>
+                <Form.Group controlId="formPhoneNumber">
+                    <Form.Label>Phone Number</Form.Label>
+                    <Form.Control
+                        type="text"
                         name="phoneNumber"
                         value={phoneNumber}
-                        onChange={(e) => { setPhoneNumber(e.target.value) }} />
-                </p>
-
-                <input type="submit" />
-            </form>
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        required
+                    />
+                </Form.Group>
+                <Form.Group controlId="formEmail">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                        type="email"
+                        name="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </Form.Group>
+                <Button variant="primary" type="submit">
+                    Update
+                </Button>
+            </Form>
             <Link to={`/owners`}>Back</Link>
-        </div>
-    )
-}
-export default Update;
+        </Container>
+    );
+};
 
+export default Update;

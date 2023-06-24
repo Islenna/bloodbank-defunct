@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Container, Form, Button } from 'react-bootstrap';
 
 const PetEdit = () => {
     const [pet, setPet] = useState({});
@@ -53,21 +54,22 @@ const PetEdit = () => {
     };
 
     return (
-        <div>
+        <Container className="text-center">
             <h1>Edit {pet.petName}'s Information</h1>
-            <form onSubmit={submitHandler}>
-                <div>
-                    <label>Pet Name: </label>
-                    <input
+            <Form onSubmit={submitHandler}>
+                <Form.Group controlId="formPetName">
+                    <Form.Label>Pet Name:</Form.Label>
+                    <Form.Control
                         type="text"
                         name="petName"
                         value={pet.petName || ''}
                         onChange={handleChange}
                     />
-                </div>
-                <div>
-                    <label>Pet Type:</label>
-                    <select
+                </Form.Group>
+                <Form.Group controlId="formPetType">
+                    <Form.Label>Pet Type:</Form.Label>
+                    <Form.Control
+                        as="select"
                         name="petType"
                         value={pet.petType}
                         onChange={handleChange}
@@ -75,13 +77,14 @@ const PetEdit = () => {
                         <option value="">Select a pet type</option>
                         <option value="dog">Canine</option>
                         <option value="cat">Feline</option>
-                    </select>
-                </div>
+                    </Form.Control>
+                </Form.Group>
                 {pet.petType && (
                     <>
-                        <div>
-                            <label>Blood Type:</label>
-                            <select
+                        <Form.Group controlId="formBloodType">
+                            <Form.Label>Blood Type:</Form.Label>
+                            <Form.Control
+                                as="select"
                                 name="bloodType"
                                 value={pet.bloodType || ''}
                                 onChange={handleChange}
@@ -99,20 +102,21 @@ const PetEdit = () => {
                                         <option value="AB">AB</option>
                                     </>
                                 ) : null}
-                            </select>
-                        </div>
-                        <div>
-                            <label>Last Donated:</label>
-                            <input
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group controlId="formLastDonated">
+                            <Form.Label>Last Donated:</Form.Label>
+                            <Form.Control
                                 type="date"
                                 name="lastDonated"
                                 value={pet.lastDonated || ''}
                                 onChange={handleChange}
                             />
-                        </div>
-                        <div>
-                            <label>Labwork Status:</label>
-                            <select
+                        </Form.Group>
+                        <Form.Group controlId="formLabworkStatus">
+                            <Form.Label>Labwork Status:</Form.Label>
+                            <Form.Control
+                                as="select"
                                 name="labworkStatus"
                                 value={pet.labworkStatus || ''}
                                 onChange={handleChange}
@@ -121,34 +125,36 @@ const PetEdit = () => {
                                 <option value="Incomplete">Incomplete</option>
                                 <option value="Pending">Pending</option>
                                 <option value="Complete">Complete</option>
-                            </select>
-                        </div>
+                            </Form.Control>
+                        </Form.Group>
                         {pet.labworkStatus === 'Complete' && (
-                            <div>
-                                <label>Date Labwork Completed:</label>
-                                <input
+                            <Form.Group controlId="formDateLabworkCompleted">
+                                <Form.Label>Date Labwork Completed:</Form.Label>
+                                <Form.Control
                                     type="date"
                                     name="dateLabworkCompleted"
                                     value={pet.dateLabworkCompleted || ''}
                                     onChange={handleChange}
                                 />
-                            </div>
+                            </Form.Group>
                         )}
                     </>
                 )}
-                <div>
-                    <label>Description: </label>
-                    <input
+                <Form.Group controlId="formPetDescription">
+                    <Form.Label>Description:</Form.Label>
+                    <Form.Control
                         type="text"
                         name="petDescription"
                         value={pet.petDescription || ''}
                         onChange={handleChange}
                     />
-                </div>
-                <input type="submit" value="Save" />
-            </form>
+                </Form.Group>
+                <Button variant="primary" type="submit">
+                    Save
+                </Button>
+            </Form>
             <Link to={`/owners/${owner._id}`}>Back</Link>
-        </div>
+        </Container>
     );
 };
 

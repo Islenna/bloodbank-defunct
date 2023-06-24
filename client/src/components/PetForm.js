@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
-const PetForm = (props) => {
+const PetForm = () => {
     const [ownerFirstName, setOwnerFirstName] = useState('');
     const [ownerLastName, setOwnerLastName] = useState('');
     const [ownerID, setOwnerID] = useState('');
@@ -61,82 +62,88 @@ const PetForm = (props) => {
     };
 
     return (
-        <div>
-            <h1>Pet form for</h1>
-            <h2>
-                {ownerFirstName} {ownerLastName}
-            </h2>
-            <form onSubmit={createPet}>
-                <p>
-                    <label>Pet Name</label>
-                    <br />
-                    <input
-                        type="text"
-                        name="petName"
-                        value={petName}
-                        onChange={(e) => {
-                            setPetName(e.target.value);
-                        }}
-                    />
-                </p>
-                <p>
-                    <label>Choose a species:</label>
-                    <select
-                        name="species"
-                        id="species"
-                        value={petType}
-                        onChange={(e) => {
-                            setPetType(e.target.value);
-                        }}
-                    >
-                        <option value="default">Select an option</option>
-                        <option value="dog">Canine</option>
-                        <option value="cat">Feline</option>
-                    </select>
-                </p>
-                <p>
-                    <label>Pet Description</label>
-                    <br />
-                    <input
-                        type="text"
-                        name="petDescription"
-                        value={petDescription}
-                        onChange={(e) => {
-                            setPetDescription(e.target.value);
-                        }}
-                    />
-                </p>
-                {petType && (
-                    <div>
-                        <label>Blood Type:</label>
-                        <select
-                            value={bloodType}
-                            onChange={(e) => {
-                                setBloodType(e.target.value);
-                                setValidationError('');
-                            }}
-                        >
-                            <option value="">Select a blood type</option>
-                            {petType === 'dog' || petType === 'canine' ? (
-                                <>
-                                    <option value="DEA 1.1 Positive">DEA 1.1 Positive</option>
-                                    <option value="DEA 1.1 Negative">DEA 1.1 Negative</option>
-                                </>
-                            ) : petType === 'cat' || petType === 'feline' ? (
-                                <>
-                                    <option value="A">A</option>
-                                    <option value="B">B</option>
-                                    <option value="AB">AB</option>
-                                </>
-                            ) : null}
-                        </select>
+        <Container>
+            <Row className="justify-content-center">
+                <Col xs={12} md={8} lg={6}>
+                    <div className="text-center">
+                        <h1>Pet form for</h1>
+                        <h2>
+                            {ownerFirstName} {ownerLastName}
+                        </h2>
                     </div>
-                )}
-                {validationError && <p>{validationError}</p>}
-                <input type="submit" />
-            </form>
-            <Link to={`/owners/${id}`}>Back</Link>
-        </div>
+
+                    <Form onSubmit={createPet}>
+                        <Form.Group controlId="petName">
+                            <Form.Label>Pet Name</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={petName}
+                                onChange={(e) => setPetName(e.target.value)}
+                            />
+                        </Form.Group>
+
+                        <Form.Group controlId="species">
+                            <Form.Label>Choose a species:</Form.Label>
+                            <Form.Control
+                                as="select"
+                                value={petType}
+                                onChange={(e) => setPetType(e.target.value)}
+                            >
+                                <option value="default">Select an option</option>
+                                <option value="dog">Canine</option>
+                                <option value="cat">Feline</option>
+                            </Form.Control>
+                        </Form.Group>
+
+                        <Form.Group controlId="petDescription">
+                            <Form.Label>Pet Description</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={petDescription}
+                                onChange={(e) => setPetDescription(e.target.value)}
+                            />
+                        </Form.Group>
+
+                        {petType && (
+                            <Form.Group controlId="bloodType">
+                                <Form.Label>Blood Type:</Form.Label>
+                                <Form.Control
+                                    as="select"
+                                    value={bloodType}
+                                    onChange={(e) => setBloodType(e.target.value)}
+                                >
+                                    <option value="">Select a blood type</option>
+                                    {petType === 'dog' || petType === 'canine' ? (
+                                        <>
+                                            <option value="DEA 1.1 Positive">DEA 1.1 Positive</option>
+                                            <option value="DEA 1.1 Negative">DEA 1.1 Negative</option>
+                                        </>
+                                    ) : petType === 'cat' || petType === 'feline' ? (
+                                        <>
+                                            <option value="A">A</option>
+                                            <option value="B">B</option>
+                                            <option value="AB">AB</option>
+                                        </>
+                                    ) : null}
+                                </Form.Control>
+                            </Form.Group>
+                        )}
+
+                        {validationError && <p>{validationError}</p>}
+
+                        <Button variant="primary" type="submit">
+                            Create Pet
+                        </Button>
+                    </Form>
+
+                    <div className="text-center mt-3">
+                        <Button as={Link} to={`/owners/${id}`} variant="primary">
+                            Back
+                        </Button>
+                    </div>
+                </Col>
+            </Row>
+        </Container>
     );
 };
 

@@ -6,21 +6,23 @@ import OwnerForm from './components/OwnerForm';
 import OwnerList from './components/OwnerList';
 import OwnerCard from './components/OwnerCard';
 import OwnerEdit from './components/OwnerEdit';
-import {BrowserRouter, Route, Routes } from 'react-router-dom';
+
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-      <Routes>
-        <Route path="/owners" element={<OwnerList/>} default />
-          <Route path="/owners/new" element={<OwnerForm/>}/>
-        <Route path="/owners/:id" element={<OwnerCard/>}/>
-        <Route path="/owners/edit/:id" element={<OwnerEdit/>}/>
-        <Route path="/pets/new/:id" element={<PetForm/>}/>
-        <Route path="/pets/:id" element={<PetCard/>}/>
-        <Route path="/pets/edit/:id" element={<PetEdit/>}/>
-      </Routes>
+        <Routes>
+          <Route path="/owners" element={<OwnerList />} default />
+          <Route path="/owners/new" element={<OwnerForm />} />
+          <Route path="/owners/:id" element={<OwnerCard />} />
+          <Route path="/owners/edit/:id" element={<OwnerEdit />} />
+          <Route path="/pets/new/:id" element={<PetForm />} />
+          <Route path="/pets/:id" element={<PetCard />} />
+          <Route path="/pets/edit/:id" element={<PetEdit />} />
+        </Routes>
       </BrowserRouter>
     </div>
   );
