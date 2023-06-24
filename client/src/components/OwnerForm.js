@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 
 const OwnerForm = () => {
@@ -8,9 +8,32 @@ const OwnerForm = () => {
     const [lastName, setLastName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [phoneNumberError, setPhoneNumberError] = useState('');
+    const navigate = useNavigate();
+
+    const validateEmail = (email) => {
+        const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        return emailRegex.test(email);
+    };
+
+    const validatePhoneNumber = (phoneNumber) => {
+        const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+        return phoneRegex.test(phoneNumber);
+    };
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
+
+        if (!validateEmail(email)) {
+            setEmailError('Invalid email address');
+            return;
+        }
+
+        if (!validatePhoneNumber(phoneNumber)) {
+            setPhoneNumberError('Invalid phone number');
+            return;
+        }
 
         axios
             .post('http://localhost:8000/api/owners', {
@@ -20,15 +43,16 @@ const OwnerForm = () => {
                 email
             })
             .then((res) => console.log(res))
+            .then(() => navigate('/owners'))
             .catch((err) => console.log(err));
     };
 
     return (
-        <Container className="text-center">
+        <Container className="text-center" style={{ backgroundColor: '#725846', color: 'white', padding: '20px' }}>
             <h2>New Owner</h2>
             <Form onSubmit={onSubmitHandler}>
                 <Form.Group controlId="formFirstName">
-                    <Form.Label className="d-block">First Name</Form.Label>
+                    <Form.Label className="d-block" style={{ color: 'white' }}>First Name</Form.Label>
                     <Form.Control
                         type="text"
                         name="firstName"
@@ -36,10 +60,11 @@ const OwnerForm = () => {
                         value={firstName}
                         placeholder="Enter first name"
                         required
+                        style={{ backgroundColor: 'white', color: 'black' }}
                     />
                 </Form.Group>
                 <Form.Group controlId="formLastName">
-                    <Form.Label className="d-block">Last Name</Form.Label>
+                    <Form.Label className="d-block" style={{ color: 'white' }}>Last Name</Form.Label>
                     <Form.Control
                         type="text"
                         name="lastName"
@@ -47,10 +72,11 @@ const OwnerForm = () => {
                         value={lastName}
                         placeholder="Enter last name"
                         required
+                        style={{ backgroundColor: 'white', color: 'black' }}
                     />
                 </Form.Group>
                 <Form.Group controlId="formPhoneNumber">
-                    <Form.Label className="d-block">Phone Number</Form.Label>
+                    <Form.Label className="d-block" style={{ color: 'white' }}>Phone Number</Form.Label>
                     <Form.Control
                         type="text"
                         name="phoneNumber"
@@ -58,10 +84,12 @@ const OwnerForm = () => {
                         value={phoneNumber}
                         placeholder="Enter phone number"
                         required
+                        style={{ backgroundColor: 'white', color: 'black' }}
                     />
+                    {phoneNumberError && <p style={{ color: 'red' }}>{phoneNumberError}</p>}
                 </Form.Group>
                 <Form.Group controlId="formEmail">
-                    <Form.Label className="d-block">Email</Form.Label>
+                    <Form.Label className="d-block" style={{ color: 'white' }}>Email</Form.Label>
                     <Form.Control
                         type="text"
                         name="email"
@@ -69,13 +97,15 @@ const OwnerForm = () => {
                         value={email}
                         placeholder="Enter email"
                         required
+                        style={{ backgroundColor: 'white', color: 'black' }}
                     />
+                    {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
                 </Form.Group>
                 <Button variant="primary" type="submit">
                     Submit
                 </Button>
             </Form>
-            <Link to={`/owners`}>Back</Link>
+            <Link to={`/owners`} style={{ color: 'white', textDecoration: 'none' }}>Back</Link>
         </Container>
     );
 };

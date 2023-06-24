@@ -54,25 +54,27 @@ const PetEdit = () => {
     };
 
     return (
-        <Container className="text-center">
+        <Container className="text-center" style={{ backgroundColor: '#725846', color: 'white', padding: '20px' }}>
             <h1>Edit {pet.petName}'s Information</h1>
             <Form onSubmit={submitHandler}>
                 <Form.Group controlId="formPetName">
-                    <Form.Label>Pet Name:</Form.Label>
+                    <Form.Label style={{ color: 'white' }}>Pet Name:</Form.Label>
                     <Form.Control
                         type="text"
                         name="petName"
                         value={pet.petName || ''}
                         onChange={handleChange}
+                        style={{ backgroundColor: 'white', color: 'black' }}
                     />
                 </Form.Group>
                 <Form.Group controlId="formPetType">
-                    <Form.Label>Pet Type:</Form.Label>
+                    <Form.Label style={{ color: 'white' }}>Pet Type:</Form.Label>
                     <Form.Control
                         as="select"
                         name="petType"
                         value={pet.petType}
                         onChange={handleChange}
+                        style={{ backgroundColor: 'white', color: 'black' }}
                     >
                         <option value="">Select a pet type</option>
                         <option value="dog">Canine</option>
@@ -82,12 +84,13 @@ const PetEdit = () => {
                 {pet.petType && (
                     <>
                         <Form.Group controlId="formBloodType">
-                            <Form.Label>Blood Type:</Form.Label>
+                            <Form.Label style={{ color: 'white' }}>Blood Type:</Form.Label>
                             <Form.Control
                                 as="select"
                                 name="bloodType"
                                 value={pet.bloodType || ''}
                                 onChange={handleChange}
+                                style={{ backgroundColor: 'white', color: 'black' }}
                             >
                                 <option value="">Select a blood type</option>
                                 {pet.petType === 'dog' || pet.petType === 'canine' ? (
@@ -105,21 +108,23 @@ const PetEdit = () => {
                             </Form.Control>
                         </Form.Group>
                         <Form.Group controlId="formLastDonated">
-                            <Form.Label>Last Donated:</Form.Label>
+                            <Form.Label style={{ color: 'white' }}>Last Donated:</Form.Label>
                             <Form.Control
                                 type="date"
                                 name="lastDonated"
                                 value={pet.lastDonated || ''}
                                 onChange={handleChange}
+                                style={{ backgroundColor: 'white', color: 'black' }}
                             />
                         </Form.Group>
                         <Form.Group controlId="formLabworkStatus">
-                            <Form.Label>Labwork Status:</Form.Label>
+                            <Form.Label style={{ color: 'white' }}>Labwork Status:</Form.Label>
                             <Form.Control
                                 as="select"
                                 name="labworkStatus"
                                 value={pet.labworkStatus || ''}
                                 onChange={handleChange}
+                                style={{ backgroundColor: 'white', color: 'black' }}
                             >
                                 <option value="">Select a labwork status</option>
                                 <option value="Incomplete">Incomplete</option>
@@ -129,31 +134,33 @@ const PetEdit = () => {
                         </Form.Group>
                         {pet.labworkStatus === 'Complete' && (
                             <Form.Group controlId="formDateLabworkCompleted">
-                                <Form.Label>Date Labwork Completed:</Form.Label>
+                                <Form.Label style={{ color: 'white' }}>Date Labwork Completed:</Form.Label>
                                 <Form.Control
                                     type="date"
                                     name="dateLabworkCompleted"
                                     value={pet.dateLabworkCompleted || ''}
                                     onChange={handleChange}
+                                    style={{ backgroundColor: 'white', color: 'black' }}
                                 />
                             </Form.Group>
                         )}
                     </>
                 )}
                 <Form.Group controlId="formPetDescription">
-                    <Form.Label>Description:</Form.Label>
+                    <Form.Label style={{ color: 'white' }}>Description:</Form.Label>
                     <Form.Control
                         type="text"
                         name="petDescription"
                         value={pet.petDescription || ''}
                         onChange={handleChange}
+                        style={{ backgroundColor: 'white', color: 'black' }}
                     />
                 </Form.Group>
                 <Button variant="primary" type="submit">
                     Save
                 </Button>
             </Form>
-            <Link to={`/owners/${owner._id}`}>Back</Link>
+            <Link to={`/owners/${owner._id}`} style={{ color: 'white', textDecoration: 'none' }}>Back</Link>
         </Container>
     );
 };

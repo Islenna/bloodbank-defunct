@@ -6,6 +6,7 @@ import OwnerForm from './components/OwnerForm';
 import OwnerList from './components/OwnerList';
 import OwnerCard from './components/OwnerCard';
 import OwnerEdit from './components/OwnerEdit';
+import Strays from './components/Strays';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -22,6 +23,7 @@ function App() {
           <Route path="/pets/new/:id" element={<PetForm />} />
           <Route path="/pets/:id" element={<PetCard />} />
           <Route path="/pets/edit/:id" element={<PetEdit />} />
+          <Route path="/pets/strays" element={<Strays />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { Container, Button } from 'react-bootstrap';
+import { Container, Button, Card } from 'react-bootstrap';
 
 export default function PetCard() {
     const [pet, setPet] = useState({});
@@ -33,14 +33,20 @@ export default function PetCard() {
     return (
         <Container className="text-center">
             <h1>{pet.petName}'s Information</h1>
-            <p>Pet Name: {pet.petName}</p>
-            <p>Pet Type: {pet.petType}</p>
-            <p>Description: {pet.petDescription}</p>
-            <p>Blood Type: {pet.bloodType}</p>
-            <p>Pet Owner: {owner.firstName}</p>
-            <p>Last Donated: {pet.lastDonated && formatDate(pet.lastDonated)}</p>
-            <p>Labwork Status: {pet.labworkStatus}</p>
-            <p>Date Labwork Completed: {pet.dateLabworkCompleted && formatDate(pet.dateLabworkCompleted)}</p>
+            <Card
+                style={{ backgroundColor: '#725846', border: 'none', borderTop: '20px solid #A9C27E' }}
+                text="white"
+                className="mt-4 p-4"
+            >
+                <p>Pet Name: {pet.petName}</p>
+                <p>Pet Type: {pet.petType}</p>
+                <p>Description: {pet.petDescription}</p>
+                <p>Blood Type: {pet.bloodType}</p>
+                <p>Pet Owner: {owner.firstName} {owner.LastName}</p>
+                <p>Last Donated: {pet.lastDonated && formatDate(pet.lastDonated)}</p>
+                <p>Labwork Status: {pet.labworkStatus}</p>
+                <p>Date Labwork Completed: {pet.dateLabworkCompleted && formatDate(pet.dateLabworkCompleted)}</p>
+            </Card>
             <Button variant="primary" onClick={() => navigate(`/pets/edit/${id}`)}>
                 Edit
             </Button>{' '}
@@ -50,7 +56,6 @@ export default function PetCard() {
             <Button variant="primary" onClick={() => navigate(`/owners`)}>
                 Back
             </Button>{' '}
-
         </Container>
     );
 }

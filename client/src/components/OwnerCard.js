@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { Container, Row, Button } from 'react-bootstrap';
+import { Container, Row, Button, Card } from 'react-bootstrap';
 
 export default function OwnerCard() {
     const [owner, setOwner] = useState({});
@@ -42,21 +42,33 @@ export default function OwnerCard() {
                     <h1>
                         {owner.firstName} {owner.lastName}'s Information
                     </h1>
-                    <p>First Name: {owner.firstName}</p>
-                    <p>Last Name: {owner.lastName}</p>
-                    <p>Phone Number: {owner.phoneNumber}</p>
-                    <p>Email: {owner.email}</p>
-                    <p>Pets:</p>
-                    <ul>
-                        {pets.map((pet) => (
-                            <li key={pet._id}>
-                                <Link to={`/pets/${pet._id}`}>{pet.petName}</Link> - {pet.petType}{' '}
-                                <Button variant="danger" onClick={() => deletePet(pet._id)}>
-                                    Delete
-                                </Button>
-                            </li>
-                        ))}
-                    </ul>
+                    <Card
+                        style={{ backgroundColor: '#725846', border: 'none', borderTop: '20px solid #A9C27E' }}
+                        text="white"
+                        className="mt-4 p-4"
+                    >
+                        <Card.Text>
+                            <p>First Name: {owner.firstName}</p>
+                            <p>Last Name: {owner.lastName}</p>
+                            <p>Phone Number: {owner.phoneNumber}</p>
+                            <p>Email: {owner.email}</p>
+                            <p>Pets:</p>
+                            <ul className="list-unstyled">
+                                {pets.map((pet) => (
+                                    <li key={pet._id}>
+                                        {pet.petName} - {pet.petType}{' '}
+                                        <Button variant="success" onClick= {() => navigate(`/pets/${pet._id}`)}>
+                                            View
+                                        </Button>{' '}
+                                        <Button variant="danger" onClick={() => deletePet(pet._id)}>
+                                            Delete
+                                        </Button>
+                                        
+                                    </li>
+                                ))}
+                            </ul>
+                        </Card.Text>
+                    </Card>
                     <Button variant="primary" onClick={() => navigate(`/owners/edit/${id}`)}>
                         Edit
                     </Button>{' '}

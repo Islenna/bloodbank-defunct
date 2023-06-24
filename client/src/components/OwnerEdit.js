@@ -9,7 +9,19 @@ const Update = () => {
     const [lastName, setLastName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [phoneNumberError, setPhoneNumberError] = useState('');
     const navigate = useNavigate();
+
+    const validateEmail = (email) => {
+        const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        return emailRegex.test(email);
+    };
+
+    const validatePhoneNumber = (phoneNumber) => {
+        const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+        return phoneRegex.test(phoneNumber);
+    };
 
     useEffect(() => {
         axios
@@ -25,6 +37,17 @@ const Update = () => {
 
     const updateOwner = (e) => {
         e.preventDefault();
+
+        if (!validateEmail(email)) {
+            setEmailError('Invalid email address');
+            return;
+        }
+
+        if (!validatePhoneNumber(phoneNumber)) {
+            setPhoneNumberError('Invalid phone number');
+            return;
+        }
+
         axios
             .put(`http://localhost:8000/api/owners/${id}`, {
                 firstName,
@@ -40,53 +63,59 @@ const Update = () => {
     };
 
     return (
-        <Container className="text-center">
+        <Container className="text-center" style={{ backgroundColor: '#725846', color: 'white', padding: '20px' }}>
             <h1>Update an Owner</h1>
             <Form onSubmit={updateOwner}>
                 <Form.Group controlId="formFirstName">
-                    <Form.Label>First Name</Form.Label>
+                    <Form.Label style={{ color: 'white' }}>First Name</Form.Label>
                     <Form.Control
                         type="text"
                         name="firstName"
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         required
+                        style={{ backgroundColor: 'white', color: 'black' }}
                     />
                 </Form.Group>
                 <Form.Group controlId="formLastName">
-                    <Form.Label>Last Name</Form.Label>
+                    <Form.Label style={{ color: 'white' }}>Last Name</Form.Label>
                     <Form.Control
                         type="text"
                         name="lastName"
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                         required
+                        style={{ backgroundColor: 'white', color: 'black' }}
                     />
                 </Form.Group>
                 <Form.Group controlId="formPhoneNumber">
-                    <Form.Label>Phone Number</Form.Label>
+                    <Form.Label style={{ color: 'white' }}>Phone Number</Form.Label>
                     <Form.Control
                         type="text"
                         name="phoneNumber"
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         required
+                        style={{ backgroundColor: 'white', color: 'black' }}
                     />
+                    {phoneNumberError && <p style={{ color: 'red' }}>{phoneNumberError}</p>}
                 </Form.Group>
                 <Form.Group controlId="formEmail">
-                    <Form.Label>Email</Form.Label>
+                    <Form.Label style={{ color: 'white' }}>Email</Form.Label>
                     <Form.Control
                         type="email"
                         name="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        style={{ backgroundColor: 'white', color: 'black' }}
                     />
+                    {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
                 </Form.Group>
                 <Button variant="primary" type="submit">
                     Update
                 </Button>
             </Form>
-            <Link to={`/owners`}>Back</Link>
+            <Link to={`/owners`} style={{ color: 'white', textDecoration: 'none' }}>Back</Link>
         </Container>
     );
 };

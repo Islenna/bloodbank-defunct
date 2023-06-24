@@ -9,7 +9,7 @@ module.exports.index = (request, response) => {  //We are exporting a key:val pa
 module.exports.createOwner = (req, res) => {
     Owner.create(req.body)
     .then(owner => res.json(owner))
-    .catch(err => res.status.json(err));
+    .catch(err => res.status(500).json(err));
 }
 
 module.exports.getAll = (req, res) => {

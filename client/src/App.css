@@ -2,6 +2,21 @@
   text-align: center;
 }
 
+.owner-card {
+  background-color: #725846;
+  color: white;
+  border-top: 10px solid #a9c27e;
+  padding: 10px;
+}
+.custom-table {
+  background-color: #725846;
+  color: white;
+}
+
+.custom-table th,
+.custom-table td {
+  color: white;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;

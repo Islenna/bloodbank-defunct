@@ -7,6 +7,16 @@ module.exports.createPet = (req, res) => {
         .catch(err => res.status(400).json(err));
 }
 
+// Assuming you have a Pet model
+
+// Get all stray pets
+module.exports.getStrayPets = (req, res) => {
+    Pet.find({ owner: null })
+    .then((strayPets) => res.json(strayPets))
+    .catch((err) => res.status(500).json(err));
+};
+
+
 module.exports.getAll = (req, res) => {
     Pet.find({})
         .then(pets => res.json(pets))

@@ -9,6 +9,7 @@ module.exports = (app) => {
     app.put('/api/pets/:id', PetController.updatePet);
     app.delete('/api/pets/:id', PetController.delete);
     app.get('/api/owners/:id/pets', PetController.getAllByOwner);
+    app.get('/api/pets/strays', PetController.getStrayPets);
 
     // Owner routes
     app.get('/api/owners', OwnerController.getAll);

@@ -62,32 +62,34 @@ const PetForm = () => {
     };
 
     return (
-        <Container>
+        <Container className="text-center" style={{ backgroundColor: '#725846', padding: '20px' }}>
             <Row className="justify-content-center">
                 <Col xs={12} md={8} lg={6}>
                     <div className="text-center">
-                        <h1>Pet form for</h1>
-                        <h2>
+                        <h1 style={{ color: 'white' }}>Pet form for</h1>
+                        <h2 style={{ color: 'white' }}>
                             {ownerFirstName} {ownerLastName}
                         </h2>
                     </div>
 
                     <Form onSubmit={createPet}>
                         <Form.Group controlId="petName">
-                            <Form.Label>Pet Name</Form.Label>
+                            <Form.Label style={{ color: 'white' }}>Pet Name</Form.Label>
                             <Form.Control
                                 type="text"
                                 value={petName}
                                 onChange={(e) => setPetName(e.target.value)}
+                                style={{ backgroundColor: 'white', color: 'black' }}
                             />
                         </Form.Group>
 
                         <Form.Group controlId="species">
-                            <Form.Label>Choose a species:</Form.Label>
+                            <Form.Label style={{ color: 'white' }}>Choose a species:</Form.Label>
                             <Form.Control
                                 as="select"
                                 value={petType}
                                 onChange={(e) => setPetType(e.target.value)}
+                                style={{ backgroundColor: 'white', color: 'black' }}
                             >
                                 <option value="default">Select an option</option>
                                 <option value="dog">Canine</option>
@@ -96,21 +98,23 @@ const PetForm = () => {
                         </Form.Group>
 
                         <Form.Group controlId="petDescription">
-                            <Form.Label>Pet Description</Form.Label>
+                            <Form.Label style={{ color: 'white' }}>Pet Description</Form.Label>
                             <Form.Control
                                 type="text"
                                 value={petDescription}
                                 onChange={(e) => setPetDescription(e.target.value)}
+                                style={{ backgroundColor: 'white', color: 'black' }}
                             />
                         </Form.Group>
 
                         {petType && (
                             <Form.Group controlId="bloodType">
-                                <Form.Label>Blood Type:</Form.Label>
+                                <Form.Label style={{ color: 'white' }}>Blood Type:</Form.Label>
                                 <Form.Control
                                     as="select"
                                     value={bloodType}
                                     onChange={(e) => setBloodType(e.target.value)}
+                                    style={{ backgroundColor: 'white', color: 'black' }}
                                 >
                                     <option value="">Select a blood type</option>
                                     {petType === 'dog' || petType === 'canine' ? (
@@ -129,9 +133,9 @@ const PetForm = () => {
                             </Form.Group>
                         )}
 
-                        {validationError && <p>{validationError}</p>}
+                        {validationError && <p style={{ color: 'white' }}>{validationError}</p>}
 
-                        <Button variant="primary" type="submit">
+                        <Button variant="success" type="submit">
                             Create Pet
                         </Button>
                     </Form>
