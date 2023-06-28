@@ -17,16 +17,6 @@ export default function OwnerList() {
             .catch((err) => console.log(err));
     }, []);
 
-    const deleteOwner = (ownerId) => {
-        axios
-            .delete(`http://localhost:8000/api/owners/${ownerId}`)
-            .then((res) => {
-                console.log(res);
-                setOwners(owners.filter((owner) => owner._id !== ownerId));
-            })
-            .catch((err) => console.log(err));
-    };
-
     return (
         <Container className="text-center">
             <h1>Owner List</h1>
@@ -56,9 +46,6 @@ export default function OwnerList() {
                                         <Link to={`/owners/edit/${owner._id}`}>
                                             <Button variant="primary">Edit</Button>
                                         </Link>{' '}
-                                        <Button variant="danger" onClick={() => deleteOwner(owner._id)}>
-                                            Delete
-                                        </Button>
                                     </td>
                                 </tr>
                             );

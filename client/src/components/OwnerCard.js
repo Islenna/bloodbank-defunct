@@ -9,11 +9,28 @@ export default function OwnerCard() {
     const { id } = useParams();
     const navigate = useNavigate();
 
+    const deleteOwner = (ownerId) => {
+        axios
+            .delete(`http://localhost:8000/api/pets/owner/${ownerId}`)
+            .then(() => {
+                axios
+                    .delete(`http://localhost:8000/api/owners/${ownerId}`)
+                    .then((res) => {
+                        console.log(res.data);
+                        setOwner((prevOwners) =>
+                            prevOwners.filter((owner) => owner._id !== ownerId)
+                        );
+                    })
+                    .catch((err) => console.log(err));
+            })
+            .catch((err) => console.log(err));
+    };
+
     const deletePet = (petId) => {
         axios
             .delete(`http://localhost:8000/api/pets/${petId}`)
             .then((res) => {
-                // Remove the deleted pet from the pets state
+                console.log(res.data);
                 setPets((prevPets) => prevPets.filter((pet) => pet._id !== petId));
             })
             .catch((err) => console.log(err));
@@ -43,7 +60,11 @@ export default function OwnerCard() {
                         {owner.firstName} {owner.lastName}'s Information
                     </h1>
                     <Card
-                        style={{ backgroundColor: '#725846', border: 'none', borderTop: '20px solid #A9C27E' }}
+                        style={{
+                            backgroundColor: '#725846',
+                            border: 'none',
+                            borderTop: '20px solid #A9C27E',
+                        }}
                         text="white"
                         className="mt-4 p-4"
                     >
@@ -58,19 +79,28 @@ export default function OwnerCard() {
                                 {pets.map((pet) => (
                                     <li key={pet._id}>
                                         {pet.petName} - {pet.petType}{' '}
-                                        <Button variant="success" onClick= {() => navigate(`/pets/${pet._id}`)}>
+                                        <Button
+                                            variant="success"
+                                            onClick={() => navigate(`/pets/${pet._id}`)}
+                                        >
                                             View
                                         </Button>{' '}
-                                        <Button variant="danger" onClick={() => deletePet(pet._id)}>
+                                        <Button
+                                            variant="danger"
+                                            onClick={() => deletePet(pet._id)}
+                                        >
                                             Delete
                                         </Button>
-                                        
                                     </li>
                                 ))}
                             </ul>
                         </Card.Text>
                     </Card>
-                    <Button variant="primary" onClick={() => navigate(`/owners/edit/${id}`)}>
+
+                    <Button
+                        variant="primary"
+                        onClick={() => navigate(`/owners/edit/${id}`)}
+                    >
                         Edit
                     </Button>{' '}
                     <Button variant="primary" onClick={() => navigate(`/owners`)}>
@@ -78,7 +108,12 @@ export default function OwnerCard() {
                     </Button>{' '}
                     <Button variant="primary" onClick={() => navigate(`/pets/new/${id}`)}>
                         Add Pet
-                    </Button>
+                    </Button>{' '}
+                    {pets.length === 0 && (
+                        <Button variant="danger" onClick={() => deleteOwner(id)}>
+                            Delete Owner
+                        </Button>
+                    )}
                 </div>
             </Row>
         </Container>

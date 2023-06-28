@@ -17,11 +17,23 @@ function BloodFinder() {
             })
             .then((res) => {
                 console.log(res.data);
-                setPets(res.data);
+                const filteredPets = res.data.filter(
+                    (pet) =>
+                        pet.labworkStatus === 'Complete' &&
+                        pet.lastDonated &&
+                        new Date(pet.lastDonated) <=
+                        new Date(Date.now() - 28 * 24 * 60 * 60 * 1000)
+                );
+                setPets(filteredPets);
             })
             .catch((err) => {
                 console.log(err);
             });
+    };
+
+    const redirectToOwner = (ownerId) => {
+        // Implement the logic to redirect to the owner's page using the ownerId
+        console.log('Redirecting to owner with ID:', ownerId);
     };
 
     return (
@@ -61,7 +73,10 @@ function BloodFinder() {
                     <h2>List of Pets</h2>
                     <ul>
                         {pets.map((pet) => (
-                            <li key={pet._id}>{pet.petName}</li>
+                            <li key={pet._id}>
+                                {pet.petName}{' '}
+                                <button onClick={() => redirectToOwner(pet.owner)}>View Owner</button>
+                            </li>
                         ))}
                     </ul>
                 </div>
@@ -69,4 +84,5 @@ function BloodFinder() {
         </div>
     );
 }
-export default BloodFinder
+
+export default BloodFinder;

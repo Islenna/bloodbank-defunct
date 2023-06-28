@@ -43,26 +43,23 @@ module.exports.getByClinic = (req, res) => {
         .catch((err) => res.json(err))
 
 }
+module.exports.clinicSearch = async (req, res) => {
+    try {
+        const pets = await Pet.find({ bloodType: req.params.bloodType }).exec();
+        console.log('Matching pets:', pets);
 
-module.exports.clinicSearch = (req, res) => {
-    const { homeClinic, bloodType, labworkStatus } = req.query;
-    const lastDonatedThreshold = new Date();
-    lastDonatedThreshold.setDate(lastDonatedThreshold.getDate() - 28); // Subtract 28 days (4 weeks)
+        const petIds = pets.map((pet) => pet._id);
+        console.log('Pet IDs:', petIds);
 
-    Owner.find({ homeClinic })
-        .populate({
-            path: 'pets',
-            match: {
-                bloodType,
-                labworkStatus,
-                lastDonated: { $lt: lastDonatedThreshold }
-            }
-        })
-        .exec()
-        .then((owners) => {
-            // Extract the "path" field from the pets
-            const petsData = owners.map(owner => owner.pets.map(pet => pet.path));
-            res.json(petsData);
-        })
-        .catch((err) => res.json(err));
+        const owners = await Owner.find({ pets: { $in: petIds }, homeClinic: req.params.homeClinic }).exec();
+        console.log('Matching owners:', owners);
+
+        res.json(owners);
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: 'An error occurred' });
+    }
 };
+
+
+

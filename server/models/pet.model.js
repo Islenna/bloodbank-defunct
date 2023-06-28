@@ -36,8 +36,14 @@ const PetSchema = new mongoose.Schema(
             enum: ['Incomplete', 'Pending', 'Complete'],
         },
         dateLabworkCompleted: { type: Date },
+        homeClinic: { type: String },
     },
     { timestamps: true }
 );
+
+PetSchema.pre('findOne', function (next) {
+    this.populate('owner', 'homeClinic');
+    next();
+});
 
 module.exports = mongoose.model('Pet', PetSchema);

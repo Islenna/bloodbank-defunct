@@ -14,7 +14,7 @@ export default function PetCard() {
             .get(`http://localhost:8000/api/pets/${id}`)
             .then((res) => {
                 setPet(res.data);
-                const ownerId = res.data.owner;
+                const ownerId = res.data.owner._id;
                 axios
                     .get(`http://localhost:8000/api/owners/${ownerId}`)
                     .then((res) => {
@@ -24,6 +24,7 @@ export default function PetCard() {
             })
             .catch((err) => console.log(err));
     }, [id]);
+
 
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'long' };
@@ -42,20 +43,24 @@ export default function PetCard() {
                 <p>Pet Type: {pet.petType}</p>
                 <p>Description: {pet.petDescription}</p>
                 <p>Blood Type: {pet.bloodType}</p>
-                <p>Pet Owner: {owner.firstName} {owner.LastName}</p>
+                {owner && (
+
+                    <p>Pet Owner: {owner.firstName} {owner.lastName}</p>
+
+                )}
                 <p>Last Donated: {pet.lastDonated && formatDate(pet.lastDonated)}</p>
                 <p>Labwork Status: {pet.labworkStatus}</p>
                 <p>Date Labwork Completed: {pet.dateLabworkCompleted && formatDate(pet.dateLabworkCompleted)}</p>
             </Card>
             <Button variant="primary" onClick={() => navigate(`/pets/edit/${id}`)}>
                 Edit
-            </Button>{' '}
+            </Button>{" "}
             <Button variant="danger" onClick={() => navigate(`/pets/delete/${id}`)}>
                 Delete
-            </Button>{' '}
+            </Button>{" "}
             <Button variant="primary" onClick={() => navigate(`/owners`)}>
                 Back
-            </Button>{' '}
+            </Button>{" "}
         </Container>
     );
 }

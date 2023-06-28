@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
+
 //This will create a database named "person" if one doesn't already exist (no need for mongo shell!):
-mongoose.connect("mongodb://127.0.0.1:27017/bloodbank", { 
+mongoose.connect(process.env.MONGODBURL, { 
     useNewUrlParser: true, 
     useUnifiedTopology: true,
 })

@@ -11,10 +11,26 @@ module.exports.createPet = (req, res) => {
 
 // Get all stray pets
 module.exports.getStrayPets = (req, res) => {
-    Pet.find({ owner: null })
-        .then((strayPets) => res.json(strayPets))
-        .catch((err) => res.status(500).json(err));
+    console.log('Fetching stray pets...');
+
+    Pet.find({ owner: undefined })
+        .then((strayPets) => {
+            console.log('Stray pets found:', strayPets);
+            res.json(strayPets);
+        })
+        .catch((err) => {
+            console.log('Error occurred while fetching stray pets:', err);
+            res.status(500).json(err);
+        });
 };
+
+module.exports.deleteByOwner = (req, res) => {
+    Pet.deleteMany({ owner: req.params.id })
+        .then(deleteConfirmation => res.json(deleteConfirmation))
+        .catch(err => res.json(err));
+}
+
+
 
 
 module.exports.getAll = (req, res) => {
@@ -25,9 +41,12 @@ module.exports.getAll = (req, res) => {
 
 module.exports.getOne = (req, res) => {
     Pet.findOne({ _id: req.params.id })
-        .then(pet => res.json(pet))
+        .then(pet => {
+            res.json(pet);
+        })
         .catch(err => res.json(err));
-}
+};
+
 
 module.exports.updatePet = (request, response) => {
     Pet.findOneAndUpdate({ _id: request.params.id }, request.body, { new: true })
