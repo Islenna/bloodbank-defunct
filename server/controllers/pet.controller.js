@@ -12,8 +12,8 @@ module.exports.createPet = (req, res) => {
 // Get all stray pets
 module.exports.getStrayPets = (req, res) => {
     Pet.find({ owner: null })
-    .then((strayPets) => res.json(strayPets))
-    .catch((err) => res.status(500).json(err));
+        .then((strayPets) => res.json(strayPets))
+        .catch((err) => res.status(500).json(err));
 };
 
 
@@ -46,3 +46,4 @@ module.exports.getAllByOwner = (req, res) => {
         .then(pets => res.json(pets))
         .catch(err => res.json(err));
 }
+

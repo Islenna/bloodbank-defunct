@@ -52,6 +52,7 @@ export default function OwnerCard() {
                             <p>Last Name: {owner.lastName}</p>
                             <p>Phone Number: {owner.phoneNumber}</p>
                             <p>Email: {owner.email}</p>
+                            <p>Home Clinic: {owner.homeClinic}</p>
                             <p>Pets:</p>
                             <ul className="list-unstyled">
                                 {pets.map((pet) => (

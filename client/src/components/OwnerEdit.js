@@ -11,6 +11,7 @@ const Update = () => {
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
     const [phoneNumberError, setPhoneNumberError] = useState('');
+    const [homeClinic, setHomeClinic] = useState('');
     const navigate = useNavigate();
 
     const validateEmail = (email) => {
@@ -31,6 +32,7 @@ const Update = () => {
                 setLastName(res.data.lastName);
                 setPhoneNumber(res.data.phoneNumber);
                 setEmail(res.data.email);
+                setHomeClinic(res.data.homeClinic)
             })
             .catch((err) => console.log(err));
     }, [id]);
@@ -54,6 +56,7 @@ const Update = () => {
                 lastName,
                 phoneNumber,
                 email,
+                homeClinic
             })
             .then((res) => {
                 console.log(res);
@@ -110,6 +113,23 @@ const Update = () => {
                         style={{ backgroundColor: 'white', color: 'black' }}
                     />
                     {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
+                </Form.Group>
+                <Form.Group controlId="homeClinic">
+                    <Form.Label className="d-block" style={{ color: 'white' }}>Home Clinic</Form.Label>
+                    <Form.Control
+                        as="select"
+                        value={homeClinic}
+                        onChange={(e) => setHomeClinic(e.target.value)}
+                        required
+                        style={{ backgroundColor: 'white', color: 'black' }}
+                        >
+                    <option value="">Please select your home clinic.</option>
+                    <option value="Concord">Concord</option>
+                    <option value="Campbell">Campbell</option>
+                    <option value="Dublin">Dublin</option>
+                    <option value="Redwood City">Redwood City</option>
+                    <option value="San Francisco">San Francisco</option>
+                    </Form.Control>
                 </Form.Group>
                 <Button variant="primary" type="submit">
                     Update

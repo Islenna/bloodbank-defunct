@@ -10,8 +10,9 @@ module.exports = (app) => {
     app.delete('/api/pets/:id', PetController.delete);
     app.get('/api/owners/:id/pets', PetController.getAllByOwner);
     app.get('/api/pets/strays', PetController.getStrayPets);
-
+    
     // Owner routes
+    app.get('/api/owners/bloodfinder', OwnerController.clinicSearch);
     app.get('/api/owners', OwnerController.getAll);
     app.post('/api/owners', OwnerController.createOwner);
     app.get('/api/owners/:id', OwnerController.getOne);
