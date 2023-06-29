@@ -56,7 +56,7 @@ export default function OwnerList() {
             <Link to={`/owners/new`}>
                 <Button variant="primary">Add Owner</Button>
             </Link>
-            <Link to={`/owners/search`}>
+            <Link to={`/bloodfinder`}>
                 <Button variant="danger">Get Blood</Button>
             </Link>
         </Container>

@@ -1,86 +1,105 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Card, Button, Form, Row, Col } from 'react-bootstrap';
 
 function BloodFinder() {
     const [homeClinic, setHomeClinic] = useState('');
     const [bloodType, setBloodType] = useState('');
     const [pets, setPets] = useState([]);
+    const { id } = useParams();
+    const navigate = useNavigate();
 
     const searchPets = (e) => {
         e.preventDefault();
         axios
-            .get('http://localhost:8000/api/owners/bloodfinder', {
-                params: {
-                    homeClinic: homeClinic,
-                    bloodType: bloodType,
-                },
-            })
+            .get(`http://localhost:8000/api/owners/search?homeClinic=${homeClinic}&bloodType=${bloodType}`)
             .then((res) => {
                 console.log(res.data);
-                const filteredPets = res.data.filter(
-                    (pet) =>
-                        pet.labworkStatus === 'Complete' &&
-                        pet.lastDonated &&
-                        new Date(pet.lastDonated) <=
-                        new Date(Date.now() - 28 * 24 * 60 * 60 * 1000)
-                );
-                setPets(filteredPets);
+                setPets(res.data);
             })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
-
-    const redirectToOwner = (ownerId) => {
-        // Implement the logic to redirect to the owner's page using the ownerId
-        console.log('Redirecting to owner with ID:', ownerId);
+            .catch((err) => console.log(err));
     };
 
     return (
         <div>
-            <h1>Blood Finder</h1>
-            <form onSubmit={searchPets}>
-                <div>
-                    <label htmlFor="homeClinic">Home Clinic:</label>
-                    <select
-                        id="homeClinic"
-                        value={homeClinic}
-                        onChange={(e) => setHomeClinic(e.target.value)}
-                    >
-                        <option value="">Select Home Clinic</option>
-                        <option value="Concord">Concord</option>
-                        <option value="San Francisco">San Francisco</option>
-                        {/* Add more options for other clinics */}
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor="bloodType">Blood Type:</label>
-                    <select
-                        id="bloodType"
-                        value={bloodType}
-                        onChange={(e) => setBloodType(e.target.value)}
-                    >
-                        <option value="">Select Blood Type</option>
-                        <option value="B">B</option>
-                        {/* Add more options for other blood types */}
-                    </select>
-                </div>
-                <button type="submit">Search</button>
-            </form>
+            <Card
+                style={{
+                    backgroundColor: '#725846',
+                    border: 'none',
+                    borderTop: '20px solid #A9C27E',
+                }}
+                text="white"
+                className="mt-4 p-4">
 
-            {pets.length > 0 ? (
+                <h1>Blood Finder</h1>
+                <Form onSubmit={searchPets}>
+                    <Row>
+                        <Col>
+                            <Form.Group controlId="homeClinic">
+                                <Form.Label>Home Clinic:</Form.Label>
+                                <Form.Control
+                                    as="select"
+                                    value={homeClinic}
+                                    onChange={(e) => setHomeClinic(e.target.value)}
+                                >
+                                    <option value="">Select Home Clinic</option>
+                                    <option value="Concord">Concord</option>
+                                    <option value="Campbell">Campbell</option>
+                                    <option value="Dublin">Dublin</option>
+                                    <option value="Redwood City">Redwood City</option>
+                                    <option value="San Francisco">San Francisco</option>
+                                    {/* Add more options for other clinics */}
+                                </Form.Control>
+                            </Form.Group>
+                        </Col>
+                        <Col>
+                            <Form.Group controlId="bloodType">
+                                <Form.Label>Blood Type:</Form.Label>
+                                <Form.Control
+                                    as="select"
+                                    value={bloodType}
+                                    onChange={(e) => setBloodType(e.target.value)}
+                                >
+                                    <option value="">Select Blood Type</option>
+                                    <option value="DEA 1.1 Positive">DEA 1.1 Positive</option>
+                                    <option value="DEA 1.1 Negative">DEA 1.1 Negative</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="AB">AB</option>
+                                    {/* Add more options for other blood types */}
+                                </Form.Control>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Button type="submit">Search</Button>
+                </Form>
                 <div>
-                    <h2>List of Pets</h2>
-                    <ul>
-                        {pets.map((pet) => (
-                            <li key={pet._id}>
-                                {pet.petName}{' '}
-                                <button onClick={() => redirectToOwner(pet.owner)}>View Owner</button>
-                            </li>
-                        ))}
-                    </ul>
+                    <h2>Pets</h2>
+                    {pets.length > 0 ? (
+                        <ul>
+                            {pets.map((pet) => (
+                                <li key={pet._id} style={{ listStyleType: "none" }}>
+                                    <span>
+                                        {pet.petName}
+                                        <Button
+                                            variant="success"
+                                            onClick={() => navigate(`/pets/${pet._id}`)}
+                                        >
+                                            View
+                                        </Button>{' '}
+                                    </span>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No pets found.</p>
+                    )}
                 </div>
-            ) : null}
+            </Card>
+                <Button variant="primary" onClick={() => navigate(`/owners`)}>
+                    Back
+                </Button>
         </div>
     );
 }

@@ -15,6 +15,7 @@ export default function PetCard() {
             .then((res) => {
                 setPet(res.data);
                 const ownerId = res.data.owner._id;
+                const homeClinic = res.data.owner.homeClinic;
                 axios
                     .get(`http://localhost:8000/api/owners/${ownerId}`)
                     .then((res) => {
@@ -43,6 +44,7 @@ export default function PetCard() {
                 <p>Pet Type: {pet.petType}</p>
                 <p>Description: {pet.petDescription}</p>
                 <p>Blood Type: {pet.bloodType}</p>
+                <p>Home Clinic: {owner.homeClinic}</p>
                 {owner && (
 
                     <p>Pet Owner: {owner.firstName} {owner.lastName}</p>
