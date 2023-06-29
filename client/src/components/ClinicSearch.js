@@ -25,7 +25,7 @@ function ClinicSearch() {
         <div>
             <h1> Please select which clinic to collect data from:</h1>
             <Card
-                style={{ backgroundColor: '#725846', border: 'none', borderTop: '10px solid #A9C27E' }}
+                style={{ backgroundColor: '#725846', border: 'none', borderTop: '20px solid #A9C27E' }}
                 text="white"
                 className="mt-4 p-4"
                 >

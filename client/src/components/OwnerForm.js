@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Card, Container, Form, Button } from 'react-bootstrap';
 
 const OwnerForm = () => {
     const [firstName, setFirstName] = useState('');
@@ -50,8 +50,13 @@ const OwnerForm = () => {
     };
 
     return (
-        <Container className="text-center" style={{ backgroundColor: '#725846', color: 'white', padding: '20px' }}>
-            <h2>New Owner</h2>
+        <Container className="text-center">
+            <h1>Owner Form</h1>
+            <Card
+                style={{ backgroundColor: '#725846', border: 'none', borderTop: '10px solid #A9C27E' }}
+                text="white"
+                className="mt-4 p-4"
+            >
             <Form onSubmit={onSubmitHandler}>
                 <Form.Group controlId="formFirstName">
                     <Form.Label className="d-block" style={{ color: 'white' }}>First Name</Form.Label>
@@ -127,6 +132,7 @@ const OwnerForm = () => {
                 </Button>
             </Form>
             <Link to={`/owners`} style={{ color: 'white', textDecoration: 'none' }}>Back</Link>
+        </Card>
         </Container>
     );
 };

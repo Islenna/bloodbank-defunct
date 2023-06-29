@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { Card, Button, Form, Row, Col } from 'react-bootstrap';
+import { Card, Container, Button, Form, Row, Col } from 'react-bootstrap';
 
 function BloodFinder() {
     const [homeClinic, setHomeClinic] = useState('');
@@ -23,16 +23,15 @@ function BloodFinder() {
 
     return (
         <div>
+            <Container className="text-center">
+            <h1>Blood Finder</h1>
             <Card
-                style={{
-                    backgroundColor: '#725846',
-                    border: 'none',
-                    borderTop: '20px solid #A9C27E',
-                }}
+                style={{ backgroundColor: '#725846', border: 'none', borderTop: '10px solid #A9C27E' }}
                 text="white"
-                className="mt-4 p-4">
+                className="mt-4 p-4"
+            >
+                
 
-                <h1>Blood Finder</h1>
                 <Form onSubmit={searchPets}>
                     <Row>
                         <Col>
@@ -100,6 +99,7 @@ function BloodFinder() {
                 <Button variant="primary" onClick={() => navigate(`/owners`)}>
                     Back
                 </Button>
+                </Container>
         </div>
     );
 }
