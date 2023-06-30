@@ -50,14 +50,18 @@ module.exports = {
             .json({ msg: "success!" });
     },
 
-    
     getLoggedInUser: (req, res) => {
         const decodedJWT = jwt.decode(req.cookies.usertoken, { complete: true });
+
+        // Check if decodedJWT is null or does not have the payload property
+        if (!decodedJWT || !decodedJWT.payload) {
+            return res.status(401).json({ message: 'User not authenticated' });
+        }
+
         User.findById(decodedJWT.payload.id)
-        .then(user => res.json(user))
-        .catch(err => res.json(err));
+            .then(user => res.json(user))
+            .catch(err => res.json(err));
     },
-    
     logout: (req, res) => {
         res.clearCookie('usertoken');
         res.sendStatus(200);

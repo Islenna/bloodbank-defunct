@@ -7,24 +7,31 @@ export default function CustomNavbar(props) {
     const navigate = useNavigate();
     const [userEmail, setUserEmail] = useState('');
     const [isNightMode, setIsNightMode] = useState(false);
-
-    useEffect(() => {
-        // Fetch the logged-in user's email
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const fetchUserEmail = () => {
         axios
             .get('http://localhost:8000/api/users/loggedin', { withCredentials: true })
             .then((res) => {
                 setUserEmail(res.data.email);
+                setIsLoggedIn(true);
             })
             .catch(() => {
-                navigate('/'); // Redirect to the login page if not logged in
+                setUserEmail('');
+                setIsLoggedIn(false);
+                navigate('/');
             });
+    };
+
+    useEffect(() => {
+        fetchUserEmail(); // Fetch user email when the component mounts
     }, []);
 
     const handleLogout = () => {
-        // Clear user token and redirect to login page
         axios
             .post('http://localhost:8000/api/users/logout', null, { withCredentials: true })
             .then(() => {
+                setUserEmail(''); // Clear user email
+                setIsLoggedIn(false); // Set isLoggedIn to false
                 navigate('/');
             })
             .catch((err) => {
@@ -34,7 +41,6 @@ export default function CustomNavbar(props) {
 
     const handleNightModeToggle = () => {
         setIsNightMode((prevMode) => !prevMode);
-        // Additional logic to handle night mode toggling
         props.handleNightModeToggle(); // Call the prop function from the parent component
     };
 
@@ -46,9 +52,11 @@ export default function CustomNavbar(props) {
                 </Link>
                 <div className="collapse navbar-collapse">
                     <ul className="navbar-nav ml-auto align-items-center">
-                        <li className="nav-item">
-                            <span className="nav-link">{userEmail}</span>
-                        </li>
+                        {isLoggedIn && (
+                            <li className="nav-item">
+                                <span className="nav-link">{userEmail}</span>
+                            </li>
+                        )}
                         <li className="nav-item">
                             <div className="form-check form-switch">
                                 <input

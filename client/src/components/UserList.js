@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Card, Container } from 'react-bootstrap';
+import { Card, Container, Button } from 'react-bootstrap';
 import Navbar from './CustomNavbar';
 
 export default function UserList() {
@@ -51,6 +51,7 @@ export default function UserList() {
                                     <thead>
                                         <tr>
                                             <th>Email</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -58,6 +59,30 @@ export default function UserList() {
                                             return (
                                                 <tr key={idx}>
                                                     <td>{user.email}</td>
+                                                    <td>
+                                                        <Button variant = "danger"
+                                                            onClick={() => {
+                                                                axios
+                                                                    .delete(
+                                                                        `http://localhost:8000/api/users/${user._id}`,
+                                                                        { withCredentials: true }
+                                                                    )
+                                                                    .then((res) => {
+                                                                        console.log(res);
+                                                                        setUsers(
+                                                                            users.filter(
+                                                                                (user) => user._id !== res.data._id
+                                                                            )
+                                                                        );
+                                                                    })
+                                                                    .catch((err) => {
+                                                                        console.log(err);
+                                                                    });
+                                                            }}
+                                                        >
+                                                            Delete
+                                                        </Button>
+                                                    </td>
                                                 </tr>
                                             );
                                         })}

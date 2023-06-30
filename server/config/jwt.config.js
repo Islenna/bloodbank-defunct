@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const secret = "Cookies are delicious, but JWTs are better";
+const secret = process.env.JWT_SECRET
 module.exports.secret = secret;
 module.exports.authenticate = (req, res, next) => {
     jwt.verify(req.cookies.usertoken, secret, (err, payload) => {
