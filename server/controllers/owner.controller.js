@@ -61,9 +61,9 @@ module.exports.clinicSearch = (req, res) => {
                     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
                     const filteredPets = pets.filter(
                         (pet) =>
-                            pet.bloodType === req.query.bloodType &&
-                            pet.lastDonated < thirtyDaysAgo || !pet.lastDonated  &&
-                            pet.labworkStatus === 'Complete'
+                        pet.bloodType === req.query.bloodType &&
+                        (pet.lastDonated < thirtyDaysAgo || !pet.lastDonated) &&
+                        pet.labworkStatus === 'Complete'
                     );
                     res.json(filteredPets);
                 })
