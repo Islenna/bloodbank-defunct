@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Form, Card, Button, Container, Row, Col } from 'react-bootstrap';
-import Navbar from './Navbar';
+import Navbar from './CustomNavbar';
 
 const PetForm = () => {
     const [ownerFirstName, setOwnerFirstName] = useState('');
@@ -64,8 +64,6 @@ const PetForm = () => {
 
     return (
         <div>
-            <Navbar />
-
             <Container className="text-center">
                 <h1>Add a Pet</h1>
                 <Card

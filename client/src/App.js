@@ -1,4 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
+
 import PetForm from './components/PetForm';
 import PetCard from './components/PetCard';
 import PetEdit from './components/PetEdit';
@@ -11,17 +15,22 @@ import BloodFinder from './components/BloodFinder';
 import Strays from './components/Strays';
 import LogAndReg from './components/LogAndReg';
 import UserList from './components/UserList';
-
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import CustomNavbar from './components/CustomNavbar';
 
 function App() {
+  const [isNightMode, setIsNightMode] = useState(false);
+
+  const handleNightModeToggle = () => {
+    setIsNightMode((prevMode) => !prevMode);
+  };
+
   return (
-    <div className="App">
-      <BrowserRouter>
+    <div className={`App ${isNightMode ? 'night-mode' : ''}`}>
+      <Router>
+        <CustomNavbar handleNightModeToggle={handleNightModeToggle} />
         <Routes>
           <Route path="/owners" element={<OwnerList />} />
-          <Route path="/" element={<LogAndReg/>}/>
+          <Route path="/" element={<LogAndReg />} />
           <Route path="/owners/new" element={<OwnerForm />} />
           <Route path="/owners/:id" element={<OwnerCard />} />
           <Route path="/owners/edit/:id" element={<OwnerEdit />} />
@@ -33,14 +42,9 @@ function App() {
           <Route path="/bloodfinder" element={<BloodFinder />} />
           <Route path="/users" element={<UserList />} />
         </Routes>
-      </BrowserRouter>
+      </Router>
     </div>
   );
 }
+
 export default App;
-
-// //ToDo: The email and phone are kind of just... free-hanging. That's less than ideal.  They're hanging behind a required domain, so that's good.
-//Should there be some sort of login form? Should it be a token thingie?  -- It's both! 
-//I know ezyvet has an API, I could replace the email / password for the ezyvet owner ID / Pet ID.
-
-//CyberSecurity & ADA compliance.

@@ -1,5 +1,17 @@
 .App {
   text-align: center;
+  background-color: white;
+  height: 100vh;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.App.night-mode {
+  background-color: black;
+  color:white;
 }
 
 .owner-card {
@@ -8,6 +20,7 @@
   border-top: 10px solid #a9c27e;
   padding: 10px;
 }
+
 .custom-table {
   background-color: #725846;
   color: white;
@@ -17,6 +30,7 @@
 .custom-table td {
   color: white;
 }
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -47,6 +61,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

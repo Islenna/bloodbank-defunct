@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Card, Container } from 'react-bootstrap';
-import Navbar from './Navbar';
+import Navbar from './CustomNavbar';
 
 export default function UserList() {
     const navigate = useNavigate();
@@ -32,7 +32,6 @@ export default function UserList() {
 
     return (
         <div>
-            <Navbar />
             <Container className="text-center">
                 {isLoggedIn ? (
                     <>

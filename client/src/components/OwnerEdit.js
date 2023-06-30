@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Container, Card, Form, Button } from 'react-bootstrap';
-import Navbar from './Navbar';
+import Navbar from './CustomNavbar';
 
 const Update = () => {
     const { id } = useParams();
@@ -68,7 +68,6 @@ const Update = () => {
 
     return (
         <div>
-            <Navbar />
         <Container className="text-center">
             <h1>Update an Owner</h1>
             <Card

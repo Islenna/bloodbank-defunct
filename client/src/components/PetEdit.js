@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Container, Card, Form, Button } from 'react-bootstrap';
-import Navbar from './Navbar';
+import Navbar from './CustomNavbar';
 
 const PetEdit = () => {
     const [pet, setPet] = useState({});
@@ -56,7 +56,6 @@ const PetEdit = () => {
 
     return (
         <div>
-            <Navbar />
         <Container className="text-center">
             <h1>Edit {pet.petName}'s Information</h1>
             <Card

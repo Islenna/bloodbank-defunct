@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Container, Button, Card } from 'react-bootstrap';
-import Navbar from './Navbar';
+import Navbar from './CustomNavbar';
 
 export default function PetCard() {
     const [pet, setPet] = useState({});
@@ -35,8 +35,6 @@ export default function PetCard() {
 
     return (
         <div>
-            <Navbar />
-
             <Container className="text-center">
                 <h1>{pet.petName}'s Information</h1>
                 <Card

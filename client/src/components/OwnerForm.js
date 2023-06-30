@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { Card, Container, Form, Button } from 'react-bootstrap';
-import Navbar from './Navbar';
+import Navbar from './CustomNavbar';
 
 const OwnerForm = () => {
     const [firstName, setFirstName] = useState('');
@@ -52,8 +52,6 @@ const OwnerForm = () => {
 
     return (
         <div>
-            <Navbar />
-
             <Container className="text-center">
                 <h1>Owner Form</h1>
                 <Card

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Container, Table, Button, Card } from 'react-bootstrap';
-import Navbar from './Navbar';
+import Navbar from './CustomNavbar';
 import '../App.css';
 
 export default function OwnerList() {
@@ -20,7 +20,6 @@ export default function OwnerList() {
 
     return (
         <div>
-            <Navbar /> {/* Include the Navbar component */}
             <Container className="text-center">
                 <h1>Owner List</h1>
                 <Card

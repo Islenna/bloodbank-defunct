@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Container, Row, Button, Card } from 'react-bootstrap';
-import Navbar from './Navbar';
+import Navbar from './CustomNavbar';
 
 export default function OwnerCard() {
     const [owner, setOwner] = useState({});
@@ -55,8 +55,6 @@ export default function OwnerCard() {
 
     return (
         <div>
-            <Navbar />
-
             <Container>
                 <Row className="justify-content-center">
                     <div>

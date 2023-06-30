@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Card, Container, Button, Form, Row, Col } from 'react-bootstrap';
-import Navbar from './Navbar';
+import Navbar from './CustomNavbar';
 
 function BloodFinder() {
     const [homeClinic, setHomeClinic] = useState('');
@@ -24,7 +24,6 @@ function BloodFinder() {
 
     return (
         <div>
-            <Navbar />
             <Container className="text-center">
             <h1>Blood Finder</h1>
             <Card
