@@ -45,26 +45,29 @@ module.exports.getByClinic = (req, res) => {
 }
 
 //I need specific bloodtype pets from a specific clinic: 
+//I also want to display only pets that are eligible for donation (lastDonated > 30 days ago)
 module.exports.clinicSearch = (req, res) => {
-    // Let's test this out.
-    // This is where we'll write the logic for the clinicSearch function.
-    
-    // First, we'll need to find all the owners that belong to the clinic.
-    Owner.find({ homeClinic: req.query.homeClinic }) 
+    Pet.find({ homeClinic: req.params.homeClinic, bloodType: req.params.bloodType, lastDonated: { $lt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) } }).exec()
+        .then((pets) => res.json(pets))
+        .catch((err) => res.json(err))
+}
+
+module.exports.clinicSearch = (req, res) => {
+    Owner.find({ homeClinic: req.query.homeClinic })
         .then((owners) => {
-            // Now that we have all the owners, we need to find all the pets that belong to those owners.
-            // We'll use the $in operator to find all the pets that have an owner that is in the owners array.
             Pet.find({ owner: { $in: owners } })
                 .then((pets) => {
-                    // Now that we have all the pets, we need to filter out the pets that don't have the blood type we're looking for.
-                    // We'll use the filter method to do this.
-                    const filteredPets = pets.filter((pet) => pet.bloodType === req.query.bloodType);
-                    // Finally, we'll send the filtered pets back to the client.
+                    const thirtyDaysAgo = new Date();
+                    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+                    const filteredPets = pets.filter(
+                        (pet) =>
+                            pet.bloodType === req.query.bloodType &&
+                            pet.lastDonated < thirtyDaysAgo || !pet.lastDonated  &&
+                            pet.labworkStatus === 'Complete'
+                    );
                     res.json(filteredPets);
                 })
                 .catch((err) => res.json(err));
         })
-        .catch((err) => res.json(err)); 
-}; 
-
-
+        .catch((err) => res.json(err));
+};
