@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Form, Card, Button, Container, Row, Col } from 'react-bootstrap';
+import Navbar from './Navbar';
 
 const PetForm = () => {
     const [ownerFirstName, setOwnerFirstName] = useState('');
@@ -62,99 +63,103 @@ const PetForm = () => {
     };
 
     return (
-        <Container className="text-center">
-            <h1>Add a Pet</h1>
-            <Card
-                style={{ backgroundColor: '#725846', border: 'none', borderTop: '10px solid #A9C27E' }}
-                text="white"
-                className="mt-4 p-4"
-            >
-            <Row className="justify-content-center">
-                <Col xs={12} md={8} lg={6}>
-                    <div className="text-center">
+        <div>
+            <Navbar />
 
-                        <h2 style={{ color: 'white' }}>
-                            {ownerFirstName} {ownerLastName}
-                        </h2>
-                    </div>
+            <Container className="text-center">
+                <h1>Add a Pet</h1>
+                <Card
+                    style={{ backgroundColor: '#725846', border: 'none', borderTop: '10px solid #A9C27E' }}
+                    text="white"
+                    className="mt-4 p-4"
+                >
+                    <Row className="justify-content-center">
+                        <Col xs={12} md={8} lg={6}>
+                            <div className="text-center">
 
-                    <Form onSubmit={createPet}>
-                        <Form.Group controlId="petName">
-                            <Form.Label style={{ color: 'white' }}>Pet Name</Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={petName}
-                                onChange={(e) => setPetName(e.target.value)}
-                                style={{ backgroundColor: 'white', color: 'black' }}
-                            />
-                        </Form.Group>
+                                <h2 style={{ color: 'white' }}>
+                                    {ownerFirstName} {ownerLastName}
+                                </h2>
+                            </div>
 
-                        <Form.Group controlId="species">
-                            <Form.Label style={{ color: 'white' }}>Choose a species:</Form.Label>
-                            <Form.Control
-                                as="select"
-                                value={petType}
-                                onChange={(e) => setPetType(e.target.value)}
-                                style={{ backgroundColor: 'white', color: 'black' }}
-                            >
-                                <option value="default">Select an option</option>
-                                <option value="dog">Canine</option>
-                                <option value="cat">Feline</option>
-                            </Form.Control>
-                        </Form.Group>
+                            <Form onSubmit={createPet}>
+                                <Form.Group controlId="petName">
+                                    <Form.Label style={{ color: 'white' }}>Pet Name</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        value={petName}
+                                        onChange={(e) => setPetName(e.target.value)}
+                                        style={{ backgroundColor: 'white', color: 'black' }}
+                                    />
+                                </Form.Group>
 
-                        <Form.Group controlId="petDescription">
-                            <Form.Label style={{ color: 'white' }}>Pet Description</Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={petDescription}
-                                onChange={(e) => setPetDescription(e.target.value)}
-                                style={{ backgroundColor: 'white', color: 'black' }}
-                            />
-                        </Form.Group>
+                                <Form.Group controlId="species">
+                                    <Form.Label style={{ color: 'white' }}>Choose a species:</Form.Label>
+                                    <Form.Control
+                                        as="select"
+                                        value={petType}
+                                        onChange={(e) => setPetType(e.target.value)}
+                                        style={{ backgroundColor: 'white', color: 'black' }}
+                                    >
+                                        <option value="default">Select an option</option>
+                                        <option value="dog">Canine</option>
+                                        <option value="cat">Feline</option>
+                                    </Form.Control>
+                                </Form.Group>
 
-                        {petType && (
-                            <Form.Group controlId="bloodType">
-                                <Form.Label style={{ color: 'white' }}>Blood Type:</Form.Label>
-                                <Form.Control
-                                    as="select"
-                                    value={bloodType}
-                                    onChange={(e) => setBloodType(e.target.value)}
-                                    style={{ backgroundColor: 'white', color: 'black' }}
-                                >
-                                    <option value="">Select a blood type</option>
-                                    {petType === 'dog' || petType === 'canine' ? (
-                                        <>
-                                            <option value="DEA 1.1 Positive">DEA 1.1 Positive</option>
-                                            <option value="DEA 1.1 Negative">DEA 1.1 Negative</option>
-                                        </>
-                                    ) : petType === 'cat' || petType === 'feline' ? (
-                                        <>
-                                            <option value="A">A</option>
-                                            <option value="B">B</option>
-                                            <option value="AB">AB</option>
-                                        </>
-                                    ) : null}
-                                </Form.Control>
-                            </Form.Group>
-                        )}
+                                <Form.Group controlId="petDescription">
+                                    <Form.Label style={{ color: 'white' }}>Pet Description</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        value={petDescription}
+                                        onChange={(e) => setPetDescription(e.target.value)}
+                                        style={{ backgroundColor: 'white', color: 'black' }}
+                                    />
+                                </Form.Group>
 
-                        {validationError && <p style={{ color: 'white' }}>{validationError}</p>}
+                                {petType && (
+                                    <Form.Group controlId="bloodType">
+                                        <Form.Label style={{ color: 'white' }}>Blood Type:</Form.Label>
+                                        <Form.Control
+                                            as="select"
+                                            value={bloodType}
+                                            onChange={(e) => setBloodType(e.target.value)}
+                                            style={{ backgroundColor: 'white', color: 'black' }}
+                                        >
+                                            <option value="">Select a blood type</option>
+                                            {petType === 'dog' || petType === 'canine' ? (
+                                                <>
+                                                    <option value="DEA 1.1 Positive">DEA 1.1 Positive</option>
+                                                    <option value="DEA 1.1 Negative">DEA 1.1 Negative</option>
+                                                </>
+                                            ) : petType === 'cat' || petType === 'feline' ? (
+                                                <>
+                                                    <option value="A">A</option>
+                                                    <option value="B">B</option>
+                                                    <option value="AB">AB</option>
+                                                </>
+                                            ) : null}
+                                        </Form.Control>
+                                    </Form.Group>
+                                )}
 
-                        <Button variant="success" type="submit">
-                            Create Pet
-                        </Button>
-                    </Form>
+                                {validationError && <p style={{ color: 'white' }}>{validationError}</p>}
 
-                    <div className="text-center mt-3">
-                        <Button as={Link} to={`/owners/${id}`} variant="primary">
-                            Back
-                        </Button>
-                    </div>
-                </Col>
-            </Row>
-            </Card>
-        </Container>
+                                <Button variant="success" type="submit">
+                                    Create Pet
+                                </Button>
+                            </Form>
+
+                            <div className="text-center mt-3">
+                                <Button as={Link} to={`/owners/${id}`} variant="primary">
+                                    Back
+                                </Button>
+                            </div>
+                        </Col>
+                    </Row>
+                </Card>
+            </Container>
+        </div>
     );
 };
 

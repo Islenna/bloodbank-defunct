@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Container, Row, Button, Card } from 'react-bootstrap';
+import Navbar from './Navbar';
 
 export default function OwnerCard() {
     const [owner, setOwner] = useState({});
@@ -53,69 +54,73 @@ export default function OwnerCard() {
     }, [id]);
 
     return (
-        <Container>
-            <Row className="justify-content-center">
-                <div>
-                    <h1>
-                        {owner.firstName} {owner.lastName}'s Information
-                    </h1>
-                    <Card
-                        style={{
-                            backgroundColor: '#725846',
-                            border: 'none',
-                            borderTop: '20px solid #A9C27E',
-                        }}
-                        text="white"
-                        className="mt-4 p-4"
-                    >
-                        <Card.Text>
-                            <p>First Name: {owner.firstName}</p>
-                            <p>Last Name: {owner.lastName}</p>
-                            <p>Phone Number: {owner.phoneNumber}</p>
-                            <p>Email: {owner.email}</p>
-                            <p>Home Clinic: {owner.homeClinic}</p>
-                            <p>Pets:</p>
-                            <ul className="list-unstyled">
-                                {pets.map((pet) => (
-                                    <li key={pet._id}>
-                                        {pet.petName} - {pet.petType}{' '}
-                                        <Button
-                                            variant="success"
-                                            onClick={() => navigate(`/pets/${pet._id}`)}
-                                        >
-                                            View
-                                        </Button>{' '}
-                                        <Button
-                                            variant="danger"
-                                            onClick={() => deletePet(pet._id)}
-                                        >
-                                            Delete
-                                        </Button>
-                                    </li>
-                                ))}
-                            </ul>
-                        </Card.Text>
-                    </Card>
+        <div>
+            <Navbar />
 
-                    <Button
-                        variant="primary"
-                        onClick={() => navigate(`/owners/edit/${id}`)}
-                    >
-                        Edit
-                    </Button>{' '}
-                    <Button variant="primary" onClick={() => navigate(`/owners`)}>
-                        Back
-                    </Button>{' '}
-                    <Button variant="primary" onClick={() => navigate(`/pets/new/${id}`)}>
-                        Add Pet
-                    </Button>{' '}
-                    {pets.length === 0 && (
-                        <Button variant="danger" onClick={() => deleteOwner(id)}>
-                            Delete Owner
-                        </Button>
-                    )}
-                </div>
-            </Row>
-        </Container>
+            <Container>
+                <Row className="justify-content-center">
+                    <div>
+                        <h1>
+                            {owner.firstName} {owner.lastName}'s Information
+                        </h1>
+                        <Card
+                            style={{
+                                backgroundColor: '#725846',
+                                border: 'none',
+                                borderTop: '20px solid #A9C27E',
+                            }}
+                            text="white"
+                            className="mt-4 p-4"
+                        >
+                            <Card.Text>
+                                <p>First Name: {owner.firstName}</p>
+                                <p>Last Name: {owner.lastName}</p>
+                                <p>Phone Number: {owner.phoneNumber}</p>
+                                <p>Email: {owner.email}</p>
+                                <p>Home Clinic: {owner.homeClinic}</p>
+                                <p>Pets:</p>
+                                <ul className="list-unstyled">
+                                    {pets.map((pet) => (
+                                        <li key={pet._id}>
+                                            {pet.petName} - {pet.petType}{' '}
+                                            <Button
+                                                variant="success"
+                                                onClick={() => navigate(`/pets/${pet._id}`)}
+                                            >
+                                                View
+                                            </Button>{' '}
+                                            <Button
+                                                variant="danger"
+                                                onClick={() => deletePet(pet._id)}
+                                            >
+                                                Delete
+                                            </Button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </Card.Text>
+                        </Card>
+
+                        <Button
+                            variant="primary"
+                            onClick={() => navigate(`/owners/edit/${id}`)}
+                        >
+                            Edit
+                        </Button>{' '}
+                        <Button variant="primary" onClick={() => navigate(`/owners`)}>
+                            Back
+                        </Button>{' '}
+                        <Button variant="primary" onClick={() => navigate(`/pets/new/${id}`)}>
+                            Add Pet
+                        </Button>{' '}
+                        {pets.length === 0 && (
+                            <Button variant="danger" onClick={() => deleteOwner(id)}>
+                                Delete Owner
+                            </Button>
+                        )}
+                    </div>
+                </Row>
+            </Container>
+        </div>
     );
 }

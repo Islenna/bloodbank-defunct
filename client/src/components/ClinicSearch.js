@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Container, Form, Table, Button, Card } from 'react-bootstrap';
 import '../App.css';
+import Navbar from './Navbar';
 
 function ClinicSearch() {
     const [clinics, setClinics] = useState([]);
@@ -23,6 +24,7 @@ function ClinicSearch() {
     };
     return (
         <div>
+            <Navbar />
             <h1> Please select which clinic to collect data from:</h1>
             <Card
                 style={{ backgroundColor: '#725846', border: 'none', borderTop: '20px solid #A9C27E' }}

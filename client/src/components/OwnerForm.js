@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { Card, Container, Form, Button } from 'react-bootstrap';
+import Navbar from './Navbar';
 
 const OwnerForm = () => {
     const [firstName, setFirstName] = useState('');
@@ -50,90 +51,94 @@ const OwnerForm = () => {
     };
 
     return (
-        <Container className="text-center">
-            <h1>Owner Form</h1>
-            <Card
-                style={{ backgroundColor: '#725846', border: 'none', borderTop: '10px solid #A9C27E' }}
-                text="white"
-                className="mt-4 p-4"
-            >
-            <Form onSubmit={onSubmitHandler}>
-                <Form.Group controlId="formFirstName">
-                    <Form.Label className="d-block" style={{ color: 'white' }}>First Name</Form.Label>
-                    <Form.Control
-                        type="text"
-                        name="firstName"
-                        onChange={(e) => setFirstName(e.target.value)}
-                        value={firstName}
-                        placeholder="Enter first name"
-                        required
-                        style={{ backgroundColor: 'white', color: 'black' }}
-                    />
-                </Form.Group>
-                <Form.Group controlId="formLastName">
-                    <Form.Label className="d-block" style={{ color: 'white' }}>Last Name</Form.Label>
-                    <Form.Control
-                        type="text"
-                        name="lastName"
-                        onChange={(e) => setLastName(e.target.value)}
-                        value={lastName}
-                        placeholder="Enter last name"
-                        required
-                        style={{ backgroundColor: 'white', color: 'black' }}
-                    />
-                </Form.Group>
-                <Form.Group controlId="formPhoneNumber">
-                    <Form.Label className="d-block" style={{ color: 'white' }}>Phone Number</Form.Label>
-                    <Form.Control
-                        type="text"
-                        name="phoneNumber"
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                        value={phoneNumber}
-                        placeholder="Enter phone number"
-                        required
-                        style={{ backgroundColor: 'white', color: 'black' }}
-                    />
-                    {phoneNumberError && <p style={{ color: 'red' }}>{phoneNumberError}</p>}
-                </Form.Group>
-                <Form.Group controlId="formEmail">
-                    <Form.Label className="d-block" style={{ color: 'white' }}>Email</Form.Label>
-                    <Form.Control
-                        type="text"
-                        name="email"
-                        onChange={(e) => setEmail(e.target.value)}
-                        value={email}
-                        placeholder="Enter email"
-                        required
-                        style={{ backgroundColor: 'white', color: 'black' }}
-                    />
-                    {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
-                </Form.Group>
-                
-                <Form.Group controlId="homeClinic">
-                    <Form.Label className="d-block" style={{ color: 'white' }}>Home Clinic</Form.Label>
-                    <Form.Control
-                        as="select"
-                        value={homeClinic}
-                        onChange={(e) => setHomeClinic(e.target.value)}
-                        required
-                        style={{ backgroundColor: 'white', color: 'black' }}
-                        >
-                    <option value="">Please select your home clinic.</option>
-                    <option value="Concord">Concord</option>
-                    <option value="Campbell">Campbell</option>
-                    <option value="Dublin">Dublin</option>
-                    <option value="Redwood City">Redwood City</option>
-                    <option value="San Francisco">San Francisco</option>
-                    </Form.Control>
-                </Form.Group>
+        <div>
+            <Navbar />
 
-                <Button variant="primary" type="submit">
-                    Submit
-                </Button>
-            </Form>
-            <Link to={`/owners`} style={{ color: 'white', textDecoration: 'none' }}>Back</Link>
-        </Card>
-        </Container>
+            <Container className="text-center">
+                <h1>Owner Form</h1>
+                <Card
+                    style={{ backgroundColor: '#725846', border: 'none', borderTop: '10px solid #A9C27E' }}
+                    text="white"
+                    className="mt-4 p-4"
+                >
+                    <Form onSubmit={onSubmitHandler}>
+                        <Form.Group controlId="formFirstName">
+                            <Form.Label className="d-block" style={{ color: 'white' }}>First Name</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="firstName"
+                                onChange={(e) => setFirstName(e.target.value)}
+                                value={firstName}
+                                placeholder="Enter first name"
+                                required
+                                style={{ backgroundColor: 'white', color: 'black' }}
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="formLastName">
+                            <Form.Label className="d-block" style={{ color: 'white' }}>Last Name</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="lastName"
+                                onChange={(e) => setLastName(e.target.value)}
+                                value={lastName}
+                                placeholder="Enter last name"
+                                required
+                                style={{ backgroundColor: 'white', color: 'black' }}
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="formPhoneNumber">
+                            <Form.Label className="d-block" style={{ color: 'white' }}>Phone Number</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="phoneNumber"
+                                onChange={(e) => setPhoneNumber(e.target.value)}
+                                value={phoneNumber}
+                                placeholder="Enter phone number"
+                                required
+                                style={{ backgroundColor: 'white', color: 'black' }}
+                            />
+                            {phoneNumberError && <p style={{ color: 'red' }}>{phoneNumberError}</p>}
+                        </Form.Group>
+                        <Form.Group controlId="formEmail">
+                            <Form.Label className="d-block" style={{ color: 'white' }}>Email</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="email"
+                                onChange={(e) => setEmail(e.target.value)}
+                                value={email}
+                                placeholder="Enter email"
+                                required
+                                style={{ backgroundColor: 'white', color: 'black' }}
+                            />
+                            {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
+                        </Form.Group>
+
+                        <Form.Group controlId="homeClinic">
+                            <Form.Label className="d-block" style={{ color: 'white' }}>Home Clinic</Form.Label>
+                            <Form.Control
+                                as="select"
+                                value={homeClinic}
+                                onChange={(e) => setHomeClinic(e.target.value)}
+                                required
+                                style={{ backgroundColor: 'white', color: 'black' }}
+                            >
+                                <option value="">Please select your home clinic.</option>
+                                <option value="Concord">Concord</option>
+                                <option value="Campbell">Campbell</option>
+                                <option value="Dublin">Dublin</option>
+                                <option value="Redwood City">Redwood City</option>
+                                <option value="San Francisco">San Francisco</option>
+                            </Form.Control>
+                        </Form.Group>
+
+                        <Button variant="primary" type="submit">
+                            Submit
+                        </Button>
+                    </Form>
+                    <Link to={`/owners`} style={{ color: 'white', textDecoration: 'none' }}>Back</Link>
+                </Card>
+            </Container>
+        </div>
     );
 };
 
