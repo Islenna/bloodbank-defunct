@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Container, Card, Form, Button } from 'react-bootstrap';
 
 const Update = () => {
     const { id } = useParams();
@@ -66,8 +66,13 @@ const Update = () => {
     };
 
     return (
-        <Container className="text-center" style={{ backgroundColor: '#725846', color: 'white', padding: '20px' }}>
+        <Container className="text-center">
             <h1>Update an Owner</h1>
+            <Card
+                style={{ backgroundColor: '#725846', border: 'none', borderTop: '10px solid #A9C27E' }}
+                text="white"
+                className="mt-4 p-4"
+            >
             <Form onSubmit={updateOwner}>
                 <Form.Group controlId="formFirstName">
                     <Form.Label style={{ color: 'white' }}>First Name</Form.Label>
@@ -136,6 +141,7 @@ const Update = () => {
                 </Button>
             </Form>
             <Link to={`/owners`} style={{ color: 'white', textDecoration: 'none' }}>Back</Link>
+            </Card>
         </Container>
     );
 };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { Form, Card, Button, Container, Row, Col } from 'react-bootstrap';
 
 const PetForm = () => {
     const [ownerFirstName, setOwnerFirstName] = useState('');
@@ -62,11 +62,17 @@ const PetForm = () => {
     };
 
     return (
-        <Container className="text-center" style={{ backgroundColor: '#725846', padding: '20px' }}>
+        <Container className="text-center">
+            <h1>Add a Pet</h1>
+            <Card
+                style={{ backgroundColor: '#725846', border: 'none', borderTop: '10px solid #A9C27E' }}
+                text="white"
+                className="mt-4 p-4"
+            >
             <Row className="justify-content-center">
                 <Col xs={12} md={8} lg={6}>
                     <div className="text-center">
-                        <h1 style={{ color: 'white' }}>Pet form for</h1>
+
                         <h2 style={{ color: 'white' }}>
                             {ownerFirstName} {ownerLastName}
                         </h2>
@@ -147,6 +153,7 @@ const PetForm = () => {
                     </div>
                 </Col>
             </Row>
+            </Card>
         </Container>
     );
 };

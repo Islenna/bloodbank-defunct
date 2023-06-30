@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Container, Card, Form, Button } from 'react-bootstrap';
 
 const PetEdit = () => {
     const [pet, setPet] = useState({});
@@ -54,8 +54,13 @@ const PetEdit = () => {
     };
 
     return (
-        <Container className="text-center" style={{ backgroundColor: '#725846', color: 'white', padding: '20px' }}>
+        <Container className="text-center">
             <h1>Edit {pet.petName}'s Information</h1>
+            <Card
+                style={{ backgroundColor: '#725846', border: 'none', borderTop: '10px solid #A9C27E' }}
+                text="white"
+                className="mt-4 p-4"
+            >
             <Form onSubmit={submitHandler}>
                 <Form.Group controlId="formPetName">
                     <Form.Label style={{ color: 'white' }}>Pet Name:</Form.Label>
@@ -161,6 +166,7 @@ const PetEdit = () => {
                 </Button>
             </Form>
             <Link to={`/owners/${owner._id}`} style={{ color: 'white', textDecoration: 'none' }}>Back</Link>
+            </Card>
         </Container>
     );
 };
