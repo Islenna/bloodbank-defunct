@@ -1,6 +1,7 @@
 const PetController = require('../controllers/pet.controller');
 const OwnerController = require('../controllers/owner.controller');
 const UserController = require('../controllers/user.controller');
+const BloodOnHandController = require('../controllers/onHand.controller');
 const { authenticate } = require('../config/jwt.config');
 
 module.exports = (app) => {
@@ -30,6 +31,14 @@ module.exports = (app) => {
     app.get('/api/users/loggedin', UserController.getLoggedInUser);
     app.get('/api/users', authenticate, UserController.getAll);
     app.delete('/api/users/:id', authenticate, UserController.delete);
+
+    // //BloodOnHand routes
+    // app.get('/api/bloodonhand', BloodOnHandController.getAll);
+    // app.post('/api/bloodonhand', BloodOnHandController.createBloodOnHand);
+    // app.get('/api/bloodonhand/:id', BloodOnHandController.getOne);
+    // app.put('/api/bloodonhand/:id', BloodOnHandController.updateBloodOnHand);
+    // app.delete('/api/bloodonhand/:id', BloodOnHandController.delete);
+    // app.get('/api/bloodonhand/search/:homeClinic', BloodOnHandController.getByClinic);
 
     // Additional routes
     app.get('/api', (req, res) => {

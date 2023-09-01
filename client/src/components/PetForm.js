@@ -100,8 +100,8 @@ const PetForm = () => {
                                         style={{ backgroundColor: 'white', color: 'black' }}
                                     >
                                         <option value="default">Select an option</option>
-                                        <option value="dog">Canine</option>
-                                        <option value="cat">Feline</option>
+                                        <option value="Dog">Canine</option>
+                                        <option value="Cat">Feline</option>
                                     </Form.Control>
                                 </Form.Group>
 
@@ -125,12 +125,12 @@ const PetForm = () => {
                                             style={{ backgroundColor: 'white', color: 'black' }}
                                         >
                                             <option value="">Select a blood type</option>
-                                            {petType === 'dog' || petType === 'canine' ? (
+                                            {petType === 'Dog' || petType === 'Canine' ? (
                                                 <>
                                                     <option value="DEA 1.1 Positive">DEA 1.1 Positive</option>
                                                     <option value="DEA 1.1 Negative">DEA 1.1 Negative</option>
                                                 </>
-                                            ) : petType === 'cat' || petType === 'feline' ? (
+                                            ) : petType === 'Cat' || petType === 'Feline' ? (
                                                 <>
                                                     <option value="A">A</option>
                                                     <option value="B">B</option>

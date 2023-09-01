@@ -7,9 +7,6 @@ module.exports.createPet = (req, res) => {
         .catch(err => res.status(400).json(err));
 }
 
-// Assuming you have a Pet model
-
-// Get all stray pets
 module.exports.getStrayPets = (req, res) => {
     console.log('Fetching stray pets...');
 

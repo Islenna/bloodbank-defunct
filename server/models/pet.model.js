@@ -5,7 +5,7 @@ const PetSchema = new mongoose.Schema(
         petName: { type: String },
         petType: {
             type: String,
-            enum: ['dog', 'cat'],
+            enum: ['Dog', 'Cat'],
         },
         owner: {
             type: mongoose.Schema.Types.ObjectId,
@@ -17,14 +17,11 @@ const PetSchema = new mongoose.Schema(
             required: true,
             validate: {
                 validator: function (value) {
-                    if (this.petType === 'dog' || this.petType === 'canine') {
-                        // Validate bloodType for dogs/canines
+                    if (this.petType === 'Dog' || this.petType === 'canine') {
                         return value === 'DEA 1.1 Positive' || value === 'DEA 1.1 Negative';
-                    } else if (this.petType === 'cat' || this.petType === 'feline') {
-                        // Validate bloodType for cats/felines
+                    } else if (this.petType === 'Cat' || this.petType === 'feline') {
                         return value === 'A' || value === 'B' || value === 'AB';
                     }
-                    // Invalid petType, return false
                     return false;
                 },
                 message: 'Invalid bloodType for the given petType',

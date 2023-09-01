@@ -1,0 +1,116 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Form, Card, Button, Container, Row, Col } from 'react-bootstrap';
+import Navbar from './CustomNavbar';
+
+export default function InventoryForm() {
+
+    // donorID: { type: String },
+    // bloodSource: { type: String },
+    // unitSize: { type: String },
+    // bloodType: { type: String },
+    // expirationDate: { type: Date },
+    // crossmatchHistory: { type: String },
+
+    const [donorID, setDonorID] = useState('');
+    const [bloodSource, setBloodSource] = useState('');
+    const [unitSize, setUnitSize] = useState('');
+    const [bloodType, setBloodType] = useState('');
+    const [expirationDate, setExpirationDate] = useState('');
+    const [crossmatchHistory, setCrossmatchHistory] = useState('');
+    const [validationError, setValidationError] = useState('');
+    const [homeClinic, setHomeClinic] = useState('');
+    const navigate = useNavigate();
+    const { id } = useParams();
+
+    const createInventory = (e) => {
+        e.preventDefault();
+
+    }
+
+    return (
+        <div>
+            <Container className="text-center">
+
+                <h1>Inventory Form</h1>
+                <Card
+                    style={{ backgroundColor: '#725846', border: 'none', borderTop: '10px solid #A9C27E' }}
+                    text="white"
+                    className="mt-4 p-4"
+                >
+
+                    <Form>
+                        <Form.Group controlId="homeClinic">
+                            <Form.Label>Home Clinic:</Form.Label>
+                            <Form.Control
+                                as="select"
+                                value={homeClinic}
+                                onChange={(e) => setHomeClinic(e.target.value)}
+                            >
+                                <option value="">Select Home Clinic</option>
+                                <option value="Concord">Concord</option>
+                                <option value="Campbell">Campbell</option>
+                                <option value="Dublin">Dublin</option>
+                                <option value="Redwood City">Redwood City</option>
+                                <option value="San Francisco">San Francisco</option>
+                            </Form.Control>
+                        </Form.Group>
+
+                        <Form.Group controlId="donorID">
+                            <Form.Label>Donor ID:</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={donorID}
+                                onChange={(e) => setDonorID(e.target.value)}
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="bloodSource">
+                            <Form.Label>Blood Source:</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={bloodSource}
+                                onChange={(e) => setBloodSource(e.target.value)}
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="unitSize">
+                            <Form.Label>Unit Size:</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={unitSize}
+                                onChange={(e) => setUnitSize(e.target.value)}
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="bloodType">
+                            <Form.Label>Blood Type:</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={bloodType}
+                                onChange={(e) => setBloodType(e.target.value)}
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="expirationDate">
+                            <Form.Label>Expiration Date:</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={expirationDate}
+                                onChange={(e) => setExpirationDate(e.target.value)}
+                            />
+                        </Form.Group>
+                        <Form.Group
+                            controlId="crossmatchHistory"
+                            value={crossmatchHistory}
+                            onChange={(e) => setCrossmatchHistory(e.target.value)}
+                        >
+                            <Form.Label>Crossmatch History:</Form.Label>
+                            <Form.Control as="textarea" rows={3} />
+                        </Form.Group>
+                        <Button variant="success" type="submit">
+                            Create Inventory
+                        </Button>
+                    </Form>
+                </Card>
+            </Container>
+        </div>
+    )
+}

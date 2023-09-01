@@ -23,15 +23,15 @@ export default function CustomNavbar(props) {
     };
 
     useEffect(() => {
-        fetchUserEmail(); // Fetch user email when the component mounts
+        fetchUserEmail();
     }, []);
 
     const handleLogout = () => {
         axios
             .post('http://localhost:8000/api/users/logout', null, { withCredentials: true })
             .then(() => {
-                setUserEmail(''); // Clear user email
-                setIsLoggedIn(false); // Set isLoggedIn to false
+                setUserEmail('');
+                setIsLoggedIn(false);
                 navigate('/');
             })
             .catch((err) => {
@@ -41,14 +41,14 @@ export default function CustomNavbar(props) {
 
     const handleNightModeToggle = () => {
         setIsNightMode((prevMode) => !prevMode);
-        props.handleNightModeToggle(); // Call the prop function from the parent component
+        props.handleNightModeToggle();
     };
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark" style={{ backgroundColor: '#725846', borderBottom: '10px solid #A9C27E' }}>
             <div className="container">
                 <Link to="/owners" className="navbar-brand">
-                    Back to Owners
+                    All Owners
                 </Link>
                 <div className="collapse navbar-collapse">
                     <ul className="navbar-nav ml-auto align-items-center">
@@ -67,14 +67,18 @@ export default function CustomNavbar(props) {
                                     checked={isNightMode}
                                     onChange={handleNightModeToggle}
                                 />
-                                <label className="form-check-label ml-2" htmlFor="flexSwitchCheckChecked" style={{ color: '#FFFFFF' }}>
+                                <label className="form-check-label ml-3" htmlFor="flexSwitchCheckChecked" style={{ color: '#FFFFFF' }}>
                                     Night Mode
                                 </label>
                             </div>
                         </li>
                         <li className="nav-item">
                             <Link to={`/bloodfinder`}>
-                                <Button variant="danger">Get Blood</Button>
+                                <Button variant="danger"
+                                    style={{
+                                        marginLeft: '2rem',
+                                        marginRight: '2rem'
+                                    }}>Get Blood</Button>
                             </Link>
                         </li>
                         <li className="nav-item">

@@ -47,11 +47,11 @@ export default function PetCard() {
                     <p>Description: {pet.petDescription}</p>
                     <p>Blood Type: {pet.bloodType}</p>
                     <p>Home Clinic: {owner.homeClinic}</p>
-                    {owner && (
-
-                        <p>Pet Owner: {owner.firstName} {owner.lastName}</p>
-
-                    )}
+                    <Link to={`/owners/${owner._id}`}>
+                        <Button variant="primary">
+                            {owner.firstName} {owner.lastName}
+                        </Button>
+                    </Link>
                     <p>Last Donated: {pet.lastDonated && formatDate(pet.lastDonated)}</p>
                     <p>Labwork Status: {pet.labworkStatus}</p>
                     <p>Date Labwork Completed: {pet.dateLabworkCompleted && formatDate(pet.dateLabworkCompleted)}</p>

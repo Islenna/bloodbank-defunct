@@ -7,6 +7,7 @@ import Navbar from './CustomNavbar';
 function BloodFinder() {
     const [homeClinic, setHomeClinic] = useState('');
     const [bloodType, setBloodType] = useState('');
+    const [onHand, setOnHand] = useState('');
     const [pets, setPets] = useState([]);
     const { id } = useParams();
     const navigate = useNavigate();
@@ -67,7 +68,6 @@ function BloodFinder() {
                                     <option value="A">A</option>
                                     <option value="B">B</option>
                                     <option value="AB">AB</option>
-                                    {/* Add more options for other blood types */}
                                 </Form.Control>
                             </Form.Group>
                         </Col>
@@ -75,7 +75,7 @@ function BloodFinder() {
                     <Button type="submit">Search</Button>
                 </Form>
                 <div>
-                    <h2>Pets</h2>
+                    <h2>Donors</h2>
                     {pets.length > 0 ? (
                         <ul>
                             {pets.map((pet) => (
@@ -95,6 +95,7 @@ function BloodFinder() {
                     ) : (
                         <p>No pets found.</p>
                     )}
+                    <h2>Blood on Hand</h2>
                 </div>
             </Card>
                 <Button variant="primary" onClick={() => navigate(`/owners`)}>

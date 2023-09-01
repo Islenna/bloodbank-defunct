@@ -77,25 +77,45 @@ export default function OwnerCard() {
                                 <p>Email: {owner.email}</p>
                                 <p>Home Clinic: {owner.homeClinic}</p>
                                 <p>Pets:</p>
-                                <ul className="list-unstyled">
-                                    {pets.map((pet) => (
-                                        <li key={pet._id}>
-                                            {pet.petName} - {pet.petType}{' '}
-                                            <Button
-                                                variant="success"
-                                                onClick={() => navigate(`/pets/${pet._id}`)}
-                                            >
-                                                View
-                                            </Button>{' '}
-                                            <Button
-                                                variant="danger"
-                                                onClick={() => deletePet(pet._id)}
-                                            >
-                                                Delete
-                                            </Button>
-                                        </li>
-                                    ))}
-                                </ul>
+
+                                <table class="table-responsive"
+                                    style={{
+                                        width: '75%',
+                                        margin: '0 auto',
+                                        backgroundColor: '#725846',
+                                        tableLayout: 'fixed'
+                                    }}>
+                                    <thead>
+                                        <tr
+                                            style={{ backgroundColor: '#A9C27E' }}>
+                                            <th scope="col" style={{ padding: '0.5rem' }}>Name</th>
+                                            <th scope="col">Species</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {pets.map((pet) => (
+                                            <tr key={pet._id}>
+                                                <td>{pet.petName}</td>
+                                                <td>{pet.petType}</td>
+                                                <Button
+                                                    variant="success"
+                                                    onClick={() => navigate(`/pets/${pet._id}`)}
+                                                    style={{ marginRight: '1rem' }}
+                                                >
+                                                    View
+                                                </Button>{' '}
+                                                <Button
+                                                    variant="danger"
+                                                    onClick={() => deletePet(pet._id)}
+                                                >
+                                                    Delete
+                                                </Button>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+
                             </Card.Text>
                         </Card>
 
