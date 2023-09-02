@@ -2,29 +2,34 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
+import { useAuth } from '../context/AuthContext';
 
 export default function CustomNavbar(props) {
     const navigate = useNavigate();
-    const [userEmail, setUserEmail] = useState('');
     const [isNightMode, setIsNightMode] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const fetchUserEmail = () => {
-        axios
-            .get('http://localhost:8000/api/users/loggedin', { withCredentials: true })
-            .then((res) => {
-                setUserEmail(res.data.email);
+    const { userEmail, isLoggedIn, setUserEmail, setIsLoggedIn } = useAuth();
+    const [isLoading, setIsLoading] = useState(true); // Add loading state
+
+    useEffect(() => {
+        const fetchUserEmail = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/users/loggedin', { withCredentials: true });
+                setUserEmail(response.data.email);
                 setIsLoggedIn(true);
-            })
-            .catch(() => {
+            } catch (error) {
+                console.error('API Error:', error);
                 setUserEmail('');
                 setIsLoggedIn(false);
                 navigate('/');
-            });
-    };
+            } finally {
+                setIsLoading(false);
+            }
+        };
 
-    useEffect(() => {
-        fetchUserEmail();
-    }, []);
+        if (isLoggedIn) {
+            fetchUserEmail();
+        }
+    }, [isLoggedIn, setUserEmail, setIsLoggedIn, navigate]);
 
     const handleLogout = () => {
         axios
@@ -52,8 +57,8 @@ export default function CustomNavbar(props) {
                 </Link>
                 <div className="collapse navbar-collapse">
                     <ul className="navbar-nav ml-auto align-items-center">
-                        {isLoggedIn && (
-                            <li className="nav-item">
+                        {isLoggedIn && !isLoading && userEmail && (
+                            <li className="nav-item" style={{ marginLeft: '2rem', marginRight: '2rem' }}>
                                 <span className="nav-link">{userEmail}</span>
                             </li>
                         )}
@@ -82,7 +87,22 @@ export default function CustomNavbar(props) {
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Button onClick={handleLogout}>Logout</Button>
+                            <Link to="/inventory">
+                                <Button variant="primary" className="ml-3"
+                                    style={{
+                                        marginLeft: '2rem',
+                                        marginRight: '2rem'
+                                    }}>
+                                    Inventory Management
+                                </Button>
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Button onClick={handleLogout}
+                                style={{
+                                    marginLeft: '2rem',
+                                    marginRight: '2rem'
+                                }}>Logout</Button>
                         </li>
                     </ul>
                 </div>

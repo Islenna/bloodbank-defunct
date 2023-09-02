@@ -1,8 +1,8 @@
 const Owner = require('../models/owner.model');
 const Pet = require('../models/pet.model')
 
-module.exports.index = (request, response) => {  //We are exporting a key:val pair of index : function
-    response.json({     // This is where we're setting the API's response to the requesting client
+module.exports.index = (request, response) => {  
+    response.json({
         message: "Hello World"
     });
 }
@@ -44,8 +44,6 @@ module.exports.getByClinic = (req, res) => {
 
 }
 
-//I need specific bloodtype pets from a specific clinic: 
-//I also want to display only pets that are eligible for donation (lastDonated > 30 days ago)
 module.exports.clinicSearch = (req, res) => {
     Pet.find({ homeClinic: req.params.homeClinic, bloodType: req.params.bloodType, lastDonated: { $lt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) } }).exec()
         .then((pets) => res.json(pets))

@@ -6,13 +6,6 @@ import Navbar from './CustomNavbar';
 
 export default function InventoryForm() {
 
-    // donorID: { type: String },
-    // bloodSource: { type: String },
-    // unitSize: { type: String },
-    // bloodType: { type: String },
-    // expirationDate: { type: Date },
-    // crossmatchHistory: { type: String },
-
     const [donorID, setDonorID] = useState('');
     const [bloodSource, setBloodSource] = useState('');
     const [unitSize, setUnitSize] = useState('');
@@ -26,7 +19,31 @@ export default function InventoryForm() {
 
     const createInventory = (e) => {
         e.preventDefault();
+        console.log('Data to be sent:', {
+            donorID,
+            bloodSource,
+            unitSize,
+            bloodType,
+            expirationDate,
+            crossmatchHistory,
+            homeClinic
+        });
 
+        axios
+            .post(`http://localhost:8000/api/inventory`, {
+                donorID,
+                bloodSource,
+                unitSize,
+                bloodType,
+                expirationDate,
+                crossmatchHistory,
+                homeClinic
+            })
+            .then((res) => {
+                console.log('Response:', res);
+                navigate(`/owners`);
+            })
+            .catch((err) => console.log('Error:', err));
     }
 
     return (
@@ -40,7 +57,7 @@ export default function InventoryForm() {
                     className="mt-4 p-4"
                 >
 
-                    <Form>
+                    <Form onSubmit={createInventory}>
                         <Form.Group controlId="homeClinic">
                             <Form.Label>Home Clinic:</Form.Label>
                             <Form.Control
@@ -76,23 +93,38 @@ export default function InventoryForm() {
                         <Form.Group controlId="unitSize">
                             <Form.Label>Unit Size:</Form.Label>
                             <Form.Control
-                                type="text"
+                                as="select"
                                 value={unitSize}
                                 onChange={(e) => setUnitSize(e.target.value)}
-                            />
+                            >
+                                <option value="">Select a Unit Size</option>
+                                <option value="25mL">25mL</option>
+                                <option value="50mL">50mL</option>
+                                <option value="125mL">125mL</option>
+                                <option value="150mL">150mL</option>
+                                <option value="250mL">250mL</option>
+                                <option value="500mL">500mL</option>
+                            </Form.Control>
                         </Form.Group>
                         <Form.Group controlId="bloodType">
-                            <Form.Label>Blood Type:</Form.Label>
+                            <Form.Label style={{ color: 'white' }}>Blood Type:</Form.Label>
                             <Form.Control
-                                type="text"
+                                as="select"
                                 value={bloodType}
                                 onChange={(e) => setBloodType(e.target.value)}
-                            />
+                            >
+                                <option value="">Select a blood type</option>
+                                <option value="DEA 1.1 Positive">DEA 1.1 Positive</option>
+                                <option value="DEA 1.1 Negative">DEA 1.1 Negative</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="AB">AB</option>
+                            </Form.Control>
                         </Form.Group>
                         <Form.Group controlId="expirationDate">
                             <Form.Label>Expiration Date:</Form.Label>
                             <Form.Control
-                                type="text"
+                                type="date"
                                 value={expirationDate}
                                 onChange={(e) => setExpirationDate(e.target.value)}
                             />

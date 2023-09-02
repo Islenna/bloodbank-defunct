@@ -87,7 +87,7 @@ export default function OwnerCard() {
                                     }}>
                                     <thead>
                                         <tr
-                                            style={{ backgroundColor: '#A9C27E' }}>
+                                            style={{ backgroundColor: '#A9C27E', color: '#000000'}}>
                                             <th scope="col" style={{ padding: '0.5rem' }}>Name</th>
                                             <th scope="col">Species</th>
                                             <th scope="col">Action</th>

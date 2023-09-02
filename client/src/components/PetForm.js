@@ -45,8 +45,7 @@ const PetForm = () => {
             setValidationError('Invalid bloodType for the selected petType');
             return;
         }
-
-        // Create the pet
+        
         axios
             .post(`http://localhost:8000/api/pets`, {
                 petName,

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Card, Container, Form, Row, Col } from 'react-bootstrap';
+import { useAuth } from '../context/AuthContext';
 
 export default function LogAndReg() {
     const navigate = useNavigate();
@@ -14,6 +15,8 @@ export default function LogAndReg() {
     const [loginError, setLoginError] = useState('');
     const [regError, setRegError] = useState('');
 
+    // Access setUserEmail and setIsLoggedIn from the context
+    const { setUserEmail, setIsLoggedIn } = useAuth();
 
     const registrationHandler = (e) => {
         e.preventDefault();
@@ -31,12 +34,15 @@ export default function LogAndReg() {
         const payload = {
             email: regEmail,
             password: regPassword,
-            confirmPassword: confirmPassword
+            confirmPassword: confirmPassword,
         };
 
-        axios.post('http://localhost:8000/api/users/register', payload, { withCredentials: true })
+        axios
+            .post('http://localhost:8000/api/users/register', payload, { withCredentials: true })
             .then((res) => {
                 console.log(res);
+                setUserEmail(res.data.email);
+                setIsLoggedIn(true);
                 navigate('/owners');
             })
             .catch((err) => {
@@ -56,6 +62,9 @@ export default function LogAndReg() {
             .post('http://localhost:8000/api/users/login', payload, { withCredentials: true })
             .then((res) => {
                 console.log(res);
+                const userEmail = res.data.email;
+                setUserEmail(userEmail);
+                setIsLoggedIn(true);
                 navigate('/owners');
             })
             .catch((err) => {
@@ -63,7 +72,6 @@ export default function LogAndReg() {
                 console.log(err);
             });
     };
-
 
     return (
         <div>
@@ -78,7 +86,7 @@ export default function LogAndReg() {
                         <Col>
                             <Form onSubmit={loginHandler}>
                                 <h2>Login</h2>
-                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Group className="mb-3" controlId="loginForm">
                                     <Form.Label>Email address</Form.Label>
                                     <Form.Control
                                         type="email"
@@ -105,7 +113,7 @@ export default function LogAndReg() {
                         <Col>
                             <Form onSubmit={registrationHandler}>
                                 <h2>Registration</h2>
-                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Group className="mb-3" controlId="regForm">
                                     <Form.Label>Email address</Form.Label>
                                     <Form.Control
                                         type="email"

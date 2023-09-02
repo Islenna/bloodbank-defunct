@@ -6,5 +6,6 @@ const OnHandSchema = new mongoose.Schema({
     bloodType: { type: String },
     expirationDate: { type: Date },
     crossmatchHistory: { type: String },
+    homeClinic: { type: String }
 }, { timestamps: true });
 module.exports = mongoose.model('OnHand',  OnHandSchema);

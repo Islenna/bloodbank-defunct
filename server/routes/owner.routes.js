@@ -33,16 +33,15 @@ module.exports = (app) => {
     app.delete('/api/users/:id', authenticate, UserController.delete);
 
     // //BloodOnHand routes
-    // app.get('/api/bloodonhand', BloodOnHandController.getAll);
-    // app.post('/api/bloodonhand', BloodOnHandController.createBloodOnHand);
-    // app.get('/api/bloodonhand/:id', BloodOnHandController.getOne);
-    // app.put('/api/bloodonhand/:id', BloodOnHandController.updateBloodOnHand);
-    // app.delete('/api/bloodonhand/:id', BloodOnHandController.delete);
-    // app.get('/api/bloodonhand/search/:homeClinic', BloodOnHandController.getByClinic);
+    app.get('/api/inventory', BloodOnHandController.getAll);
+    app.post('/api/inventory', BloodOnHandController.createInventory);
+    app.get('/api/inventory/:id', BloodOnHandController.getOne);
+    app.put('/api/inventory/:id', BloodOnHandController.updateBloodOnHand);
+    app.delete('/api/inventory/:id', BloodOnHandController.delete);
+    app.get('/api/inventory/search/:homeClinic', BloodOnHandController.getByClinic);
 
     // Additional routes
     app.get('/api', (req, res) => {
-        // Your implementation for the '/' route
         res.json({ message: 'Hello World' });
     });
 };
