@@ -41,7 +41,7 @@ export default function InventoryForm() {
             })
             .then((res) => {
                 console.log('Response:', res);
-                navigate(`/owners`);
+                navigate(`/bloodfinder`);
             })
             .catch((err) => console.log('Error:', err));
     }

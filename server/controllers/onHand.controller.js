@@ -3,8 +3,8 @@ const OnHand = require('../models/onHand.model');
 module.exports.createInventory = (req, res) => {
     console.log('Adding bag to inventory:', req.body);
     OnHand.create(req.body)
-    .then(onHand => res.json(onHand))
-    .catch(err => res.status(400).json(err));
+        .then(onHand => res.json(onHand))
+        .catch(err => res.status(400).json(err));
 }
 
 module.exports.getAll = (req, res) => {
@@ -66,5 +66,36 @@ module.exports.delete = (req, res) => {
         .catch(err => {
             console.error(err);
             res.status(500).json({ message: 'Server error' });
+        });
+};
+
+module.exports.getByClinic = (req, res) => {
+    const { homeClinic } = req.params;
+    console.log('homeClinic:', homeClinic);
+
+    OnHand.find({ homeClinic })
+        .then(onHand => {
+            console.log('onHand data:', onHand);
+            res.json(onHand);
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json(err);
+        });
+};
+
+module.exports.getByClinicAndBloodType = (req, res) => {
+    const { homeClinic, bloodType } = req.params;
+    console.log('homeClinic:', homeClinic);
+    console.log('bloodType:', bloodType);
+
+    OnHand.find({ homeClinic, bloodType })
+        .then(onHand => {
+            console.log('onHand data:', onHand);
+            res.json(onHand);
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json(err);
         });
 };

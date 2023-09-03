@@ -26,7 +26,7 @@ function BloodFinder() {
 
         // Fetch matching blood
         axios
-            .get(`http://localhost:8000/api/inventory/search/${homeClinic}`)
+            .get(`http://localhost:8000/api/inventory/search/${homeClinic}/${bloodType}`)
             .then((res) => {
                 console.log(res.data);
                 setMatchingBlood(res.data);
@@ -75,7 +75,6 @@ function BloodFinder() {
                                         <option value="Dublin">Dublin</option>
                                         <option value="Redwood City">Redwood City</option>
                                         <option value="San Francisco">San Francisco</option>
-                                        {/* Add more options for other clinics */}
                                     </Form.Control>
                                 </Form.Group>
                             </Col>
@@ -183,10 +182,10 @@ function BloodFinder() {
                                             </td>
                                         </tr>
                                     ))}
-                                    
+
                                 </tbody>
                             </table>
-                            
+
                         ) : (
                             <p>No blood of that type on hand.</p>
                         )}

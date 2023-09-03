@@ -19,6 +19,7 @@ import LogAndReg from './components/LogAndReg';
 import UserList from './components/UserList';
 import InventoryList from './components/InventoryList';
 import InventoryForm from './components/InventoryForm';
+import InventoryCard from './components/InventoryCard';
 import CustomNavbar from './components/CustomNavbar';
 
 function App() {
@@ -64,7 +65,9 @@ function App() {
             <Route path="/owners/search" element={<ClinicSearch />} />
             <Route path="/bloodfinder" element={<BloodFinder />} />
             <Route path="/users" element={<UserList />} />
-            <Route path="/inventory" element={<InventoryForm />} />
+            <Route path="/inventory" element={<InventoryList/>} />
+            <Route path="/inventory/new" element={<InventoryForm/>} />
+            <Route path="/inventory/:id" element={<InventoryCard/>} />
           </Routes>
       
       </div>

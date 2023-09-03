@@ -39,6 +39,8 @@ module.exports = (app) => {
     app.put('/api/inventory/:id', BloodOnHandController.updateBloodOnHand);
     app.delete('/api/inventory/:id', BloodOnHandController.delete);
     app.get('/api/inventory/search/:homeClinic', BloodOnHandController.getByClinic);
+    app.get('/api/inventory/search/:homeClinic/:bloodType', BloodOnHandController.getByClinicAndBloodType);
+
 
     // Additional routes
     app.get('/api', (req, res) => {
