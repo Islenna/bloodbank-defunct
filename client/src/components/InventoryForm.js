@@ -98,12 +98,10 @@ export default function InventoryForm() {
                                 onChange={(e) => setUnitSize(e.target.value)}
                             >
                                 <option value="">Select a Unit Size</option>
-                                <option value="25mL">25mL</option>
-                                <option value="50mL">50mL</option>
-                                <option value="125mL">125mL</option>
-                                <option value="150mL">150mL</option>
-                                <option value="250mL">250mL</option>
-                                <option value="500mL">500mL</option>
+                                <option value="50mL">40mL</option>
+                                <option value="125mL">120mL</option>
+                                <option value="150mL">140mL</option>
+                                <option value="250mL">240mL</option>
                             </Form.Control>
                         </Form.Group>
                         <Form.Group controlId="bloodType">
@@ -116,6 +114,7 @@ export default function InventoryForm() {
                                 <option value="">Select a blood type</option>
                                 <option value="DEA 1.1 Positive">DEA 1.1 Positive</option>
                                 <option value="DEA 1.1 Negative">DEA 1.1 Negative</option>
+                                <option value="DEA 4">DEA 4</option>
                                 <option value="A">A</option>
                                 <option value="B">B</option>
                                 <option value="AB">AB</option>

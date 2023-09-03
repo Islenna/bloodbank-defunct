@@ -12,14 +12,17 @@ import OwnerForm from './components/OwnerForm';
 import OwnerList from './components/OwnerList';
 import OwnerCard from './components/OwnerCard';
 import OwnerEdit from './components/OwnerEdit';
-import ClinicSearch from './components/ClinicSearch';
 import BloodFinder from './components/BloodFinder';
 import Strays from './components/Strays';
 import LogAndReg from './components/LogAndReg';
 import UserList from './components/UserList';
+import ClinicSearch from './components/ClinicSearch';
 import InventoryList from './components/InventoryList';
 import InventoryForm from './components/InventoryForm';
 import InventoryCard from './components/InventoryCard';
+import InventoryEdit from './components/InventoryEdit';
+import InventoryConsume from './components/InventoryConsume';
+import InventoryConsumed from './components/InventoryConsumed';
 import CustomNavbar from './components/CustomNavbar';
 
 function App() {
@@ -31,45 +34,49 @@ function App() {
   };
   useEffect(() => {
     const checkUserLogin = async () => {
-        try {
-            const response = await axios.get('http://localhost:8000/api/users/loggedin', { withCredentials: true });
-            setUserEmail(response.data.email);
-            setIsLoggedIn(true);
-        } catch (error) {
-            console.log(error);
-            setUserEmail('');
-            setIsLoggedIn(false);
-            navigate('/');
-        }
+      try {
+        const response = await axios.get('http://localhost:8000/api/users/loggedin', { withCredentials: true });
+        setUserEmail(response.data.email);
+        setIsLoggedIn(true);
+      } catch (error) {
+        console.log(error);
+        setUserEmail('');
+        setIsLoggedIn(false);
+        navigate('/');
+      }
     };
 
     if (isLoggedIn) {
-        checkUserLogin();
+      checkUserLogin();
     }
-}, [isLoggedIn, setUserEmail, setIsLoggedIn]);
+  }, [isLoggedIn, setUserEmail, setIsLoggedIn]);
   return (
     <AuthProvider>
       <div className={`App ${isNightMode ? 'night-mode' : ''}`}>
-        
-          <CustomNavbar handleNightModeToggle={handleNightModeToggle} userEmail={userEmail} />
-          <Routes>
-            <Route path="/owners" element={<OwnerList />} />
-            <Route path="/" element={<LogAndReg />} />
-            <Route path="/owners/new" element={<OwnerForm />} />
-            <Route path="/owners/:id" element={<OwnerCard />} />
-            <Route path="/owners/edit/:id" element={<OwnerEdit />} />
-            <Route path="/pets/new/:id" element={<PetForm />} />
-            <Route path="/pets/:id" element={<PetCard />} />
-            <Route path="/pets/edit/:id" element={<PetEdit />} />
-            <Route path="/pets/strays" element={<Strays />} />
-            <Route path="/owners/search" element={<ClinicSearch />} />
-            <Route path="/bloodfinder" element={<BloodFinder />} />
-            <Route path="/users" element={<UserList />} />
-            <Route path="/inventory" element={<InventoryList/>} />
-            <Route path="/inventory/new" element={<InventoryForm/>} />
-            <Route path="/inventory/:id" element={<InventoryCard/>} />
-          </Routes>
-      
+
+        <CustomNavbar handleNightModeToggle={handleNightModeToggle} userEmail={userEmail} />
+        <Routes>
+          <Route path="/owners" element={<OwnerList />} />
+          <Route path="/" element={<LogAndReg />} />
+          <Route path="/owners/new" element={<OwnerForm />} />
+          <Route path="/owners/:id" element={<OwnerCard />} />
+          <Route path="/owners/edit/:id" element={<OwnerEdit />} />
+          <Route path="/pets/new/:id" element={<PetForm />} />
+          <Route path="/pets/:id" element={<PetCard />} />
+          <Route path="/pets/edit/:id" element={<PetEdit />} />
+          <Route path="/pets/strays" element={<Strays />} />
+          <Route path="/owners/search" element={<ClinicSearch />} />
+          <Route path="/bloodfinder" element={<BloodFinder />} />
+          <Route path="/users" element={<UserList />} />
+          <Route path="/inventory" element={<InventoryList />} />
+          <Route path="/inventory/new" element={<InventoryForm />} />
+          <Route path="/inventory/:id" element={<InventoryCard />} />
+          <Route path="/inventory/edit/:id" element={<InventoryEdit />} />
+          <Route path="/inventory/:id/consume" element={<InventoryConsume />} />
+          <Route path="/inventory/consumed" element={<InventoryConsumed />} />
+
+        </Routes>
+
       </div>
     </AuthProvider>
   );

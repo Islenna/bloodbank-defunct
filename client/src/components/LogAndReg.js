@@ -43,7 +43,7 @@ export default function LogAndReg() {
                 console.log(res);
                 setUserEmail(res.data.email);
                 setIsLoggedIn(true);
-                navigate('/owners');
+                navigate('/bloodfinder');
             })
             .catch((err) => {
                 setRegError('An error occurred while submitting the form');
@@ -65,7 +65,7 @@ export default function LogAndReg() {
                 const userEmail = res.data.email;
                 setUserEmail(userEmail);
                 setIsLoggedIn(true);
-                navigate('/owners');
+                navigate('/bloodfinder');
             })
             .catch((err) => {
                 setLoginError('An error occurred while submitting the form');

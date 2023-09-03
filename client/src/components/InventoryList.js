@@ -18,8 +18,8 @@ function InventoryList() {
         axios
         .get(`http://localhost:8000/api/inventory/search/${homeClinic}`)
         .then((res) => {
-            console.log(res.data);
-            setMatchingBlood(res.data);
+            const filteredBlood = res.data.filter((blood) => !blood.isDeleted);
+            setMatchingBlood(filteredBlood);
         })
         .catch((err) => console.log(err));
 };

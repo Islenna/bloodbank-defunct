@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const OnHandSchema = new mongoose.Schema({
+
+const ConsumedInventorySchema = new mongoose.Schema({
     donorID: { type: String },
     bloodSource: { type: String },
     unitSize: { type: String },
@@ -7,10 +8,7 @@ const OnHandSchema = new mongoose.Schema({
     expirationDate: { type: Date },
     crossmatchHistory: { type: String },
     homeClinic: { type: String },
-    isDeleted: { type: Boolean, default: false },
-    deletedAt: {type: Date, default: null},
-    patientID: { type: String },
-    patientName: { type: String },
-    patientLastName: { type: String },
+    // Include any other fields you need
 }, { timestamps: true });
-module.exports = mongoose.model('OnHand',  OnHandSchema);
+
+module.exports = mongoose.model('ConsumedInventory', ConsumedInventorySchema);

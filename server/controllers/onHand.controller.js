@@ -40,7 +40,7 @@ module.exports.updateBloodOnHand = (req, res) => {
     const { id } = req.params;
     const updateData = req.body;
 
-    BloodOnHand.findByIdAndUpdate(id, updateData, { new: true })
+    OnHand.findByIdAndUpdate(id, updateData, { new: true })
         .then(updatedBlood => {
             if (!updatedBlood) {
                 return res.status(404).json({ message: 'Blood inventory not found' });
@@ -97,5 +97,48 @@ module.exports.getByClinicAndBloodType = (req, res) => {
         .catch(err => {
             console.error(err);
             res.status(500).json(err);
+        });
+};
+
+module.exports.transfused = (req, res) => {
+    const { id } = req.params;
+    const { consumptionType, recipient, patientId, patientName, patientLastName } = req.body;
+
+    OnHand.findById(id)
+        .then((item) => {
+            if (!item) {
+                return res.status(404).json({ message: 'Inventory item not found' });
+            }
+
+            item.isDeleted = true;
+            item.deletedAt = new Date();
+            item.consumptionType = consumptionType;
+
+            if (consumptionType === 'Successfully Transfused') {
+                item.recipient = recipient;
+                item.patientId = patientId;
+                item.patientName = patientName;
+                item.patientLastName = patientLastName;
+            }
+
+            return item.save();
+        })
+        .then((updatedItem) => {
+            res.json(updatedItem);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).json({ message: 'Server error' });
+        });
+};
+
+module.exports.getConsumed = (req, res) => {
+    OnHand.find({ isDeleted: true })
+        .then((consumedItems) => {
+            res.json(consumedItems);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).json({ message: 'Server error' });
         });
 };

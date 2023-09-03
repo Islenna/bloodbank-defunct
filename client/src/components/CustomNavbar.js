@@ -104,6 +104,15 @@ export default function CustomNavbar(props) {
                                     marginRight: '2rem'
                                 }}>Logout</Button>
                         </li>
+                        <li className="nav-item">
+                            <Link to={`/inventory/consumed`} className="nav-link">
+                                <Button variant="warning"
+                                    style={{
+                                        marginLeft: '2rem',
+                                        marginRight: '2rem'
+                                    }}>Analytics</Button>
+                            </Link>
+                        </li>
                     </ul>
                 </div>
             </div>

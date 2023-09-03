@@ -32,14 +32,18 @@ module.exports = (app) => {
     app.get('/api/users', authenticate, UserController.getAll);
     app.delete('/api/users/:id', authenticate, UserController.delete);
 
-    // //BloodOnHand routes
+    //BloodOnHand routes
     app.get('/api/inventory', BloodOnHandController.getAll);
-    app.post('/api/inventory', BloodOnHandController.createInventory);
     app.get('/api/inventory/:id', BloodOnHandController.getOne);
+    app.post('/api/inventory', BloodOnHandController.createInventory);
     app.put('/api/inventory/:id', BloodOnHandController.updateBloodOnHand);
     app.delete('/api/inventory/:id', BloodOnHandController.delete);
     app.get('/api/inventory/search/:homeClinic', BloodOnHandController.getByClinic);
     app.get('/api/inventory/search/:homeClinic/:bloodType', BloodOnHandController.getByClinicAndBloodType);
+    app.put('/api/inventory/consume/:id', BloodOnHandController.transfused);
+    app.get('/api/inventory/consumed', BloodOnHandController.getConsumed);
+
+
 
 
     // Additional routes

@@ -28,8 +28,8 @@ function BloodFinder() {
         axios
             .get(`http://localhost:8000/api/inventory/search/${homeClinic}/${bloodType}`)
             .then((res) => {
-                console.log(res.data);
-                setMatchingBlood(res.data);
+                const filteredBlood = res.data.filter((blood) => !blood.isDeleted);
+                setMatchingBlood(filteredBlood);
             })
             .catch((err) => console.log(err));
     };
@@ -151,6 +151,11 @@ function BloodFinder() {
                                     tableLayout: 'fixed',
                                 }}
                             >
+                                {/* //Add an asterisk or something for claimed blood. */}
+                                {/* //Add a button to claim blood. */}
+                                {/* //Add a new database when consuming blood that requires: PN, LN, patient ID, Then add a tracker for consumed blood across the hospital.*/}
+                                {/*Log Waste*/}
+
                                 <thead>
                                     <tr style={{ backgroundColor: '#A9C27E', color: '#000000' }}>
                                         <th scope="col" style={{ padding: '0.5rem' }}>
@@ -179,13 +184,17 @@ function BloodFinder() {
                                                 >
                                                     View
                                                 </Button>
+                                                <Button 
+                                                    variant='danger'
+                                                    onClick={() => navigate(`/inventory/${blood._id}/consume`)}
+                                                >
+                                                    Consume
+                                                </Button>
                                             </td>
                                         </tr>
                                     ))}
-
                                 </tbody>
                             </table>
-
                         ) : (
                             <p>No blood of that type on hand.</p>
                         )}

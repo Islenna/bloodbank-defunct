@@ -63,7 +63,7 @@ function InventoryCard() {
                     </Card.Text>
                 </Card.Body>
             </Card>
-            <Button onClick={() => navigate(`/inventory/${id}/edit`)}>Edit</Button>
+            <Button onClick={() => navigate(`/inventory/edit/${id}`)}>Edit</Button>
             <Button variant="danger" onClick={deleteInventory}>Delete</Button>
         </Container>
 
