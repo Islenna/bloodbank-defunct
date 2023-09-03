@@ -102,7 +102,7 @@ module.exports.getByClinicAndBloodType = (req, res) => {
 
 module.exports.transfused = (req, res) => {
     const { id } = req.params;
-    const { consumptionType, recipient, patientId, patientName, patientLastName } = req.body;
+    const { consumptionType, recipient, patientID, patientName, patientLastName } = req.body;
 
     OnHand.findById(id)
         .then((item) => {
@@ -116,7 +116,7 @@ module.exports.transfused = (req, res) => {
 
             if (consumptionType === 'Successfully Transfused') {
                 item.recipient = recipient;
-                item.patientId = patientId;
+                item.patientID = patientID;
                 item.patientName = patientName;
                 item.patientLastName = patientLastName;
             }
@@ -134,6 +134,7 @@ module.exports.transfused = (req, res) => {
 
 module.exports.getConsumed = (req, res) => {
     OnHand.find({ isDeleted: true })
+
         .then((consumedItems) => {
             res.json(consumedItems);
         })
@@ -141,4 +142,13 @@ module.exports.getConsumed = (req, res) => {
             console.error(err);
             res.status(500).json({ message: 'Server error' });
         });
+};
+
+
+module.exports.getConsumedOne = (req, res) => {
+    OnHand.findOne({ _id: req.params.id })
+        .then(onHand => {
+            res.json(onHand);
+        })
+        .catch(err => res.json(err));
 };

@@ -7,19 +7,16 @@ import { Container, Card } from 'react-bootstrap';
 export default function InventoryConsume({ totalVolume }) {
     const { id } = useParams()
     const [consumeType, setConsumeType] = useState('');
-    const [quantity, setQuantity] = useState(0);
-    const [recipient, setRecipient] = useState('');
-    const [itemData, setItemData] = useState(null);
-    const [patientId, setPatientId] = useState('');
+    const [patientID, setPatientID] = useState('');
     const [patientName, setPatientName] = useState('');
     const [patientLastName, setPatientLastName] = useState('');
+    const [itemData, setItemData] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
         axios
             .get(`http://localhost:8000/api/inventory/${id}`)
             .then((res) => {
-                console.log(id)
                 setItemData(res.data);
             })
             .catch((err) => {
@@ -30,33 +27,18 @@ export default function InventoryConsume({ totalVolume }) {
     const handleConsume = (e) => {
         e.preventDefault();
 
-        // Check if itemData is not null before accessing its properties
         if (!itemData) {
             console.error('Item data not available.');
             return;
         }
 
-        let consumptionQuantity = 0;
-
-        switch (consumeType) {
-            case 'Expired':
-            case 'Wasted':
-                consumptionQuantity = itemData.totalVolume;
-                break;
-            default:
-                consumptionQuantity = quantity;
-                break;
-        }
-
         const consumptionData = {
             consumptionType: consumeType,
-            quantity: consumptionQuantity,
-            recipient: recipient,
-            patientId: patientId,
+            patientID: patientID,
             patientName: patientName,
             patientLastName: patientLastName,
         };
-
+        console.log('Data to be sent:', consumptionData);
         axios
             .put(`http://localhost:8000/api/inventory/consume/${id}`, consumptionData)
             .then((res) => {
@@ -102,12 +84,16 @@ export default function InventoryConsume({ totalVolume }) {
                         </Form.Group>
                         {consumeType === 'Successfully Transfused' && (
                             <>
-                                <Form.Group controlId="patientId">
+                                <Form.Group controlId="patientID">
                                     <Form.Label>Patient ID:</Form.Label>
                                     <Form.Control
                                         type="text"
-                                        value={patientId}
-                                        onChange={(e) => setPatientId(e.target.value)}
+                                        value={patientID}
+
+                                        onChange={(e) => {
+                                            console.log('Patient ID input value:', e.target.value);
+                                            setPatientID(e.target.value);
+                                        }}
                                     />
                                 </Form.Group>
                                 <Form.Group controlId="patientName">

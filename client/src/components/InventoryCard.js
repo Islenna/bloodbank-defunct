@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Container, Card, Button } from 'react-bootstrap'
-import {useParams, useNavigate} from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 function InventoryCard() {
 
@@ -55,16 +55,21 @@ function InventoryCard() {
                         <p>Home Clinic: {homeClinic}</p>
                         <p>Blood Type: {bloodType}</p>
                         <p>Expiration Date: {new Date(expirationDate).toLocaleDateString('en-US', {
-                                                    year: 'numeric',
-                                                    month: 'short',
-                                                })}
-                                                </p>
+                            year: 'numeric',
+                            month: 'short',
+                        })}
+                        </p>
                         <p>Crossmatch History: {crossmatchHistory}</p>
                     </Card.Text>
                 </Card.Body>
             </Card>
             <Button onClick={() => navigate(`/inventory/edit/${id}`)}>Edit</Button>
-            <Button variant="danger" onClick={deleteInventory}>Delete</Button>
+            <Button
+                variant='danger'
+                onClick={() => navigate(`/inventory/${id}/consume`)}
+            >
+                Consume
+            </Button>
         </Container>
 
     )

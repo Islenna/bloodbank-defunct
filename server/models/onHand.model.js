@@ -7,6 +7,7 @@ const OnHandSchema = new mongoose.Schema({
     expirationDate: { type: Date },
     crossmatchHistory: { type: String },
     homeClinic: { type: String },
+    consumptionType: { type: String },
     isDeleted: { type: Boolean, default: false },
     deletedAt: {type: Date, default: null},
     patientID: { type: String },

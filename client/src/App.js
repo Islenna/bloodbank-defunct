@@ -22,7 +22,8 @@ import InventoryForm from './components/InventoryForm';
 import InventoryCard from './components/InventoryCard';
 import InventoryEdit from './components/InventoryEdit';
 import InventoryConsume from './components/InventoryConsume';
-import InventoryConsumed from './components/InventoryConsumed';
+import ConsumedList from './components/ConsumedList';
+import ConsumedCard from './components/ConsumedCard';
 import CustomNavbar from './components/CustomNavbar';
 
 function App() {
@@ -73,7 +74,8 @@ function App() {
           <Route path="/inventory/:id" element={<InventoryCard />} />
           <Route path="/inventory/edit/:id" element={<InventoryEdit />} />
           <Route path="/inventory/:id/consume" element={<InventoryConsume />} />
-          <Route path="/inventory/consumed" element={<InventoryConsumed />} />
+          <Route path="/inventory/consumed" element={<ConsumedList />} />
+          <Route path="/consumed/:id" element={<ConsumedCard />} />
 
         </Routes>
 

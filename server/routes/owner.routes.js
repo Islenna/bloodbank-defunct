@@ -41,7 +41,10 @@ module.exports = (app) => {
     app.get('/api/inventory/search/:homeClinic', BloodOnHandController.getByClinic);
     app.get('/api/inventory/search/:homeClinic/:bloodType', BloodOnHandController.getByClinicAndBloodType);
     app.put('/api/inventory/consume/:id', BloodOnHandController.transfused);
-    app.get('/api/inventory/consumed', BloodOnHandController.getConsumed);
+
+    //Analytics routes
+    app.get('/api/consumed', BloodOnHandController.getConsumed);
+    app.get('/api/consumed/:id', BloodOnHandController.getConsumedOne);
 
 
 
