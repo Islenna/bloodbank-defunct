@@ -21,6 +21,75 @@ module.exports.getOne = (req, res) => {
         .catch(err => res.json(err));
 }
 
+module.exports.updateCrossmatchHistory = (req, res) => {
+    const { id } = req.params;
+    const { crossmatchHistory, homeClinic } = req.body;
+
+    OnHand.findById(id)
+
+        .then((item) => {
+            if (!item) {
+                return res.status(404).json({ message: 'Inventory item not found' });
+                
+            }
+            item.crossmatchHistory = crossmatchHistory;
+            item.homeClinic = homeClinic;
+
+            return item.save();
+
+        })
+        .then((updatedItem) => {
+            res.json(updatedItem);
+        })
+        .catch((err) => {
+            console.error(err);
+
+            res.status(500).json({ message: 'Server error' });
+        });
+};
+
+
+
+module.exports.updateBloodOnHand2 = (req, res) => {
+    console.log('Received PUT request to update blood on hand with ID:', id);
+    console.log('req.body:', req.body);
+    const { id } = req.params;
+    const { isOnHold, homeClinic, crossmatchHistory } = req.body;
+
+    console.log('Received PUT request to update blood on hand with ID:', id);
+    
+    OnHand.findById(id)
+        .then((item) => {
+            if (!item) {
+                console.log('Inventory item not found.');
+                return res.status(404).json({ message: 'Inventory item not found' });
+            }
+
+            if (homeClinic !== undefined) {
+                item.homeClinic = homeClinic;
+            }
+            
+            if (crossmatchHistory !== undefined) {
+                console.log('Updating crossmatch history:', crossmatchHistory);
+                item.crossmatchHistory = crossmatchHistory;
+            }
+            
+            item.onHold = isOnHold;
+
+            return item.save();
+        })
+        .then((updatedItem) => {
+            console.log('Successfully updated blood on hand:', updatedItem);
+            res.json(updatedItem);
+        })
+        .catch((err) => {
+            console.error('Error updating blood on hand:', err);
+            res.status(500).json({ message: 'Server error' });
+        });
+};
+
+
+
 module.exports.getByClinic = (req, res) => {
     const { homeClinic } = req.params;
     console.log('homeClinic:', homeClinic);
@@ -38,20 +107,26 @@ module.exports.getByClinic = (req, res) => {
 
 module.exports.updateBloodOnHand = (req, res) => {
     const { id } = req.params;
-    const updateData = req.body;
+    const { isOnHold } = req.body;
 
-    OnHand.findByIdAndUpdate(id, updateData, { new: true })
-        .then(updatedBlood => {
-            if (!updatedBlood) {
-                return res.status(404).json({ message: 'Blood inventory not found' });
+    OnHand.findById(id)
+        .then((item) => {
+            if (!item) {
+                return res.status(404).json({ message: 'Inventory item not found' });
             }
-            res.json(updatedBlood);
+
+            item.onHold = isOnHold;
+            return item.save();
         })
-        .catch(err => {
+        .then((updatedItem) => {
+            res.json(updatedItem);
+        })
+        .catch((err) => {
             console.error(err);
             res.status(500).json({ message: 'Server error' });
         });
-};
+}
+
 
 module.exports.delete = (req, res) => {
     const { id } = req.params;
@@ -102,7 +177,7 @@ module.exports.getByClinicAndBloodType = (req, res) => {
 
 module.exports.transfused = (req, res) => {
     const { id } = req.params;
-    const { consumptionType, recipient, patientID, patientName, patientLastName } = req.body;
+    const { consumptionType, recipient, patientID, patientName, patientLastName, transferredTo, transferredBy } = req.body;
 
     OnHand.findById(id)
         .then((item) => {
@@ -119,6 +194,10 @@ module.exports.transfused = (req, res) => {
                 item.patientID = patientID;
                 item.patientName = patientName;
                 item.patientLastName = patientLastName;
+            }
+            if (consumptionType === 'Transferred') {
+                item.transferredTo = transferredTo;
+                item.transferredBy = transferredBy;
             }
 
             return item.save();
@@ -152,3 +231,37 @@ module.exports.getConsumedOne = (req, res) => {
         })
         .catch(err => res.json(err));
 };
+
+
+module.exports.getTotalVolumeUsedByClinic = async (req, res) => {
+    try {
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+        const totalVolume = await OnHand.aggregate([
+            {
+                $match: {
+                    consumedAt: { $gte: thirtyDaysAgo },
+                },
+            },
+            {
+                $group: {
+                    _id: '$consumptionType',
+                    totalVolumeUsed: { $sum: { $toInt: { $replaceOne: { input: '$unitSize', find: 'mL', replacement: '' } } } },
+                },
+            },
+        ]);
+
+        const totalVolumeByType = {};
+
+        totalVolume.forEach((result) => {
+            totalVolumeByType[result._id] = result.totalVolumeUsed;
+        });
+
+        res.json(totalVolumeByType);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+

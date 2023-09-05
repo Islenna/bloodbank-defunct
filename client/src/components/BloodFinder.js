@@ -15,7 +15,6 @@ function BloodFinder() {
     const searchPets = (e) => {
         e.preventDefault();
 
-        // Fetch matching pets
         axios
             .get(`http://localhost:8000/api/owners/search?homeClinic=${homeClinic}&bloodType=${bloodType}`)
             .then((res) => {
@@ -24,7 +23,6 @@ function BloodFinder() {
             })
             .catch((err) => console.log(err));
 
-        // Fetch matching blood
         axios
             .get(`http://localhost:8000/api/inventory/search/${homeClinic}/${bloodType}`)
             .then((res) => {
@@ -57,8 +55,6 @@ function BloodFinder() {
                     text="white"
                     className="mt-4 p-4"
                 >
-
-
                     <Form onSubmit={searchPets}>
                         <Row>
                             <Col>
@@ -151,11 +147,6 @@ function BloodFinder() {
                                     tableLayout: 'fixed',
                                 }}
                             >
-                                {/* //Add an asterisk or something for claimed blood. */}
-                                {/* //Add a button to claim blood. */}
-                                {/* //Add a new database when consuming blood that requires: PN, LN, patient ID, Then add a tracker for consumed blood across the hospital.*/}
-                                {/*Log Waste*/}
-
                                 <thead>
                                     <tr style={{ backgroundColor: '#A9C27E', color: '#000000' }}>
                                         <th scope="col" style={{ padding: '0.5rem' }}>

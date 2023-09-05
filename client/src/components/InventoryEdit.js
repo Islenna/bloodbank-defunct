@@ -14,8 +14,9 @@ export default function InventoryEditForm() {
         unitSize: '',
         bloodType: '',
         expirationDate: '',
-        crossmatchHistory: '', // Add crossmatchHistory here
+        crossmatchHistory: '',
         homeClinic: '',
+        onHold: false,
     });
 
     useEffect(() => {
@@ -31,6 +32,7 @@ export default function InventoryEditForm() {
                     expirationDate: existingData.expirationDate,
                     crossmatchHistory: existingData.crossmatchHistory,
                     homeClinic: existingData.homeClinic,
+                    onHold: existingData.onHold,
                 });
             })
             .catch((err) => {
@@ -40,13 +42,13 @@ export default function InventoryEditForm() {
 
     const updateInventory = (e) => {
         e.preventDefault();
-        console.log('Updated Data:', formData);
+        console.log('Sending Update Request with FormData:', formData);
 
         axios
-            .put(`http://localhost:8000/api/inventory/${id}`, formData)
+            .put(`http://localhost:8000/api/inventory/notes/${id}`, formData)
             .then((res) => {
                 console.log('Response:', res);
-                navigate(`/bloodfinder`);
+                navigate(`/inventory/${id}`);
             })
             .catch((err) => {
                 console.log('Error:', err);
@@ -70,7 +72,10 @@ export default function InventoryEditForm() {
                             <Form.Control
                                 as="select"
                                 value={formData.homeClinic}
-                                onChange={(e) => setFormData({ ...formData, homeClinic: e.target.value })}
+                                onChange={(e) => {
+                                    setFormData({ ...formData, homeClinic: e.target.value });
+                                    console.log('Selected Home Clinic:', e.target.value);
+                                }}
                             >
                                 <option value="">Bag Location</option>
                                 <option value="Concord">Concord</option>
@@ -88,13 +93,14 @@ export default function InventoryEditForm() {
                                 readOnly={true}
                             />
                         </Form.Group>
-                        <Form.Group
-                            controlId="crossmatchHistory"
-                            value={formData.crossmatchHistory}
-                            onChange={(e) => setFormData({ ...formData, crossmatchHistory: e.target.value })}
-                        >
+                        <Form.Group controlId="crossmatchHistory">
                             <Form.Label>Crossmatch History:</Form.Label>
-                            <Form.Control as="textarea" rows={3} />
+                            <Form.Control
+                                as="textarea"
+                                rows={3}
+                                value={formData.crossmatchHistory}
+                                onChange={(e) => setFormData({ ...formData, crossmatchHistory: e.target.value })}
+                            />
                         </Form.Group>
 
                         <Button variant="success" type="submit">

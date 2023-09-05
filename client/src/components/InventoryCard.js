@@ -16,17 +16,7 @@ function InventoryCard() {
     const bloodType = inventory.bloodType;
     const expirationDate = inventory.expirationDate;
     const crossmatchHistory = inventory.crossmatchHistory;
-
-    const deleteInventory = () => {
-        axios
-            .delete(`http://localhost:8000/api/inventory/${id}`)
-            .then((res) => {
-                console.log(res.data);
-                navigate(`/inventory`);
-            })
-            .catch((err) => console.log(err));
-    };
-
+    const onHold = inventory.onHold;
 
     useEffect(() => {
         axios
@@ -60,6 +50,7 @@ function InventoryCard() {
                         })}
                         </p>
                         <p>Crossmatch History: {crossmatchHistory}</p>
+                        <p>On Hold status: {inventory.onHold ? 'On Hold' : 'Not On Hold'}</p>
                     </Card.Text>
                 </Card.Body>
             </Card>

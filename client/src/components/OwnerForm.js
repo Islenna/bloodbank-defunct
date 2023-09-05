@@ -9,9 +9,8 @@ const OwnerForm = () => {
     const [lastName, setLastName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
-    const [emailError, setEmailError] = useState('');
-    const [phoneNumberError, setPhoneNumberError] = useState('');
     const [homeClinic, setHomeClinic] = useState('');
+    const [formErrors, setFormErrors] = useState({});
     const navigate = useNavigate();
 
     const validateEmail = (email) => {
@@ -24,16 +23,38 @@ const OwnerForm = () => {
         return phoneRegex.test(phoneNumber);
     };
 
-    const onSubmitHandler = (e) => {
-        e.preventDefault();
+    const validateForm = () => {
+        const errors = {};
+
+        if (!firstName.trim()) {
+            errors.firstName = 'First Name is required';
+        }
+
+        if (!lastName.trim()) {
+            errors.lastName = 'Last Name is required';
+        }
 
         if (!validateEmail(email)) {
-            setEmailError('Invalid email address');
-            return;
+            errors.email = 'Invalid email address';
         }
 
         if (!validatePhoneNumber(phoneNumber)) {
-            setPhoneNumberError('Invalid phone number');
+            errors.phoneNumber = 'Invalid phone number';
+        }
+
+        if (!homeClinic) {
+            errors.homeClinic = 'Home Clinic is required';
+        }
+
+        setFormErrors(errors);
+
+        return Object.keys(errors).length === 0;
+    };
+
+    const onSubmitHandler = (e) => {
+        e.preventDefault();
+
+        if (!validateForm()) {
             return;
         }
 
@@ -43,11 +64,15 @@ const OwnerForm = () => {
                 lastName,
                 phoneNumber,
                 email,
-                homeClinic
+                homeClinic,
             })
-            .then((res) => console.log(res))
-            .then(() => navigate('/owners'))
-            .catch((err) => console.log(err));
+            .then((res) => {
+                console.log(res);
+                navigate('/owners');
+            })
+            .catch((err) => {
+                console.error(err);
+            });
     };
 
     return (
@@ -61,7 +86,9 @@ const OwnerForm = () => {
                 >
                     <Form onSubmit={onSubmitHandler}>
                         <Form.Group controlId="formFirstName">
-                            <Form.Label className="d-block" style={{ color: 'white' }}>First Name</Form.Label>
+                            <Form.Label className="d-block" style={{ color: 'white' }}>
+                                First Name
+                            </Form.Label>
                             <Form.Control
                                 type="text"
                                 name="firstName"
@@ -71,9 +98,14 @@ const OwnerForm = () => {
                                 required
                                 style={{ backgroundColor: 'white', color: 'black' }}
                             />
+                            {formErrors.firstName && (
+                                <p style={{ color: 'red' }}>{formErrors.firstName}</p>
+                            )}
                         </Form.Group>
                         <Form.Group controlId="formLastName">
-                            <Form.Label className="d-block" style={{ color: 'white' }}>Last Name</Form.Label>
+                            <Form.Label className="d-block" style={{ color: 'white' }}>
+                                Last Name
+                            </Form.Label>
                             <Form.Control
                                 type="text"
                                 name="lastName"
@@ -83,9 +115,14 @@ const OwnerForm = () => {
                                 required
                                 style={{ backgroundColor: 'white', color: 'black' }}
                             />
+                            {formErrors.lastName && (
+                                <p style={{ color: 'red' }}>{formErrors.lastName}</p>
+                            )}
                         </Form.Group>
                         <Form.Group controlId="formPhoneNumber">
-                            <Form.Label className="d-block" style={{ color: 'white' }}>Phone Number</Form.Label>
+                            <Form.Label className="d-block" style={{ color: 'white' }}>
+                                Phone Number
+                            </Form.Label>
                             <Form.Control
                                 type="text"
                                 name="phoneNumber"
@@ -95,10 +132,14 @@ const OwnerForm = () => {
                                 required
                                 style={{ backgroundColor: 'white', color: 'black' }}
                             />
-                            {phoneNumberError && <p style={{ color: 'red' }}>{phoneNumberError}</p>}
+                            {formErrors.phoneNumber && (
+                                <p style={{ color: 'red' }}>{formErrors.phoneNumber}</p>
+                            )}
                         </Form.Group>
                         <Form.Group controlId="formEmail">
-                            <Form.Label className="d-block" style={{ color: 'white' }}>Email</Form.Label>
+                            <Form.Label className="d-block" style={{ color: 'white' }}>
+                                Email
+                            </Form.Label>
                             <Form.Control
                                 type="text"
                                 name="email"
@@ -108,11 +149,15 @@ const OwnerForm = () => {
                                 required
                                 style={{ backgroundColor: 'white', color: 'black' }}
                             />
-                            {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
+                            {formErrors.email && (
+                                <p style={{ color: 'red' }}>{formErrors.email}</p>
+                            )}
                         </Form.Group>
 
                         <Form.Group controlId="homeClinic">
-                            <Form.Label className="d-block" style={{ color: 'white' }}>Home Clinic</Form.Label>
+                            <Form.Label className="d-block" style={{ color: 'white' }}>
+                                Home Clinic
+                            </Form.Label>
                             <Form.Control
                                 as="select"
                                 value={homeClinic}
@@ -127,13 +172,18 @@ const OwnerForm = () => {
                                 <option value="Redwood City">Redwood City</option>
                                 <option value="San Francisco">San Francisco</option>
                             </Form.Control>
+                            {formErrors.homeClinic && (
+                                <p style={{ color: 'red' }}>{formErrors.homeClinic}</p>
+                            )}
                         </Form.Group>
 
                         <Button variant="primary" type="submit">
                             Submit
                         </Button>
                     </Form>
-                    <Link to={`/owners`} style={{ color: 'white', textDecoration: 'none' }}>Back</Link>
+                    <Link to={`/owners`} style={{ color: 'white', textDecoration: 'none' }}>
+                        Back
+                    </Link>
                 </Card>
             </Container>
         </div>
@@ -141,5 +191,3 @@ const OwnerForm = () => {
 };
 
 export default OwnerForm;
-
-//Add Home Clinic & finish building out.

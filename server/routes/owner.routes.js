@@ -41,11 +41,13 @@ module.exports = (app) => {
     app.get('/api/inventory/search/:homeClinic', BloodOnHandController.getByClinic);
     app.get('/api/inventory/search/:homeClinic/:bloodType', BloodOnHandController.getByClinicAndBloodType);
     app.put('/api/inventory/consume/:id', BloodOnHandController.transfused);
+    app.put('/api/inventory/notes/:id', BloodOnHandController.updateCrossmatchHistory);
+
 
     //Analytics routes
     app.get('/api/consumed', BloodOnHandController.getConsumed);
     app.get('/api/consumed/:id', BloodOnHandController.getConsumedOne);
-
+    app.delete('/api/consumed/:id', BloodOnHandController.delete);
 
 
 

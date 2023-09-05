@@ -13,5 +13,8 @@ const OnHandSchema = new mongoose.Schema({
     patientID: { type: String },
     patientName: { type: String },
     patientLastName: { type: String },
+    onHold: { type: Boolean, default: false },
+    transferredBy: { type:String },
+    transferredTo: { type:String }
 }, { timestamps: true });
 module.exports = mongoose.model('OnHand',  OnHandSchema);

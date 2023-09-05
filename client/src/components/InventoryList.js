@@ -3,24 +3,76 @@ import axios from 'axios';
 import { Container, Card, Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
-
 function InventoryList() {
     const [inventory, setInventory] = useState([]);
     const [homeClinic, setHomeClinic] = useState('');
     const [errors, setErrors] = useState([]);
     const [matchingBlood, setMatchingBlood] = useState([]);
-    const [totalVolumeUsed, setTotalVolumeUsed] = useState(0); // State to store total volume used
+    const [bloodConsumed, setBloodConsumed] = useState([]);
+    const [searchClicked, setSearchClicked] = useState(false);
+    const [onHoldStatus, setOnHoldStatus] = useState({});
     const navigate = useNavigate();
 
-    useEffect(() => {
-        // Fetch the total volume of pRBCs used in the last 30 days
+    const calculateCatUsageLast30 = () => {
+        let totalUsed = 0;
+        bloodConsumed.forEach((item) => {
+            if (['A', 'B'].includes(item.bloodType)) {
+                totalUsed += parseInt(item.unitSize);
+            }
+        });
+        return totalUsed;
+    };
+
+    const calculateDogUsageLast30 = () => {
+        let totalUsed = 0;
+        bloodConsumed.forEach((item) => {
+            if (['DEA 1.1 Positive', 'DEA 1.1 Negative'].includes(item.bloodType)) {
+                totalUsed += parseInt(item.unitSize);
+            }
+        });
+        return totalUsed;
+    };
+
+    const onHold = (id) => {
+        const currentOnHoldStatus = onHoldStatus[id];
+    
+        setOnHoldStatus((prevOnHoldStatus) => ({
+            ...prevOnHoldStatus,
+            [id]: !currentOnHoldStatus,
+        }));
+    
         axios
-            .get('http://localhost:8000/api/inventory/total-volume-used')
-            .then((res) => {
-                setTotalVolumeUsed(res.data.totalVolumeUsed);
+            .put(`http://localhost:8000/api/inventory/${id}`, {
+                isOnHold: !currentOnHoldStatus, 
             })
-            .catch((err) => console.log(err));
-    }, []); // Fetch the data when the component mounts
+            .then((res) => {
+                console.log('Updated onHoldStatus:', {
+                    ...onHoldStatus,
+                    [id]: !currentOnHoldStatus,
+                });
+    
+                axios
+                    .get(`http://localhost:8000/api/inventory/search/${homeClinic}`)
+                    .then((res) => {
+                        const filteredBlood = res.data.filter((blood) => !blood.isDeleted);
+                        setMatchingBlood(filteredBlood);
+                        setBloodConsumed(res.data.filter((blood) => blood.isDeleted));
+                    })
+                    .catch((err) => {
+                        console.log('Error fetching updated data:', err);
+                    });
+            })
+            .catch((err) => {
+                console.log('Error:', err);
+                setOnHoldStatus((prevOnHoldStatus) => ({
+                    ...prevOnHoldStatus,
+                    [id]: currentOnHoldStatus,
+                }));
+            });
+    };
+
+
+
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
@@ -29,13 +81,25 @@ function InventoryList() {
             .then((res) => {
                 const filteredBlood = res.data.filter((blood) => !blood.isDeleted);
                 setMatchingBlood(filteredBlood);
+                setBloodConsumed(res.data.filter((blood) => blood.isDeleted));
+                setSearchClicked(true);
+
+                // Create an object with blood._id as keys and blood.isOnHold as values
+                const updatedOnHoldStatus = {};
+                filteredBlood.forEach((blood) => {
+                    // Use the blood._id as the key in the updatedOnHoldStatus object
+                    updatedOnHoldStatus[blood._id] = blood.isOnHold;
+                });
+
+                console.log(updatedOnHoldStatus);
+                setOnHoldStatus(updatedOnHoldStatus); // Update the onHoldStatus
             })
             .catch((err) => console.log(err));
     };
 
     return (
         <Container className="text-center">
-            <h1>Inventory List</h1>
+            <h1>Inventory Manager</h1>
             <Card
                 style={{
                     backgroundColor: '#725846',
@@ -63,7 +127,12 @@ function InventoryList() {
                     </Form.Group>
                     <Button type="submit">Search</Button>
                 </Form>
-                <p>Total Volume of pRBCs Used in Last 30 Days: {totalVolumeUsed} mL</p>
+                {searchClicked && (
+                    <div>
+                        <p>Total Volume of Consumed Cat Blood (Last 30 Days): {calculateCatUsageLast30()} mL</p>
+                        <p>Total Volume of Consumed Dog Blood (Last 30 Days): {calculateDogUsageLast30()} mL</p>
+                    </div>
+                )}
                 {matchingBlood.length > 0 ? (
                     <table
                         className="table-responsive"
@@ -102,21 +171,43 @@ function InventoryList() {
                                         >
                                             View
                                         </Button>
+                                        <Button
+                                            variant='danger'
+                                            onClick={() => navigate(`/inventory/${blood._id}/consume`)}
+                                        >
+                                            Consume
+                                        </Button>
+                                        {blood.onHold ? (
+                                            <Button
+                                                variant="warning"
+                                                onClick={() => onHold(blood._id)}
+                                            >
+                                                On Hold
+                                            </Button>
+                                            
+                                        ) : (
+                                            <Button
+                                                variant="primary"
+                                                onClick={() => onHold(blood._id)}
+                                            >
+                                                Place on Hold
+                                            </Button>
+                                        )}
                                     </td>
                                 </tr>
                             ))}
 
                         </tbody>
                     </table>
-
                 ) : (
-                    <p>No blood on hand.</p>
+                    <p>Search results are returned here.</p>
                 )}
-
             </Card>
-            <Button variant="primary" onClick={() => navigate(`/inventory/new`)}>New Inventory</Button>
+            <Button variant="primary" onClick={() => navigate(`/inventory/new`)}>
+                New Inventory
+            </Button>
         </Container>
-    )
+    );
 }
 
-export default InventoryList
+export default InventoryList;

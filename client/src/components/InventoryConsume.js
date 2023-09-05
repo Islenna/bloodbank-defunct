@@ -5,13 +5,26 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Card } from 'react-bootstrap';
 
 export default function InventoryConsume({ totalVolume }) {
-    const { id } = useParams()
+    const { id } = useParams();
     const [consumeType, setConsumeType] = useState('');
     const [patientID, setPatientID] = useState('');
     const [patientName, setPatientName] = useState('');
     const [patientLastName, setPatientLastName] = useState('');
     const [itemData, setItemData] = useState(null);
+    const [transferredTo, setTransferredTo] = useState('');
+    const [transferredBy, setTransferredBy] = useState('');
+    const [formErrors, setFormErrors] = useState({});
     const navigate = useNavigate();
+
+    const validateForm = () => {
+        const errors = {};
+        if (!consumeType) {
+            errors.consumeType = 'Consumption Type is required';
+        }
+        setFormErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
+
 
     useEffect(() => {
         axios
@@ -26,7 +39,9 @@ export default function InventoryConsume({ totalVolume }) {
 
     const handleConsume = (e) => {
         e.preventDefault();
-
+        if (!validateForm()) {
+            return;
+        }
         if (!itemData) {
             console.error('Item data not available.');
             return;
@@ -37,6 +52,8 @@ export default function InventoryConsume({ totalVolume }) {
             patientID: patientID,
             patientName: patientName,
             patientLastName: patientLastName,
+            transferredTo: transferredTo,
+            transferredBy: transferredBy,
         };
         console.log('Data to be sent:', consumptionData);
         axios
@@ -60,7 +77,6 @@ export default function InventoryConsume({ totalVolume }) {
                     text="white"
                     className="mt-4 p-4"
                 >
-
                     <h1>Consume Blood</h1>
                     {itemData ? (
                         <h2>Item ID: {itemData.donorID}</h2>
@@ -80,6 +96,9 @@ export default function InventoryConsume({ totalVolume }) {
                                 <option value="Wasted">Wasted</option>
                                 <option value="Transferred">Transferred</option>
                                 <option value="Successfully Transfused">Successfully Transfused</option>
+                                {formErrors.consumeType && (
+                                    <Form.Text className="text-danger">{formErrors.consumeType}</Form.Text>
+                                )}
                             </Form.Control>
                         </Form.Group>
                         {consumeType === 'Successfully Transfused' && (
@@ -89,11 +108,7 @@ export default function InventoryConsume({ totalVolume }) {
                                     <Form.Control
                                         type="text"
                                         value={patientID}
-
-                                        onChange={(e) => {
-                                            console.log('Patient ID input value:', e.target.value);
-                                            setPatientID(e.target.value);
-                                        }}
+                                        onChange={(e) => setPatientID(e.target.value)}
                                     />
                                 </Form.Group>
                                 <Form.Group controlId="patientName">
@@ -114,11 +129,37 @@ export default function InventoryConsume({ totalVolume }) {
                                 </Form.Group>
                             </>
                         )}
+                        {consumeType === 'Transferred' && (
+                            <>
+                                <Form.Group controlId="transferredTo">
+                                    <Form.Label>Home Clinic:</Form.Label>
+                                    <Form.Control
+                                        as="select"
+                                        value={transferredTo}
+                                        onChange={(e) => setTransferredTo(e.target.value)}
+                                    >
+                                        <option value="">Select Receiving Hospital</option>
+                                        <option value="Concord">Concord</option>
+                                        <option value="Campbell">Campbell</option>
+                                        <option value="Dublin">Dublin</option>
+                                        <option value="Redwood City">Redwood City</option>
+                                        <option value="San Francisco">San Francisco</option>
+                                    </Form.Control>
+                                </Form.Group>
+                                <Form.Group controlId="transferredBy">
+                                    <Form.Label>Transferred By: </Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        value={transferredBy}
+                                        onChange={(e) => setTransferredBy(e.target.value)}
+                                    />
+                                </Form.Group>
+                            </>
+                        )}
                         <Button variant="primary" type="submit">
                             Consume
                         </Button>
                     </Form>
-
                 </Card>
             </Container>
         </div>

@@ -17,6 +17,39 @@ export default function InventoryForm() {
     const navigate = useNavigate();
     const { id } = useParams();
 
+    const [formErrors, setFormErrors] = useState({
+        donorID: '',
+        bloodSource: '',
+        unitSize: '',
+        bloodType: '',
+        expirationDate: '',
+        crossmatchHistory: '',
+        homeClinic: '',
+    });
+
+    const validateForm = () => {
+        const errors = {};
+        if (!donorID) {
+            errors.donorID = 'Donor ID is required';
+        }
+        if (!bloodSource) {
+            errors.bloodSource = 'Blood Source is required';
+        }
+        if (!unitSize) {
+            errors.unitSize = 'Unit Size is required';
+        }
+        if (!bloodType) {
+            errors.bloodType = 'Blood Type is required';
+        }
+        if (!expirationDate) {
+            errors.expirationDate = 'Expiration Date is required';
+        }
+        setFormErrors(errors);
+
+        return Object.values(errors).every((error) => !error);
+    };
+
+
     const createInventory = (e) => {
         e.preventDefault();
         console.log('Data to be sent:', {
@@ -28,6 +61,10 @@ export default function InventoryForm() {
             crossmatchHistory,
             homeClinic
         });
+
+        if (!validateForm()) {
+            return;
+        }
 
         axios
             .post(`http://localhost:8000/api/inventory`, {
@@ -41,7 +78,7 @@ export default function InventoryForm() {
             })
             .then((res) => {
                 console.log('Response:', res);
-                navigate(`/bloodfinder`);
+                navigate(`/inventory`);
             })
             .catch((err) => console.log('Error:', err));
     }
@@ -81,6 +118,8 @@ export default function InventoryForm() {
                                 value={donorID}
                                 onChange={(e) => setDonorID(e.target.value)}
                             />
+                            {formErrors.donorID && <Form.Text className="text-danger">{formErrors.donorID}</Form.Text>}
+
                         </Form.Group>
                         <Form.Group controlId="bloodSource">
                             <Form.Label>Blood Source:</Form.Label>
@@ -89,6 +128,7 @@ export default function InventoryForm() {
                                 value={bloodSource}
                                 onChange={(e) => setBloodSource(e.target.value)}
                             />
+                            {formErrors.bloodSource && <Form.Text className="text-danger">{formErrors.bloodSource}</Form.Text>}
                         </Form.Group>
                         <Form.Group controlId="unitSize">
                             <Form.Label>Unit Size:</Form.Label>
@@ -98,10 +138,11 @@ export default function InventoryForm() {
                                 onChange={(e) => setUnitSize(e.target.value)}
                             >
                                 <option value="">Select a Unit Size</option>
-                                <option value="50mL">40mL</option>
-                                <option value="125mL">120mL</option>
-                                <option value="150mL">140mL</option>
-                                <option value="250mL">240mL</option>
+                                <option value="50mL">50mL</option>
+                                <option value="125mL">125mL</option>
+                                <option value="150mL">150mL</option>
+                                <option value="250mL">250mL</option>
+                                {formErrors.unitSize && <Form.Text className="text-danger">{formErrors.unitSize}</Form.Text>}
                             </Form.Control>
                         </Form.Group>
                         <Form.Group controlId="bloodType">
@@ -118,6 +159,7 @@ export default function InventoryForm() {
                                 <option value="A">A</option>
                                 <option value="B">B</option>
                                 <option value="AB">AB</option>
+                                {formErrors.bloodType && <Form.Text className="text-danger">{formErrors.bloodType}</Form.Text>}
                             </Form.Control>
                         </Form.Group>
                         <Form.Group controlId="expirationDate">
@@ -127,6 +169,7 @@ export default function InventoryForm() {
                                 value={expirationDate}
                                 onChange={(e) => setExpirationDate(e.target.value)}
                             />
+                            {formErrors.expirationDate && <Form.Text className="text-danger">{formErrors.expirationDate}</Form.Text>}
                         </Form.Group>
                         <Form.Group
                             controlId="crossmatchHistory"
