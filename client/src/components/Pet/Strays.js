@@ -8,14 +8,15 @@ const Strays = () => {
         fetchStrayPets();
     }, []);
 
-    const fetchStrayPets = () => {
-        axios
-            .get('http://localhost:8000/api/pets/strays', { withCredentials: true })
-            .then((res) => {
-                setStrayPets(res.data);
-            })
-            .catch((err) => console.log(err));
+    const fetchStrayPets = async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/pets/stray', { withCredentials: true });
+            setStrayPets(response.data);
+        } catch (error) {
+            console.log(error);
+        }
     };
+    
 
     return (
         <div>

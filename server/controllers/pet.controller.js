@@ -10,7 +10,7 @@ module.exports.createPet = (req, res) => {
 module.exports.getStrayPets = (req, res) => {
     console.log('Fetching stray pets...');
 
-    Pet.find({ owner: undefined })
+    Pet.find({ owner: null })
         .then((strayPets) => {
             console.log('Stray pets found:', strayPets);
             res.json(strayPets);
@@ -20,6 +20,8 @@ module.exports.getStrayPets = (req, res) => {
             res.status(500).json(err);
         });
 };
+
+
 
 module.exports.deleteByOwner = (req, res) => {
     Pet.deleteMany({ owner: req.params.id })
