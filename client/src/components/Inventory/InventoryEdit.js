@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Form, Card, Button, Container, Row, Col } from 'react-bootstrap';
-import Navbar from './CustomNavbar';
 
 export default function InventoryEditForm() {
     const { id } = useParams();
@@ -92,6 +91,23 @@ export default function InventoryEditForm() {
                                 value={formData.bloodSource}
                                 readOnly={true}
                             />
+                        </Form.Group>
+                        <Form.Group controlId="onHold">
+                            <Form.Label>On Hold:</Form.Label>
+                            <Form.Control
+
+                                as="select"
+                                value={formData.onHold}
+                                onChange={(e) => {
+                                    setFormData({ ...formData, onHold: e.target.value });
+                                    console.log('Selected On Hold:', e.target.value);
+                                }}
+                            >
+                                <option value="">On Hold</option>
+                                <option value={true}>Yes</option>
+                                <option value={false}>No</option>
+                            </Form.Control>
+                            
                         </Form.Group>
                         <Form.Group controlId="crossmatchHistory">
                             <Form.Label>Crossmatch History:</Form.Label>

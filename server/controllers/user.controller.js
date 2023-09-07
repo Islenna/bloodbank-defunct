@@ -21,32 +21,40 @@ module.exports = {
     },
 
     login: async (req, res) => {
-        const user = await User.findOne({ email: req.body.email });
-
-        if (user === null) {
-            return res.sendStatus(400);
+        try {
+            console.log('Received login request with email:', req.body.email);
+            const user = await User.findOne({ email: req.body.email });
+    
+            if (user === null) {
+                console.log('User not found.');
+                return res.sendStatus(400);
+            }
+    
+            const correctPassword = await bcrypt.compare(req.body.password, user.password);
+    
+            if (!correctPassword) {
+                console.log('Incorrect password.');
+                return res.sendStatus(400);
+            }
+    
+            const userToken = jwt.sign({
+                id: user._id
+            }, process.env.JWT_SECRET);
+    
+            res
+                .cookie("usertoken", userToken, {
+                    httpOnly: true
+                })
+                .json({ msg: "success!" });
+        } catch (err) {
+            console.error('Error during login:', err);
+            res.status(500).json({ error: 'Server error' });
         }
-        const correctPassword = await bcrypt.compare(req.body.password, user.password);
-
-        if (!correctPassword) {
-            return res.sendStatus(400);
-        }
-
-        const userToken = jwt.sign({
-            id: user._id
-        }, process.env.JWT_SECRET);
-
-        res
-            .cookie("usertoken", userToken, {
-                httpOnly: true
-            })
-            .json({ msg: "success!" });
     },
 
     getLoggedInUser: (req, res) => {
         const decodedJWT = jwt.decode(req.cookies.usertoken, { complete: true });
 
-        // Check if decodedJWT is null or does not have the payload property
         if (!decodedJWT || !decodedJWT.payload) {
             return res.status(401).json({ message: 'User not authenticated' });
         }

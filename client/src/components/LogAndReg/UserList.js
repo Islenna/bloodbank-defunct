@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Card, Container, Button } from 'react-bootstrap';
-import Navbar from './CustomNavbar';
 
 export default function UserList() {
     const navigate = useNavigate();

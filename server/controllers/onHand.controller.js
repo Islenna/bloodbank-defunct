@@ -23,7 +23,7 @@ module.exports.getOne = (req, res) => {
 
 module.exports.updateCrossmatchHistory = (req, res) => {
     const { id } = req.params;
-    const { crossmatchHistory, homeClinic } = req.body;
+    const { crossmatchHistory, homeClinic, onHold } = req.body;
 
     OnHand.findById(id)
 
@@ -34,6 +34,7 @@ module.exports.updateCrossmatchHistory = (req, res) => {
             }
             item.crossmatchHistory = crossmatchHistory;
             item.homeClinic = homeClinic;
+            item.onHold = onHold;
 
             return item.save();
 
@@ -47,48 +48,6 @@ module.exports.updateCrossmatchHistory = (req, res) => {
             res.status(500).json({ message: 'Server error' });
         });
 };
-
-
-
-module.exports.updateBloodOnHand2 = (req, res) => {
-    console.log('Received PUT request to update blood on hand with ID:', id);
-    console.log('req.body:', req.body);
-    const { id } = req.params;
-    const { isOnHold, homeClinic, crossmatchHistory } = req.body;
-
-    console.log('Received PUT request to update blood on hand with ID:', id);
-    
-    OnHand.findById(id)
-        .then((item) => {
-            if (!item) {
-                console.log('Inventory item not found.');
-                return res.status(404).json({ message: 'Inventory item not found' });
-            }
-
-            if (homeClinic !== undefined) {
-                item.homeClinic = homeClinic;
-            }
-            
-            if (crossmatchHistory !== undefined) {
-                console.log('Updating crossmatch history:', crossmatchHistory);
-                item.crossmatchHistory = crossmatchHistory;
-            }
-            
-            item.onHold = isOnHold;
-
-            return item.save();
-        })
-        .then((updatedItem) => {
-            console.log('Successfully updated blood on hand:', updatedItem);
-            res.json(updatedItem);
-        })
-        .catch((err) => {
-            console.error('Error updating blood on hand:', err);
-            res.status(500).json({ message: 'Server error' });
-        });
-};
-
-
 
 module.exports.getByClinic = (req, res) => {
     const { homeClinic } = req.params;

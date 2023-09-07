@@ -69,3 +69,14 @@ module.exports.clinicSearch = (req, res) => {
         })
         .catch((err) => res.json(err));
 };
+
+module.exports.deleteOwnerAndPets = (req, res) => {
+    const ownerId = req.params.id;
+
+    Pet.deleteMany({ owner: ownerId })
+        .then(() => {
+            return Owner.deleteOne({ _id: ownerId });
+        })
+        .then(deleteConfirmation => res.json(deleteConfirmation))
+        .catch(err => res.json(err));
+}

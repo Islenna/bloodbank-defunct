@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Container, Table, Button, Card } from 'react-bootstrap';
-import Navbar from './CustomNavbar';
-import '../App.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function OwnerList() {
     const [owners, setOwners] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios
@@ -17,6 +17,15 @@ export default function OwnerList() {
             })
             .catch((err) => console.log(err));
     }, []);
+
+    const handleDelete = (ownerId) => {
+        axios
+            .delete(`http://localhost:8000/api/owners/${ownerId}`)
+            .then((res) => {
+                navigate('/owners');
+            })
+            .catch((err) => console.log(err));
+    };
 
     return (
         <div>
@@ -48,6 +57,15 @@ export default function OwnerList() {
                                             <Link to={`/owners/edit/${owner._id}`}>
                                                 <Button variant="primary">Edit</Button>
                                             </Link>{' '}
+                                            <Link to={`/owners/delete/${owner._id}`}>
+                                                <Button
+                                                    variant="danger"
+                                                    onClick={() => handleDelete(owner._id)}
+                                                >
+                                                    Delete
+                                                </Button>
+                                            </Link>
+
                                         </td>
                                     </tr>
                                 );
