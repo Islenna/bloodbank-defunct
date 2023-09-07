@@ -10,7 +10,7 @@ export default function OwnerList() {
 
     useEffect(() => {
         axios
-            .get('http://localhost:8000/api/owners')
+            .get('http://localhost:8000/api/owners', { withCredentials: true })
             .then((res) => {
                 console.log(res);
                 setOwners(res.data);
@@ -20,7 +20,7 @@ export default function OwnerList() {
 
     const handleDelete = (ownerId) => {
         axios
-            .delete(`http://localhost:8000/api/owners/${ownerId}`)
+            .delete(`http://localhost:8000/api/owners/${ownerId}`, { withCredentials: true })
             .then((res) => {
                 navigate('/owners');
             })
@@ -36,10 +36,17 @@ export default function OwnerList() {
                     text="white"
                     className="mt-4 p-4"
                 >
-                    <table className="custom-table">
+                    <table
+                        className="table-responsive"
+                        style={{
+                            width: '75%',
+                            margin: '0 auto',
+                            backgroundColor: '#725846',
+                            tableLayout: 'fixed',
+                        }}>
                         <thead>
-                            <tr>
-                                <th>First Name</th>
+                            <tr style={{ backgroundColor: '#A9C27E', color: "#000000" }}>
+                                <th style={{ padding: '0.5rem' }}>First Name</th>
                                 <th>Last Name</th>
                                 <th>Actions</th>
                             </tr>
@@ -51,21 +58,22 @@ export default function OwnerList() {
                                         <td>{owner.firstName}</td>
                                         <td>{owner.lastName}</td>
                                         <td>
-                                            <Link to={`/owners/${owner._id}`}>
-                                                <Button variant="primary">Owner and Pet Details</Button>
-                                            </Link>{' '}
-                                            <Link to={`/owners/edit/${owner._id}`}>
-                                                <Button variant="primary">Edit</Button>
-                                            </Link>{' '}
-                                            <Link to={`/owners/delete/${owner._id}`}>
-                                                <Button
-                                                    variant="danger"
-                                                    onClick={() => handleDelete(owner._id)}
-                                                >
-                                                    Delete
-                                                </Button>
-                                            </Link>
-
+                                            <div style={{ display: 'flex', gap: '5px' }}>
+                                                <Link to={`/owners/${owner._id}`}>
+                                                    <Button variant="success">Details</Button>
+                                                </Link>
+                                                <Link to={`/owners/edit/${owner._id}`}>
+                                                    <Button variant="primary">Edit</Button>
+                                                </Link>
+                                                <Link to={`/owners/delete/${owner._id}`}>
+                                                    <Button
+                                                        variant="danger"
+                                                        onClick={() => handleDelete(owner._id)}
+                                                    >
+                                                        Delete
+                                                    </Button>
+                                                </Link>
+                                            </div>
                                         </td>
                                     </tr>
                                 );

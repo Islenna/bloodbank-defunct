@@ -74,7 +74,7 @@ export default function InventoryForm() {
                 expirationDate,
                 crossmatchHistory,
                 homeClinic
-            })
+            }, { withCredentials: true })
             .then((res) => {
                 console.log('Response:', res);
                 navigate(`/inventory`);

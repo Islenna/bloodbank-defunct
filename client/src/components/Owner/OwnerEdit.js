@@ -26,7 +26,7 @@ const Update = () => {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8000/api/owners/${id}`)
+            .get(`http://localhost:8000/api/owners/${id}`, { withCredentials: true })
             .then((res) => {
                 setFirstName(res.data.firstName);
                 setLastName(res.data.lastName);
@@ -57,7 +57,7 @@ const Update = () => {
                 phoneNumber,
                 email,
                 homeClinic
-            })
+            }, { withCredentials: true })
             .then((res) => {
                 console.log(res);
                 navigate(`/owners/${id}`);

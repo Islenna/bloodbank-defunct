@@ -10,7 +10,7 @@ const Strays = () => {
 
     const fetchStrayPets = () => {
         axios
-            .get('http://localhost:8000/api/pets/strays')
+            .get('http://localhost:8000/api/pets/strays', { withCredentials: true })
             .then((res) => {
                 setStrayPets(res.data);
             })

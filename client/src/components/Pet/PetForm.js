@@ -17,7 +17,7 @@ const PetForm = () => {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8000/api/owners/${id}`)
+            .get(`http://localhost:8000/api/owners/${id}`, { withCredentials: true })
             .then((res) => {
                 console.log(res.data);
                 setOwnerFirstName(res.data.firstName);
@@ -52,7 +52,7 @@ const PetForm = () => {
                 petDescription,
                 owner: ownerID,
                 bloodType,
-            })
+            }, { withCredentials: true })
             .then((res) => {
                 console.log(res);
                 navigate(`/owners/${id}`);

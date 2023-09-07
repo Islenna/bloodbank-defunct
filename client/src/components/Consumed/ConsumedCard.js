@@ -26,7 +26,7 @@ function ConsumedCard() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8000/api/consumed/${id}`)
+            .get(`http://localhost:8000/api/consumed/${id}`, { withCredentials: true })
             .then((res) => {
                 setConsumed(res.data);
                 console.log("Patient ID:", res.data.patientID);
@@ -37,7 +37,7 @@ function ConsumedCard() {
     const deleteConsumed = () => {
         axios
 
-            .delete(`http://localhost:8000/api/consumed/${id}`)
+            .delete(`http://localhost:8000/api/consumed/${id}`, { withCredentials: true })
             .then((res) => {
                 console.log(res.data);
                 navigate(`/inventory/consumed`);

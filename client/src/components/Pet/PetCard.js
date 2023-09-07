@@ -11,13 +11,13 @@ export default function PetCard() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8000/api/pets/${id}`)
+            .get(`http://localhost:8000/api/pets/${id}`, { withCredentials: true })
             .then((res) => {
                 setPet(res.data);
                 const ownerId = res.data.owner._id;
                 const homeClinic = res.data.owner.homeClinic;
                 axios
-                    .get(`http://localhost:8000/api/owners/${ownerId}`)
+                    .get(`http://localhost:8000/api/owners/${ownerId}`, { withCredentials: true })
                     .then((res) => {
                         setOwner(res.data);
                     })

@@ -28,6 +28,9 @@ export default function CustomNavbar(props) {
 
         if (isLoggedIn) {
             fetchUserEmail();
+        } else {
+            // If the user is not logged in, redirect to the home page
+            navigate('/');
         }
     }, [isLoggedIn, setUserEmail, setIsLoggedIn, navigate]);
 

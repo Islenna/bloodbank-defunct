@@ -28,7 +28,7 @@ export default function InventoryConsume({ totalVolume }) {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8000/api/inventory/${id}`)
+            .get(`http://localhost:8000/api/inventory/${id}`, { withCredentials: true })
             .then((res) => {
                 setItemData(res.data);
             })
@@ -57,7 +57,7 @@ export default function InventoryConsume({ totalVolume }) {
         };
         console.log('Data to be sent:', consumptionData);
         axios
-            .put(`http://localhost:8000/api/inventory/consume/${id}`, consumptionData)
+            .put(`http://localhost:8000/api/inventory/consume/${id}`, consumptionData, { withCredentials: true })
             .then((res) => {
                 setItemData(res.data);
                 console.log('Item consumed successfully:', res.data);

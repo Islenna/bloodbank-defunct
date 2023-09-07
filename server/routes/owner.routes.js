@@ -4,13 +4,13 @@ const { authenticate } = require('../config/jwt.config');
 module.exports = (app) => {
     
     // Owner routes
-    app.get('/api/owners', OwnerController.getAll);
-    app.post('/api/owners', OwnerController.createOwner);
-    app.get('/api/owners/search', OwnerController.clinicSearch);
-    app.get('/api/owners/:id', OwnerController.getOne);
-    app.put('/api/owners/:id', OwnerController.updateOwner);
-    app.delete('/api/owners/:id', OwnerController.deleteOwnerAndPets);
-    app.get('/api/owners/search/:homeClinic', OwnerController.getByClinic);
+    app.get('/api/owners',authenticate, OwnerController.getAll);
+    app.post('/api/owners',authenticate, OwnerController.createOwner);
+    app.get('/api/owners/search',authenticate, OwnerController.clinicSearch);
+    app.get('/api/owners/:id',authenticate, OwnerController.getOne);
+    app.put('/api/owners/:id',authenticate, OwnerController.updateOwner);
+    app.delete('/api/owners/:id',authenticate, OwnerController.deleteOwnerAndPets);
+    app.get('/api/owners/search/:homeClinic',authenticate, OwnerController.getByClinic);
     
         // Additional routes
     app.get('/api', (req, res) => {

@@ -20,7 +20,7 @@ export default function InventoryEditForm() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8000/api/inventory/${id}`)
+            .get(`http://localhost:8000/api/inventory/${id}`, { withCredentials: true })
             .then((res) => {
                 const existingData = res.data;
                 setFormData({
@@ -41,10 +41,8 @@ export default function InventoryEditForm() {
 
     const updateInventory = (e) => {
         e.preventDefault();
-        console.log('Sending Update Request with FormData:', formData);
-
         axios
-            .put(`http://localhost:8000/api/inventory/notes/${id}`, formData)
+            .put(`http://localhost:8000/api/inventory/notes/${id}`, formData, { withCredentials: true })
             .then((res) => {
                 console.log('Response:', res);
                 navigate(`/inventory/${id}`);

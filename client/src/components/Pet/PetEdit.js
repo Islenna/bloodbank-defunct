@@ -11,10 +11,10 @@ const PetEdit = () => {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8000/api/pets/${id}`)
+            .get(`http://localhost:8000/api/pets/${id}`, { withCredentials: true })
             .then((res) => {
                 setPet(res.data);
-                return axios.get(`http://localhost:8000/api/owners/${res.data.owner}`);
+                return axios.get(`http://localhost:8000/api/owners/${res.data.owner}`, { withCredentials: true });
             })
             .then((res) => {
                 setOwner(res.data);
@@ -41,7 +41,7 @@ const PetEdit = () => {
         }
 
         axios
-            .put(`http://localhost:8000/api/pets/${id}`, pet)
+            .put(`http://localhost:8000/api/pets/${id}`, pet, { withCredentials: true })
             .then((res) => {
                 console.log(res.data);
                 navigate(`/pets/${id}`);

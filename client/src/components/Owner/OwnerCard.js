@@ -11,10 +11,10 @@ export default function OwnerCard() {
 
     const deleteOwner = (ownerId) => {
         axios
-            .delete(`http://localhost:8000/api/pets/owner/${ownerId}`)
+            .delete(`http://localhost:8000/api/pets/owner/${ownerId}`, { withCredentials: true })
             .then(() => {
                 axios
-                    .delete(`http://localhost:8000/api/owners/${ownerId}`)
+                    .delete(`http://localhost:8000/api/owners/${ownerId}`, { withCredentials: true })
                     .then((res) => {
                         console.log(res.data);
                         setOwner((prevOwners) =>
@@ -28,7 +28,7 @@ export default function OwnerCard() {
 
     const deletePet = (petId) => {
         axios
-            .delete(`http://localhost:8000/api/pets/${petId}`)
+            .delete(`http://localhost:8000/api/pets/${petId}`, { withCredentials: true })
             .then((res) => {
                 console.log(res.data);
                 setPets((prevPets) => prevPets.filter((pet) => pet._id !== petId));
@@ -38,14 +38,14 @@ export default function OwnerCard() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8000/api/owners/${id}`)
+            .get(`http://localhost:8000/api/owners/${id}`, { withCredentials: true })
             .then((res) => {
                 setOwner(res.data);
             })
             .catch((err) => console.log(err));
 
         axios
-            .get(`http://localhost:8000/api/owners/${id}/pets`)
+            .get(`http://localhost:8000/api/owners/${id}/pets`, { withCredentials: true })
             .then((res) => {
                 setPets(res.data);
             })

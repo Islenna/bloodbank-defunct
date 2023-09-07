@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Container, Form, Table, Button, Card } from 'react-bootstrap';
-import '../App.css';
-import Navbar from './CustomNavbar';
 
 function ClinicSearch() {
     const [clinics, setClinics] = useState([]);
@@ -11,7 +9,7 @@ function ClinicSearch() {
 
     const searchClinics = (e) => {
         e.preventDefault();
-        axios.get(`http://localhost:8000/api/owners/search/${homeClinic}`)
+        axios.get(`http://localhost:8000/api/owners/search/${homeClinic}`, { withCredentials: true })
             .then((res) => {
                 console.log(res);
                 setClinics(res.data);

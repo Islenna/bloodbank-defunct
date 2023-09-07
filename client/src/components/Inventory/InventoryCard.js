@@ -20,7 +20,7 @@ function InventoryCard() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8000/api/inventory/${id}`)
+            .get(`http://localhost:8000/api/inventory/${id}`, { withCredentials: true })
             .then((res) => {
                 setInventory(res.data);
             })

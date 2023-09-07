@@ -64,7 +64,7 @@ const OwnerForm = () => {
                 phoneNumber,
                 email,
                 homeClinic,
-            })
+            }, { withCredentials: true })
             .then((res) => {
                 console.log(res);
                 navigate('/owners');

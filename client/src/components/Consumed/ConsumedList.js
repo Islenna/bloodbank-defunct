@@ -10,7 +10,7 @@ function ConsumedList() {
 
     useEffect(() => {
         axios
-            .get('http://localhost:8000/api/consumed')
+            .get('http://localhost:8000/api/consumed', { withCredentials: true })
             .then((res) => {
                 setConsumedInventory(res.data);
             })
@@ -74,7 +74,7 @@ function ConsumedList() {
                     >
                         <thead>
                             <tr style={{ backgroundColor: '#A9C27E', color: '#000000' }}>
-                                <th>Date Consumed</th>
+                                <th style={{ padding: '0.5rem' }}>Date Consumed</th>
                                 <th>Donor ID</th>
                                 <th>Reason</th>
                                 <th>Clinic</th>

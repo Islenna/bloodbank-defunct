@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Container, Card, Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
+
 function InventoryList() {
     const [inventory, setInventory] = useState([]);
     const [homeClinic, setHomeClinic] = useState('');
@@ -44,7 +45,7 @@ function InventoryList() {
         axios
             .put(`http://localhost:8000/api/inventory/${id}`, {
                 isOnHold: !currentOnHoldStatus, 
-            })
+            }, { withCredentials: true })
             .then((res) => {
                 console.log('Updated onHoldStatus:', {
                     ...onHoldStatus,
@@ -52,7 +53,7 @@ function InventoryList() {
                 });
     
                 axios
-                    .get(`http://localhost:8000/api/inventory/search/${homeClinic}`)
+                    .get(`http://localhost:8000/api/inventory/search/${homeClinic}`, { withCredentials: true })
                     .then((res) => {
                         const filteredBlood = res.data.filter((blood) => !blood.isDeleted);
                         setMatchingBlood(filteredBlood);
@@ -77,7 +78,7 @@ function InventoryList() {
     const onSubmitHandler = (e) => {
         e.preventDefault();
         axios
-            .get(`http://localhost:8000/api/inventory/search/${homeClinic}`)
+            .get(`http://localhost:8000/api/inventory/search/${homeClinic}`, { withCredentials: true })
             .then((res) => {
                 const filteredBlood = res.data.filter((blood) => !blood.isDeleted);
                 setMatchingBlood(filteredBlood);
@@ -150,6 +151,7 @@ function InventoryList() {
                                 </th>
                                 <th scope="col">Unit Size</th>
                                 <th scope="col">Expiration Date</th>
+                                <th scope="col">Blood Type</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -163,6 +165,9 @@ function InventoryList() {
                                             year: 'numeric',
                                             month: 'short',
                                         })}
+                                    </td>
+                                    <td>
+                                        {blood.bloodType}
                                     </td>
                                     <td>
                                         <Button

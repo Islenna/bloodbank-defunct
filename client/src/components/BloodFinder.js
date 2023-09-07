@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Card, Container, Button, Form, Row, Col } from 'react-bootstrap';
-import Navbar from './CustomNavbar';
 
 function BloodFinder() {
     const [homeClinic, setHomeClinic] = useState('');
@@ -16,14 +15,15 @@ function BloodFinder() {
         e.preventDefault();
 
         axios
-            .get(`http://localhost:8000/api/owners/search?homeClinic=${homeClinic}&bloodType=${bloodType}`)
+            .get(`http://localhost:8000/api/owners/search?homeClinic=${homeClinic}&bloodType=${bloodType}`, 
+            { withCredentials: true })
             .then((res) => {
                 setPets(res.data);
             })
             .catch((err) => console.log(err));
 
         axios
-            .get(`http://localhost:8000/api/inventory/search/${homeClinic}/${bloodType}`)
+            .get(`http://localhost:8000/api/inventory/search/${homeClinic}/${bloodType}`,  { withCredentials: true })
             .then((res) => {
                 const filteredBlood = res.data.filter((blood) => !blood.isDeleted);
                 setMatchingBlood(filteredBlood);
@@ -149,7 +149,7 @@ function BloodFinder() {
                                 <thead>
                                     <tr style={{ backgroundColor: '#A9C27E', color: '#000000' }}>
                                         <th scope="col" style={{ padding: '0.5rem' }}>
-                                            Name
+                                            Donor ID
                                         </th>
                                         <th scope="col">Unit Size</th>
                                         <th scope="col">Expiration Date</th>
