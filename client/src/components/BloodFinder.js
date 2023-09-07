@@ -18,7 +18,6 @@ function BloodFinder() {
         axios
             .get(`http://localhost:8000/api/owners/search?homeClinic=${homeClinic}&bloodType=${bloodType}`)
             .then((res) => {
-                console.log(res.data);
                 setPets(res.data);
             })
             .catch((err) => console.log(err));
@@ -154,6 +153,7 @@ function BloodFinder() {
                                         </th>
                                         <th scope="col">Unit Size</th>
                                         <th scope="col">Expiration Date</th>
+                                        <th scope="col">On Hold?</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
@@ -167,6 +167,14 @@ function BloodFinder() {
                                                     year: 'numeric',
                                                     month: 'short',
                                                 })}
+                                            </td>
+                                            <td>
+                                                {blood.onHold ? (
+                                                    <span style={{ color: '#FFC107' }}>On Hold</span>
+                                                ) : (
+                                                    <span style={{ color: '#A9C27E' }}>Available</span>
+                                                )}
+
                                             </td>
                                             <td>
                                                 <Button
