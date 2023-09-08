@@ -16,6 +16,7 @@ function InventoryCard() {
     const bloodType = inventory.bloodType;
     const expirationDate = inventory.expirationDate;
     const crossmatchHistory = inventory.crossmatchHistory;
+    const productType = inventory.productType;
     const onHold = inventory.onHold;
 
     useEffect(() => {
@@ -44,6 +45,7 @@ function InventoryCard() {
                         <p>Unit Size: {unitSize}</p>
                         <p>Home Clinic: {homeClinic}</p>
                         <p>Blood Type: {bloodType}</p>
+                        <p>Product Type: {productType}</p>
                         <p>Expiration Date: {new Date(expirationDate).toLocaleDateString('en-US', {
                             year: 'numeric',
                             month: 'short',

@@ -85,15 +85,11 @@ function InventoryList() {
                 setBloodConsumed(res.data.filter((blood) => blood.isDeleted));
                 setSearchClicked(true);
 
-                // Create an object with blood._id as keys and blood.isOnHold as values
                 const updatedOnHoldStatus = {};
                 filteredBlood.forEach((blood) => {
-                    // Use the blood._id as the key in the updatedOnHoldStatus object
                     updatedOnHoldStatus[blood._id] = blood.isOnHold;
                 });
-
-                console.log(updatedOnHoldStatus);
-                setOnHoldStatus(updatedOnHoldStatus); // Update the onHoldStatus
+                setOnHoldStatus(updatedOnHoldStatus);
             })
             .catch((err) => console.log(err));
     };

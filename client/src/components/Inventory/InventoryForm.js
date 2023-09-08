@@ -13,6 +13,7 @@ export default function InventoryForm() {
     const [crossmatchHistory, setCrossmatchHistory] = useState('');
     const [validationError, setValidationError] = useState('');
     const [homeClinic, setHomeClinic] = useState('');
+    const [productType, setProductType] = useState('');
     const navigate = useNavigate();
     const { id } = useParams();
 
@@ -58,7 +59,8 @@ export default function InventoryForm() {
             bloodType,
             expirationDate,
             crossmatchHistory,
-            homeClinic
+            homeClinic,
+            productType
         });
 
         if (!validateForm()) {
@@ -73,7 +75,8 @@ export default function InventoryForm() {
                 bloodType,
                 expirationDate,
                 crossmatchHistory,
-                homeClinic
+                homeClinic,
+                productType
             }, { withCredentials: true })
             .then((res) => {
                 console.log('Response:', res);
@@ -129,6 +132,24 @@ export default function InventoryForm() {
                             />
                             {formErrors.bloodSource && <Form.Text className="text-danger">{formErrors.bloodSource}</Form.Text>}
                         </Form.Group>
+                        <Form.Group controlId="productType">
+                            <Form.Label>Product Type:</Form.Label>
+                            <Form.Control
+                                as="select"
+                                value={productType}
+                                onChange={(e) => setProductType(e.target.value)}
+                            >
+                                <option value="">Select a Product Type</option>
+                                <option value="PRBC">PRBCs</option>
+                                <option value="FFP">FFP</option>
+                                <option value="FP">FP</option>
+                                <option value="platelets">Platelets</option>
+                                <option value="cryo">Cryoprecipitate</option>
+                                <option value="alb">Albumin</option>
+                                <option value="HBOC">HBOC</option>
+                                </Form.Control>
+                            </Form.Group>
+
                         <Form.Group controlId="unitSize">
                             <Form.Label>Unit Size:</Form.Label>
                             <Form.Control

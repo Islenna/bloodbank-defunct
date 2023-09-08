@@ -16,6 +16,7 @@ export default function InventoryEditForm() {
         crossmatchHistory: '',
         homeClinic: '',
         onHold: false,
+        productType: '',
     });
 
     useEffect(() => {
@@ -32,6 +33,7 @@ export default function InventoryEditForm() {
                     crossmatchHistory: existingData.crossmatchHistory,
                     homeClinic: existingData.homeClinic,
                     onHold: existingData.onHold,
+                    productType: existingData.productType,
                 });
             })
             .catch((err) => {

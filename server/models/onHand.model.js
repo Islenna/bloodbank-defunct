@@ -4,6 +4,7 @@ const OnHandSchema = new mongoose.Schema({
     bloodSource: { type: String },
     unitSize: { type: String },
     bloodType: { type: String },
+    productType: { type: String },
     expirationDate: { type: Date },
     crossmatchHistory: { type: String },
     homeClinic: { type: String },
