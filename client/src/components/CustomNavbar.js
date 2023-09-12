@@ -11,7 +11,7 @@ export default function CustomNavbar(props) {
     const [isLoading, setIsLoading] = useState(true); // Add loading state
 
     useEffect(() => {
-        const fetchUserEmail = async () => {
+        const fetchUserEmail = async () => { // Fetch the user's email
             try {
                 const response = await axios.get('http://localhost:8000/api/users/loggedin', { withCredentials: true });
                 setUserEmail(response.data.email);
@@ -27,7 +27,7 @@ export default function CustomNavbar(props) {
         };
 
         if (isLoggedIn) {
-            fetchUserEmail();
+            fetchUserEmail(); // Fetch the user's email if they are logged in
         } else {
             // If the user is not logged in, redirect to the home page
             navigate('/');
@@ -47,8 +47,8 @@ export default function CustomNavbar(props) {
             });
     };
 
-    const handleNightModeToggle = () => {
-        setIsNightMode((prevMode) => !prevMode);
+    const handleNightModeToggle = () => { // Handle the night mode toggle
+        setIsNightMode((prevMode) => !prevMode);// Toggle the night mode
         props.handleNightModeToggle();
     };
 
@@ -60,7 +60,7 @@ export default function CustomNavbar(props) {
                 </Link>
                 <div className="collapse navbar-collapse">
                     <ul className="navbar-nav ml-auto align-items-center">
-                        {isLoggedIn && !isLoading && userEmail && (
+                        {isLoggedIn && !isLoading && userEmail && ( // If the user is logged in, display their email
                             <li className="nav-item" style={{ marginLeft: '2rem', marginRight: '2rem' }}>
                                 <span className="nav-link">{userEmail}</span>
                             </li>

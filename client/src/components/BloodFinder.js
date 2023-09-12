@@ -11,10 +11,10 @@ function BloodFinder() {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const searchPets = (e) => {
+    const searchPets = (e) => { // search for pets
         e.preventDefault();
 
-        axios
+        axios // search for pets
             .get(`http://localhost:8000/api/owners/search?homeClinic=${homeClinic}&bloodType=${bloodType}`, 
             { withCredentials: true })
             .then((res) => {
@@ -22,24 +22,24 @@ function BloodFinder() {
             })
             .catch((err) => console.log(err));
 
-        axios
+        axios // search for blood
             .get(`http://localhost:8000/api/inventory/search/${homeClinic}/${bloodType}`,  { withCredentials: true })
             .then((res) => {
-                const filteredBlood = res.data.filter((blood) => !blood.isDeleted);
-                setMatchingBlood(filteredBlood);
+                const filteredBlood = res.data.filter((blood) => !blood.isDeleted); // filter out deleted blood
+                setMatchingBlood(filteredBlood); // set the matching blood
             })
             .catch((err) => console.log(err));
     };
 
-    const parseUnitSize = (unitSize) => {
-        const numericPart = parseFloat(unitSize);
-        return isNaN(numericPart) ? 0 : numericPart;
+    const parseUnitSize = (unitSize) => { // parse the unit size
+        const numericPart = parseFloat(unitSize);// parse the numeric part
+        return isNaN(numericPart) ? 0 : numericPart; // return the numeric part
     };
 
-    const calculateTotalVolume = (bloodBags) => {
-        let totalVolume = 0;
-        for (const bag of bloodBags) {
-            totalVolume += parseUnitSize(bag.unitSize);
+    const calculateTotalVolume = (bloodBags) => { // calculate the total volume
+        let totalVolume = 0; // initialize the total volume
+        for (const bag of bloodBags) { // iterate through the blood bags
+            totalVolume += parseUnitSize(bag.unitSize); // add the unit size to the total volume
         }
         return totalVolume;
     };
@@ -95,7 +95,7 @@ function BloodFinder() {
                     </Form>
                     <div>
                         <h2>Donors</h2>
-                        {pets.length > 0 ? (
+                        {pets.length > 0 ? ( // if there are pets, display them
                             <table
                                 className="table-responsive"
                                 style={{
@@ -115,7 +115,7 @@ function BloodFinder() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {pets.map((pet) => (
+                                    {pets.map((pet) => ( // map through the pets
                                         <tr key={pet._id}>
                                             <td>{pet.petName}</td>
                                             <td>{pet.petType}</td>
@@ -136,7 +136,7 @@ function BloodFinder() {
                         )}
                         <h2>Inventory</h2>
                         <p style={{ color: 'lightgray' }}>Total Volume: {calculateTotalVolume(matchingBlood)} mL</p>
-                        {matchingBlood.length > 0 ? (
+                        {matchingBlood.length > 0 ? ( // if there is matching blood, display it
                             <table
                                 className="table-responsive"
                                 style={{
@@ -158,7 +158,7 @@ function BloodFinder() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {matchingBlood.map((blood) => (
+                                    {matchingBlood.map((blood) => ( // map through the matching blood
                                         <tr key={blood._id}>
                                             <td>{blood.donorID}</td>
                                             <td>{blood.unitSize}</td>
@@ -169,7 +169,7 @@ function BloodFinder() {
                                                 })}
                                             </td>
                                             <td>
-                                                {blood.onHold ? (
+                                                {blood.onHold ? ( // if the blood is on hold, display that
                                                     <span style={{ color: '#FFC107' }}>On Hold</span>
                                                 ) : (
                                                     <span style={{ color: '#A9C27E' }}>Available</span>

@@ -24,7 +24,7 @@ function ConsumedCard() {
     const transferredBy = consumed.transferredBy;
     
 
-    useEffect(() => {
+    useEffect(() => { // get the information of the consumed item
         axios
             .get(`http://localhost:8000/api/consumed/${id}`, { withCredentials: true })
             .then((res) => {
@@ -34,7 +34,7 @@ function ConsumedCard() {
             .catch((err) => console.log(err));
     }, [id]);
 
-    const deleteConsumed = () => {
+    const deleteConsumed = () => { // delete the consumed item
         axios
 
             .delete(`http://localhost:8000/api/consumed/${id}`, { withCredentials: true })
@@ -58,19 +58,19 @@ function ConsumedCard() {
                 className="mt-4 p-4">
                 <Card.Body>
                     <Card.Title>Consumed Information</Card.Title>
-                    <Card.Text>
+                    <Card.Text> // display the information of the consumed item
                         <p>Donor ID: {donorID} </p>
                         <p>Blood Source: {bloodSource}</p>
                         <p>Unit Size: {unitSize}</p>
                         <p>Home Clinic: {homeClinic}</p>
                         <p>Blood Type: {bloodType}</p>
-                        <p>Expiration Date: {new Date(expirationDate).toLocaleDateString('en-US', {
+                        <p>Expiration Date: {new Date(expirationDate).toLocaleDateString('en-US', { //Convert date to something less awful.
                             year: 'numeric',
                             month: 'short'
                         })}</p>
                         <p>Crossmatch History: {crossmatchHistory}</p>
                         <p>Consumption Type: {consumptionType}</p>
-                        {consumed.consumptionType === 'Successfully Transfused' ? (
+                        {consumed.consumptionType === 'Successfully Transfused' ? ( //conditional rendering to display the recipient information if the consumption type is successfully transfused
                             <>
                                 <p>Recipient Information</p>
                                 <p>Patient ID: {consumed.patientID}</p>
@@ -78,7 +78,7 @@ function ConsumedCard() {
                                 <p>Patient Last Name: {consumed.patientLastName}</p>
                             </>
                         ) : null}
-                        {consumed.consumptionType === "Transferred" ? (
+                        {consumed.consumptionType === "Transferred" ? ( // if the consumption type is transferred, display the transferred information
                             <>
                             <p>Transfer Information</p>
                             <p>Transferred To: {transferredTo}</p>

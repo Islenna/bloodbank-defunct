@@ -7,7 +7,7 @@ function ClinicSearch() {
     const [clinics, setClinics] = useState([]);
     const [homeClinic, setHomeClinic] = useState('');
 
-    const searchClinics = (e) => {
+    const searchClinics = (e) => { // search for clinics
         e.preventDefault();
         axios.get(`http://localhost:8000/api/owners/search/${homeClinic}`, { withCredentials: true })
             .then((res) => {

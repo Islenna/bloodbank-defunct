@@ -19,7 +19,7 @@ export default function InventoryEditForm() {
         productType: '',
     });
 
-    useEffect(() => {
+    useEffect(() => { // get the information of the inventory item
         axios
             .get(`http://localhost:8000/api/inventory/${id}`, { withCredentials: true })
             .then((res) => {
@@ -43,7 +43,7 @@ export default function InventoryEditForm() {
 
     const updateInventory = (e) => {
         e.preventDefault();
-        axios
+        axios // update the inventory
             .put(`http://localhost:8000/api/inventory/notes/${id}`, formData, { withCredentials: true })
             .then((res) => {
                 console.log('Response:', res);
@@ -71,9 +71,9 @@ export default function InventoryEditForm() {
                             <Form.Control
                                 as="select"
                                 value={formData.homeClinic}
-                                onChange={(e) => {
-                                    setFormData({ ...formData, homeClinic: e.target.value });
-                                    console.log('Selected Home Clinic:', e.target.value);
+                                onChange={(e) => { // handle the change of the home clinic
+                                    setFormData({ ...formData, homeClinic: e.target.value }); // set the form data
+                                    console.log('Selected Home Clinic:', e.target.value); // log the selected home clinic
                                 }}
                             >
                                 <option value="">Bag Location</option>
@@ -99,8 +99,8 @@ export default function InventoryEditForm() {
                                 as="select"
                                 value={formData.onHold}
                                 onChange={(e) => {
-                                    setFormData({ ...formData, onHold: e.target.value });
-                                    console.log('Selected On Hold:', e.target.value);
+                                    setFormData({ ...formData, onHold: e.target.value }); // set the form data
+                                    console.log('Selected On Hold:', e.target.value); // log the selected on hold
                                 }}
                             >
                                 <option value="">On Hold</option>

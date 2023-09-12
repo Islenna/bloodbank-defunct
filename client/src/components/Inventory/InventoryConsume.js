@@ -16,7 +16,7 @@ export default function InventoryConsume({ totalVolume }) {
     const [formErrors, setFormErrors] = useState({});
     const navigate = useNavigate();
 
-    const validateForm = () => {
+    const validateForm = () => { // validate the form
         const errors = {};
         if (!consumeType) {
             errors.consumeType = 'Consumption Type is required';
@@ -26,7 +26,7 @@ export default function InventoryConsume({ totalVolume }) {
     };
 
 
-    useEffect(() => {
+    useEffect(() => { // get the information of the inventory item
         axios
             .get(`http://localhost:8000/api/inventory/${id}`, { withCredentials: true })
             .then((res) => {
@@ -37,12 +37,12 @@ export default function InventoryConsume({ totalVolume }) {
             });
     }, [id]);
 
-    const handleConsume = (e) => {
+    const handleConsume = (e) => { // handle the consumption
         e.preventDefault();
-        if (!validateForm()) {
+        if (!validateForm()) { // validate the form
             return;
         }
-        if (!itemData) {
+        if (!itemData) { // check if item data is available
             console.error('Item data not available.');
             return;
         }
@@ -55,7 +55,7 @@ export default function InventoryConsume({ totalVolume }) {
             transferredTo: transferredTo,
             transferredBy: transferredBy,
         };
-        console.log('Data to be sent:', consumptionData);
+        console.log('Data to be sent:', consumptionData);// log the data to be sent
         axios
             .put(`http://localhost:8000/api/inventory/consume/${id}`, consumptionData, { withCredentials: true })
             .then((res) => {
@@ -101,7 +101,7 @@ export default function InventoryConsume({ totalVolume }) {
                                 )}
                             </Form.Control>
                         </Form.Group>
-                        {consumeType === 'Successfully Transfused' && (
+                        {consumeType === 'Successfully Transfused' && ( // display the form based on the consumption type
                             <>
                                 <Form.Group controlId="patientID">
                                     <Form.Label>Patient ID:</Form.Label>

@@ -8,7 +8,7 @@ function ConsumedList() {
     const [selectedClinic, setSelectedClinic] = useState('');
     const [searchedClinic, setSearchedClinic] = useState('');
 
-    useEffect(() => {
+    useEffect(() => { // get the information of the consumed item
         axios
             .get('http://localhost:8000/api/consumed', { withCredentials: true })
             .then((res) => {
@@ -19,17 +19,17 @@ function ConsumedList() {
             });
     }, []);
 
-    const handleClinicChange = (e) => {
+    const handleClinicChange = (e) => { // handle the clinic change
         setSelectedClinic(e.target.value);
     };
 
-    const handleSearch = () => {
+    const handleSearch = () => { // handle the search
         setSearchedClinic(selectedClinic);
     };
 
-    const filteredConsumedInventory = searchedClinic
+    const filteredConsumedInventory = searchedClinic // filter the consumed inventory
         ? consumedInventory.filter((item) => item.homeClinic === searchedClinic)
-        : consumedInventory;
+        : consumedInventory; // if no clinic is selected, return all consumed inventory
 
     return (
         <Container className="text-center">
@@ -63,7 +63,7 @@ function ConsumedList() {
                         Search
                     </Button>
                 </Form>
-                {Array.isArray(filteredConsumedInventory) && filteredConsumedInventory.length > 0 ? (
+                {Array.isArray(filteredConsumedInventory) && filteredConsumedInventory.length > 0 ? ( // if there is consumed inventory data, display it
                     <table
                         style={{
                             width: '75%',
@@ -82,7 +82,7 @@ function ConsumedList() {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredConsumedInventory.map((item) => (
+                            {filteredConsumedInventory.map((item) => ( // map through the filtered consumed inventory
                                 <tr key={item._id}>
                                     <td>
                                         {new Date(item.createdAt).toLocaleDateString('en-US', {

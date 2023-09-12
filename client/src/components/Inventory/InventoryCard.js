@@ -19,7 +19,7 @@ function InventoryCard() {
     const productType = inventory.productType;
     const onHold = inventory.onHold;
 
-    useEffect(() => {
+    useEffect(() => { // get the information of the inventory item
         axios
             .get(`http://localhost:8000/api/inventory/${id}`, { withCredentials: true })
             .then((res) => {
@@ -47,7 +47,7 @@ function InventoryCard() {
                         <p>Blood Type: {bloodType}</p>
                         <p>Product Type: {productType}</p>
                         <p>Expiration Date: {new Date(expirationDate).toLocaleDateString('en-US', {
-                            year: 'numeric',
+                            year: 'numeric', //Convert date to something less awful.
                             month: 'short',
                         })}
                         </p>
