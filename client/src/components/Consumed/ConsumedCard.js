@@ -58,7 +58,7 @@ function ConsumedCard() {
                 className="mt-4 p-4">
                 <Card.Body>
                     <Card.Title>Consumed Information</Card.Title>
-                    <Card.Text> // display the information of the consumed item
+                    <Card.Text>
                         <p>Donor ID: {donorID} </p>
                         <p>Blood Source: {bloodSource}</p>
                         <p>Unit Size: {unitSize}</p>
